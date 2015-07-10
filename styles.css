@@ -1,0 +1,22 @@
+html {
+  height: 100%;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  max-height: 80%;
+}
+
+button {
+  font-size: 18px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}

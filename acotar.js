@@ -1,3 +1,4 @@
+$(window).load(function() {
 
   alert('enter main ref 1');
   var cotas = []
@@ -17,7 +18,7 @@
     cotas.push(e.pageY);
 
   }
-
+  
   function setProportions() {
     var total = cotas[1] - cotas[0];
 
@@ -41,5 +42,6 @@
 
   }
 
+});
 
 
