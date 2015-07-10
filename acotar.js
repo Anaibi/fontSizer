@@ -1,4 +1,3 @@
-$(window).load(function() {
 
   alert('enter main ref 1');
   var cotas = []
@@ -42,6 +41,5 @@ $(window).load(function() {
 
   }
 
-});
 
 
