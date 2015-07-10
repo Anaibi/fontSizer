@@ -20,3 +20,29 @@ button:hover {
   cursor: pointer;
   background-color: whitesmoke;
 }
+
+.left { float: left;}
+
+.measures { 
+  float: right;
+  width: 50%;
+}
+
+table { 
+  width: 100%;
+  text-align: center;
+}
+
+table td {
+  border: 1px solid whitesmoke;
+}
+
+.delete {
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.delete:hover {
+  cursor: pointer;
+}

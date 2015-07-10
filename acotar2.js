@@ -1,80 +1,62 @@
-    var total, partials, proportions;
+var cotas = [],
+    measures = [],
+    proportions = [];
 
-    var ractive = new Ractive({
-      el: '#ractive-container',
-      template: '#template',
-      data: {
-        total: false,
-        partials: [],
-        proportions: [],
-        started: false,
-        counter: 0,
-        clicked: false,
-        content: ''
-      }
-    });
-
-    ractive.on('start', function(event) {
-      ractive.set({'content': 'Enter main reference'});
-      ractive.set({started: true})
-    });
-
-    /* TODO
-      ractive.on('measure', function(event) {
-      ractive.set({
-        clicked: true,
-        counter: cotas.length
-      });
-      console.log(this.el);
-    //  cotas.push(event.pageY);
-    //  if (ractive.get('counter') === 2) {
-    //    ractive.set('total', cotas[1] - cotas[0]);
-    //  }
-    });
-    */
-
-    ractive.on('end', function(event) {
-      console.log('finished measuring');
-      setProportions();
-    });
-
-    ractive.observe( 'partials', function () {
-      console.log('observed');
-    });
-
-    ractive.observe( 'total', function () {
-      //
-    });
-
-    var cotas = []
-  
-    $('#item').on('click', function(e) { 
-      e.preventDefault();
-      acotar(e);
-    });
-
-    function acotar(e) {
-      cotas.push(e.pageY);
-    }
-
-    function setProportions() {
-    var total = cotas[1] - cotas[0];
-
-    var partials = [],
-        proportions = [];
-
-    for (var i=3; i<cotas.length; i++) {
-      partials.push(cotas[i] - cotas[i-1]);
-      i++;
-    }
-  
-    for (var partial of partials) {
-      proportions.push(+(partial * 100 / total).toFixed(2));
-    }
-
-    ractive.set({
-      total: total,
-      partials: partials,
-      proportions: proportions
-    });
+var ractive = new Ractive({
+  el: '#ractive-container',
+  template: '#template',
+  data: {
+    total: false,
+    measures: [],
+   // proportions: [],
+    counter: 0,
+    content: ''
   }
+});
+
+ractive.on('start', function(event) {
+  ractive.set({'content': 'Click two points to set main reference.'});
+});
+
+ractive.on('measure', function(event) {
+  
+  // add clicked position y
+  addCoordY(event.original);
+
+  // update counter
+  var counter = ractive.get('counter') + 1;
+  ractive.set('counter', counter);
+    
+  // set the firts two clicks to use as main ref
+  if (counter === 2) {
+    var total = cotas[1] - cotas[0];
+    ractive.set('total', total);
+  }
+
+  // each next pairs of clicks calculate partial and proportion
+  if ((counter > 2) && (counter % 2 == 0 )) {
+    addMeasure(counter);
+  }
+});
+
+ractive.on('remove', function(event) {
+});
+
+ractive.on('restart', function(event) {
+  ractive.reset();
+});
+
+    
+function addCoordY(e) {
+  cotas.push(e.pageY);
+}
+
+function addMeasure(i) { 
+  var measure = cotas[i-1] - cotas[i-2];
+  var proportion = +((measure * 100 / ractive.get('total')).toFixed(2));
+
+  measures.push({measure: measure, proportion: proportion});
+  ractive.set({
+    'measures': measures,
+  });
+}
