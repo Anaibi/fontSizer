@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+  <title>Screen Shot 2015-07-10 at 17.32.49.png (2560×1600)</title>
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  
+
+  <div id="ractive-container"></div>
+  
+  <script id="template" type="text/ractive">
+
+    <img id="item" src="screenshot.png" width="auto" height="80%" style="cursor: crosshair" on-click="measure">
+    
+    <div class="left">
+      <button on-click="start">Start getting measures</button>
+      <button on-click="restart">Reset</button>
+
+      <p>{{content}}</p>
+      
+      {{#if total}}
+        <p>Main reference dim: <b>{{total}}px</b></p>
+      {{/if}}
+    </div>
+
+    <div class="measures">
+      {{#if measures}}
+      <table>
+        <tr>
+          <th>Measure</th>
+          <th>Proportion</th>
+        </tr>
+        {{#each measures}}
+          <tr>
+            <td>{{this.measure}}px</td>
+            <td>{{this.proportion}}%</td>
+            <td><span class="delete" on-click="remove">X</span></td>
+          </tr>
+        {{/each}}
+      </table>
+      {{/if}}
+    </div>
+  </script>
+  
+  <!-- RACTIVE -->
+  <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>
+  <script src="acotar2.js"></script>
+</body>
+</html>
+
