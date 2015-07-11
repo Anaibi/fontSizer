@@ -1,3 +1,5 @@
+/* resizable image */
+/* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
 html,
 body,
 #ractive-container {
@@ -5,9 +7,10 @@ body,
 
 .img-container {
   float: left;
+  /* initial dimension */
   width: 500px;
   height: 500px;
-  max-height: 80%;
+  /* */
   resize: both;
   overflow: hidden;
   padding: 5px;
@@ -17,12 +20,15 @@ img {
   width: 100%;
   height: auto; }
 
+/* */
+/* buttons */
 button {
   font-size: 18px;
   border: 1px solid black;
   padding: 5px;
-  margin: 5px 0;
-  cursor: pointer; }
+  margin: 5px 0; }
+  button:hover {
+    cursor: pointer; }
   button.green {
     background-color: honeydew; }
     button.green:hover {
@@ -32,6 +38,14 @@ button {
     button.red:hover {
       background-color: tomato; }
 
+.delete {
+  color: red;
+  font-weight: bold;
+  text-transform: lowercase; }
+  .delete:hover {
+    cursor: pointer; }
+
+/* containers */
 .measures,
 .instrus {
   float: left;
@@ -43,11 +57,5 @@ table {
 
 table td {
   border: 1px solid whitesmoke; }
-
-.delete {
-  color: red;
-  font-weight: bold;
-  text-transform: lowercase;
-  cursor: pointer; }
 
 /*# sourceMappingURL=style.css.map */
