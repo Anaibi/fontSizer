@@ -6,13 +6,13 @@
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <link href="css/style.css" rel="stylesheet">
 </head>
-<body>
+<body id="drag2">
   
   <div id="ractive-container"></div>
   
   <script id="template" type="text/ractive">
 
-    <div class="img-container"><img id="item" src="screenshot.png" width="auto" height="80%" style="cursor: crosshair" on-click="measure"></div>
+    <div class="img-container resizable"><img id="item" src="screenshot.png" width="auto" height="80%" style="cursor: crosshair" on-click="measure"></div>
     
     <div class="instrus">
       <button class="green" on-click="start">Start getting measures</button>
@@ -26,7 +26,7 @@
       {{/if}}
     </div>
 
-    <div class="measures">
+    <div id="measures" class="measures resizable drag"> 
       {{#if measures}}
       <table>
         <tr>
@@ -46,7 +46,9 @@
   </script>
   
   <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>
-  <script src="acotar.js"></script>
+  <script src="js/acotar.js"></script>
+  <script src="js/jquery.event.drag-2.2/jquery.event.drag-2.2.js"></script>
+  <script src="js/draggable.js"></script>
 </body>
 </html>
 

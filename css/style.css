@@ -1,26 +1,24 @@
-/* resizable image */
+/* resizable element */
 /* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
 html,
 body,
 #ractive-container {
   height: 100%; }
 
-.img-container {
-  float: left;
-  /* initial dimension */
-  width: 500px;
-  height: 500px;
-  /* */
+.resizable {
   resize: both;
-  overflow: hidden;
-  padding: 5px;
-  margin-right: 10px; }
-
-img {
-  width: 100%;
-  height: auto; }
+  overflow: scroll;
+  padding: 5px; }
 
 /* */
+/* draggable elements */
+/* http://threedubmedia.com/code/event/drag/demo/zindex */
+.drag {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  cursor: move; }
+
 /* buttons */
 button {
   font-size: 18px;
@@ -46,16 +44,30 @@ button {
     cursor: pointer; }
 
 /* containers */
-.measures,
+.img-container {
+  float: left;
+  /* initial dimension */
+  width: 500px;
+  height: 500px;
+  /* */
+  margin-right: 10px; }
+  .img-container img {
+    width: 100%;
+    height: auto; }
+
 .instrus {
   float: left;
   margin-right: 10px; }
 
-table {
-  width: 100%;
-  text-align: center; }
-
-table td {
-  border: 1px solid whitesmoke; }
+.measures {
+  /* initial dimension */
+  width: 25%;
+  height: auto;
+  padding: 20px; }
+  .measures table {
+    width: 100%;
+    text-align: center; }
+  .measures table td {
+    border: 1px solid whitesmoke; }
 
 /*# sourceMappingURL=style.css.map */

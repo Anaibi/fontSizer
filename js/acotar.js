@@ -50,7 +50,6 @@ ractive.on('restart', function(event) {
     counter: 0,
     measures: measures,
   });
-  $('.drag').css('top', '5px');
 });
 
     
