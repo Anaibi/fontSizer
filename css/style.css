@@ -1,0 +1,53 @@
+html,
+body,
+#ractive-container {
+  height: 100%; }
+
+.img-container {
+  float: left;
+  width: 500px;
+  height: 500px;
+  max-height: 80%;
+  resize: both;
+  overflow: hidden;
+  padding: 5px;
+  margin-right: 10px; }
+
+img {
+  width: 100%;
+  height: auto; }
+
+button {
+  font-size: 18px;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px 0;
+  cursor: pointer; }
+  button.green {
+    background-color: honeydew; }
+    button.green:hover {
+      background-color: palegreen; }
+  button.red {
+    background-color: lightsalmon; }
+    button.red:hover {
+      background-color: tomato; }
+
+.measures,
+.instrus {
+  float: left;
+  margin-right: 10px; }
+
+table {
+  width: 100%;
+  text-align: center; }
+
+table td {
+  border: 1px solid whitesmoke; }
+
+.delete {
+  color: red;
+  font-weight: bold;
+  text-transform: lowercase;
+  cursor: pointer; }
+
+/*# sourceMappingURL=style.css.map */

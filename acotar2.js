@@ -1,6 +1,5 @@
 var cotas = [],
-    measures = [],
-    proportions = [];
+    measures = [];
 
 var ractive = new Ractive({
   el: '#ractive-container',
@@ -8,7 +7,6 @@ var ractive = new Ractive({
   data: {
     total: false,
     measures: [],
-   // proportions: [],
     counter: 0,
     content: ''
   }
@@ -40,10 +38,18 @@ ractive.on('measure', function(event) {
 });
 
 ractive.on('remove', function(event) {
+  var i = (event.keypath).split('.')[1];
+  measures.splice(i, 1);
 });
 
 ractive.on('restart', function(event) {
-  ractive.reset();
+  cotas = [];
+  measures = [];
+  ractive.set({
+    total: 0,
+    counter: 0,
+    measures: measures,
+  });
 });
 
     

@@ -1,0 +1,56 @@
+html, 
+body, 
+#ractive-container
+  height: 100%
+
+.img-container
+  float: left
+  width: 500px
+  height: 500px
+  max-height: 80%
+  resize: both
+  overflow: hidden
+  padding: 5px
+  margin-right: 10px
+
+img
+  width: 100%
+  height: auto
+
+button
+  font-size: 18px
+  border: 1px solid black
+  padding: 5px
+  margin: 5px 0
+  
+  &:hover
+  cursor: pointer
+
+  &.green
+    background-color: honeydew
+    &:hover
+      background-color: palegreen
+
+  &.red
+    background-color: lightsalmon
+    &:hover
+      background-color: tomato
+
+.measures,
+.instrus 
+  float: left
+  margin-right: 10px
+
+table
+  width: 100%
+  text-align: center
+
+table td
+  border: 1px solid whitesmoke
+
+.delete
+  color: red
+  font-weight: bold
+  text-transform: lowercase
+  &:hover
+  cursor: pointer

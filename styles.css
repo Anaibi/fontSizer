@@ -1,16 +1,26 @@
-html {
+html, body, #ractive-container {
   height: 100%;
+}
+
+.img-container {
+  float: left;
+  width: 500px;
+  height: 500px;
+  max-height: 80%;
+  resize: both;
+  overflow: hidden;
+  padding: 5px;
+  margin-right: 10px;
 }
 
 img {
   width: 100%;
   height: auto;
-  max-height: 80%;
 }
 
 button {
   font-size: 18px;
-  background-color: white;
+  background-color: honeydew;
   border: 1px solid black;
   padding: 5px;
   margin: 5px 0;
@@ -21,11 +31,23 @@ button:hover {
   background-color: whitesmoke;
 }
 
+button.green {
+  background-color: coral;
+}
+
+button.red {
+  background-color: coral;
+}
+
+button.red {
+}
+
 .left { float: left;}
 
-.measures { 
-  float: right;
-  width: 50%;
+.measures,
+.instrus { 
+  float: left;
+  margin-right: 10px;
 }
 
 table { 
