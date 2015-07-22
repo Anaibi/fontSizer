@@ -8,7 +8,8 @@ var ractive = new Ractive({
     total: false,
     measures: [],
     counter: 0,
-    content: ''
+    content: '',
+    image:'file:///Users/tatianaburgos/Desktop/app1.png'
   }
 });
 
@@ -35,11 +36,17 @@ ractive.on('measure', function(event) {
   if ((counter > 2) && (counter % 2 == 0 )) {
     addMeasure(counter);
   }
+
 });
 
 ractive.on('remove', function(event) {
   var i = (event.keypath).split('.')[1];
   measures.splice(i, 1);
+});
+
+ractive.on('loadImage', function(event){
+  var image = event.original.target.value;
+  ractive.set('image', image);
 });
 
 ractive.on('restart', function(event) {
@@ -50,10 +57,8 @@ ractive.on('restart', function(event) {
     counter: 0,
     measures: measures,
   });
-  $('.drag').css('top', '5px');
 });
 
-    
 function addCoordY(e) {
   cotas.push(e.pageY);
 }

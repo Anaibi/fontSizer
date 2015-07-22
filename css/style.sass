@@ -19,9 +19,11 @@ body,
   right: 20px
   cursor: move
 
+$general_font_size: 18px
+
 /* buttons */
 button
-  font-size: 18px
+  font-size: $general_font_size
   border: 1px solid black
   padding: 5px
   margin: 5px 0
@@ -30,11 +32,13 @@ button
     cursor: pointer
 
   &.green
+    width: 75%
     background-color: honeydew
     &:hover
       background-color: palegreen
 
   &.red
+    width: 24%
     background-color: lightsalmon
     &:hover
       background-color: tomato
@@ -47,12 +51,16 @@ button
     cursor: pointer
 
 
+
+// variables:
+$left_w: 500px
+$left_h: 350px
 /* containers */
 .img-container
   float: left
   /* initial dimension */
-  width: 500px
-  height: 350px
+  width: $left_w
+  height: $left_h
   /* */
   margin-right: 10px
 
@@ -75,4 +83,24 @@ button
 
   table td
     border: 1px solid whitesmoke
+
+.file-uploader
+  width: 100%
+  input
+    width: 100%
+    margin: 0
+    padding: 0
+    height: 25px
+    font-size: inherit
+
+// testing flex
+#ractive-container
+  display: -webkit-flex /* Safari */
+  display: flex
+  div
+    -webkit-flex: 1  /* Safari 6.1+ */
+    -ms-flex: 1  /* IE 10 */    
+    flex: 1
+
+
 
