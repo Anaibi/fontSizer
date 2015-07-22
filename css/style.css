@@ -18,25 +18,36 @@ body,
   top: 5px;
   right: 20px;
   cursor: move; }
+  .drag {
+    position: relative; }
+
+button, input {
+  padding: 5px 0;
+  margin: 5px 0; }
 
 /* buttons */
 button {
   font-size: 18px;
-  border: 1px solid black;
-  padding: 5px;
-  margin: 5px 0; }
+  border: 1px solid black; }
   button:hover {
     cursor: pointer; }
-  button.green {
-    width: 75%;
-    background-color: honeydew; }
-    button.green:hover {
-      background-color: palegreen; }
-  button.red {
-    width: 24%;
-    background-color: lightsalmon; }
-    button.red:hover {
-      background-color: tomato; }
+
+.green {
+  background-color: honeydew; }
+  .green:hover {
+    background-color: palegreen; }
+
+.red {
+  background-color: lightsalmon; }
+  .red:hover {
+    background-color: tomato; }
+
+.big-button {
+  width: 75%; }
+
+.small-button {
+  width: 24%;
+  float: right; }
 
 .delete {
   color: red;
@@ -63,23 +74,23 @@ button {
 
 .measures {
   /* initial dimension */
-  width: 25%;
+  width: 100%;
   height: auto;
   padding: 20px; }
   .measures table {
     width: 100%;
     text-align: center; }
-  .measures table td {
-    border: 1px solid whitesmoke; }
+    .measures table td {
+      border: 1px solid whitesmoke; }
 
 .file-uploader {
   width: 100%; }
-  .file-uploader input {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    height: 25px;
-    font-size: inherit; }
+
+input {
+  height: 25px;
+  font-size: inherit;
+  border: none;
+  background-color: aliceblue; }
 
 #ractive-container {
   display: -webkit-flex;

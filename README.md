@@ -7,6 +7,6 @@ TODO
 * draw measures
 * upload / drag and drop image to use
 * save measures, add name/reference/id
-* 
+* save uploaded file urls (show as thumbs y opcion superponer variando opacidad para ver patrones)
 
 

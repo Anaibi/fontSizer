@@ -12,16 +12,17 @@
   
   <script id="template" type="text/ractive">
 
-    <div class="img-container resizable"><img id="item" src="{{image}}" width="auto" height="80%" style="cursor: crosshair" on-click="measure"></div>
+    <div class="img-container resizable"><img id="item" src="{{imageURL}}" width="auto" height="80%" style="cursor: crosshair" on-click="measure"></div>
     
     <div class="instrus">
 
       <div class="file-uploader">
-        <input name="file" placeholder="select file" value="{{image}}" on-mouseleave="loadImage">
+        <input class="big-button" name="file" placeholder="select file" value="{{imageInput}}">
+        <button class="red small-button" on-click="loadImage" data-imgurl={{imageInput}}>Upload</button>
       </div>
 
-      <button class="green" on-click="start">Start getting measures</button>
-      <button class="red" on-click="restart">Reset</button>
+      <button class="green big-button" on-click="start">Start getting measures</button>
+      <button class="red small-button" on-click="restart">Reset</button>
 
       <p>{{content}}</p>
       
@@ -29,10 +30,9 @@
         <p>Main reference dim: <b>{{total}}px</b></p>
         <p>Click two points to get height.</p>
       {{/if}}
-    </div>
 
-    {{#if measures}}
       <div id="measures" class="measures resizable drag"> 
+      {{#if measures}}
         <table>
           <tr>
             <th>Measure</th>
@@ -46,8 +46,13 @@
             </tr>
           {{/each}}
         </table>
+         {{/if}}
       </div>
-    {{/if}}
+    </div>
+
+    
+
+   
   </script>
   
   <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>

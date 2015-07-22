@@ -18,30 +18,42 @@ body,
   top: 5px
   right: 20px
   cursor: move
+  &
+    position: relative
 
+
+// used in buttons, inputs, 
 $general_font_size: 18px
+
+
+%regular-space
+  padding: 5px 0
+  margin: 5px 0
 
 /* buttons */
 button
   font-size: $general_font_size
   border: 1px solid black
-  padding: 5px
-  margin: 5px 0
+  @extend %regular-space
   
   &:hover
     cursor: pointer
 
-  &.green
-    width: 75%
-    background-color: honeydew
-    &:hover
-      background-color: palegreen
+.green
+  background-color: honeydew
+  &:hover
+    background-color: palegreen
 
-  &.red
-    width: 24%
-    background-color: lightsalmon
-    &:hover
-      background-color: tomato
+.red
+  background-color: lightsalmon
+  &:hover
+    background-color: tomato
+
+.big-button
+  width: 75%
+.small-button
+  width: 24%
+  float: right
 
 .delete
   color: red
@@ -74,24 +86,23 @@ $left_h: 350px
 
 .measures
   /* initial dimension */
-  width: 25%
+  width: 100%
   height: auto
   padding: 20px
   table
     width: 100%
     text-align: center
-
-  table td
-    border: 1px solid whitesmoke
+    td
+      border: 1px solid whitesmoke
 
 .file-uploader
   width: 100%
-  input
-    width: 100%
-    margin: 0
-    padding: 0
-    height: 25px
-    font-size: inherit
+input
+  @extend %regular-space
+  height: 25px
+  font-size: inherit
+  border: none
+  background-color: aliceblue
 
 // testing flex
 #ractive-container

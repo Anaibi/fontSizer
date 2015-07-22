@@ -9,7 +9,8 @@ var ractive = new Ractive({
     measures: [],
     counter: 0,
     content: '',
-    image:'file:///Users/tatianaburgos/Desktop/app1.png'
+    imageInput: 'file:///Users/tatianaburgos/Desktop/app1.png',
+    imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png'
   }
 });
 
@@ -34,6 +35,7 @@ ractive.on('measure', function(event) {
 
   // each next pairs of clicks calculate partial and proportion
   if ((counter > 2) && (counter % 2 == 0 )) {
+    $('#measures').addClass('drag');
     addMeasure(counter);
   }
 
@@ -44,11 +46,6 @@ ractive.on('remove', function(event) {
   measures.splice(i, 1);
 });
 
-ractive.on('loadImage', function(event){
-  var image = event.original.target.value;
-  ractive.set('image', image);
-});
-
 ractive.on('restart', function(event) {
   cotas = [];
   measures = [];
@@ -57,6 +54,10 @@ ractive.on('restart', function(event) {
     counter: 0,
     measures: measures,
   });
+});
+
+ractive.on('loadImage', function(event) { 
+  ractive.set('imageURL', ractive.get('imageInput'));
 });
 
 function addCoordY(e) {
