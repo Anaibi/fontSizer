@@ -17,6 +17,6 @@ TODO
 issues:
 
 * saves image url that is in input box!! FIXED
-*resize on drag fix css so it can get smaller as well
+* resize on drag fix css so it can get smaller as well
 
 
