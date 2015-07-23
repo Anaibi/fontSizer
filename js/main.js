@@ -65,19 +65,20 @@ ractive.on('loadImage', function() {
   });
 });
 
+// save actual img path
 ractive.on('save', function() { 
   ractive.get('images').push(ractive.get('imageURL'));
 });
 
+// reload image as actual
 ractive.on('reload', function(event) {
-  console.log(event.keypath);
   ractive.set({
-   // 'imageInput': ractive.get(event.keypath),
     'imageURL': ractive.get(event.keypath)
   });
 });
 
 function addCoordY(e) {
+  // add coords of click to cotas array
   cotas.push(e.pageY);
 }
 
@@ -86,7 +87,5 @@ function addMeasure(i) {
   var proportion = +((measure * 100 / ractive.get('total')).toFixed(2));
 
   measures.push({measure: measure, proportion: proportion});
-  ractive.set({
-    'measures': measures,
-  });
+  ractive.set('measures', measures);
 }
