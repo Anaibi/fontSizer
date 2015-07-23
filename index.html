@@ -42,29 +42,38 @@
       <button class="green big-button" on-click="start">Start getting measures</button>
       <button class="red small-button" on-click="restart">Reset</button>
 
-      <p>{{content}}</p>
-      
-      {{#if total}}
-        <p>Main reference dim: <b>{{total}}px</b></p>
-        <p>Click two points to get height.</p>
-      {{/if}}
+      <div class="instrus-text">
+        <p>{{content}}</p>
+        {{#if total}}
+          <p>Click two points to get height.</p>
+        {{/if}}
+      </div>
 
       <div id="measures" class="measures resizable drag"> 
-      {{#if measures}}
-        <table>
-          <tr>
-            <th>Measure</th>
-            <th>Proportion</th>
-          </tr>
-          {{#each measures}}
+        {{#if total}}
+          <table>
             <tr>
-              <td>{{this.measure}}px</td>
-              <td>{{this.proportion}}%</td>
-              <td><span class="delete" on-click="remove">X</span></td>
+              <th>Measure</th>
+              <th>Proportion</th>
             </tr>
-          {{/each}}
-        </table>
-         {{/if}}
+
+            <tr>
+              <td class="main" title="Main reference"><b>{{total}}px</b></td>
+              <td>100%</td>
+              <td><span class="delete" on-click="restart">X</span></td>
+            </tr>
+    
+            {{#if measures}}
+              {{#each measures}}
+                <tr>
+                  <td>{{this.measure}}px</td>
+                  <td>{{this.proportion}}%</td>
+                  <td><span class="delete" on-click="remove">X</span></td>
+                </tr>
+              {{/each}}
+            {{/if}}
+          </table>
+        {{/if}}
       </div>
     </div>
 

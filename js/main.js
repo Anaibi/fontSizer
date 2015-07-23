@@ -20,8 +20,7 @@ ractive.on('start', function(event) {
   ractive.set({'content': 'Click two points to set main reference.'});
 });
 
-ractive.on('measure', function(event) {
-  
+ractive.on('measure', function(event) { 
   // add clicked position y
   addCoordY(event.original);
 
@@ -40,7 +39,6 @@ ractive.on('measure', function(event) {
     $('#measures').addClass('drag');
     addMeasure(counter);
   }
-
 });
 
 ractive.on('remove', function(event) {
