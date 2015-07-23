@@ -21,26 +21,35 @@ body,
   .drag {
     position: relative; }
 
-button, input {
+.green, .red, .blue {
   padding: 5px 0;
-  margin: 5px 0; }
+  margin: 5px 0;
+  font-size: 15px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  text-align: center; }
 
 /* buttons */
-button {
-  font-size: 18px;
-  border: 1px solid black; }
-  button:hover {
+button, .delete, .reload {
+  font-weight: bold;
+  text-transform: lowercase; }
+  button:hover, .delete:hover, .reload:hover {
     cursor: pointer; }
 
 .green {
   background-color: honeydew; }
   .green:hover {
-    background-color: palegreen; }
+    background-color: #8aff8a; }
 
 .red {
   background-color: lightsalmon; }
   .red:hover {
-    background-color: tomato; }
+    background-color: #ff5714; }
+
+.blue {
+  background-color: aliceblue; }
+  .blue:hover {
+    background-color: aquamarine; }
 
 .big-button {
   width: 75%; }
@@ -49,55 +58,51 @@ button {
   width: 24%;
   float: right; }
 
-.delete {
-  color: red;
-  font-weight: bold;
-  text-transform: lowercase; }
-  .delete:hover {
-    cursor: pointer; }
+.delete, .reload {
+  color: red; }
+
+.reload {
+  color: green; }
 
 /* containers */
 .img-container {
   float: left;
   /* initial dimension */
-  width: 500px;
+  width: 50%;
   height: 350px;
   /* */
-  margin-right: 10px; }
+  margin-right: 10px;
+  margin-bottom: 50px; }
   .img-container img {
     width: 100%;
     height: auto; }
 
 .instrus {
   float: left;
-  margin-right: 10px; }
+  margin-right: 10px;
+  width: 45%; }
 
 .measures {
   /* initial dimension */
   width: 100%;
   height: auto;
   padding: 20px; }
-  .measures table {
-    width: 100%;
-    text-align: center; }
-    .measures table td {
-      border: 1px solid whitesmoke; }
+
+/* tables used in measures and in image list */
+table {
+  width: 100%;
+  text-align: center; }
+  table td {
+    border: 1px solid whitesmoke;
+    padding: 5px; }
+  .file-uploader table {
+    margin: 20px 0; }
+    .file-uploader table td:first-child {
+      text-align: left; }
 
 .file-uploader {
   width: 100%; }
-
-input {
-  height: 25px;
-  font-size: inherit;
-  border: none;
-  background-color: aliceblue; }
-
-#ractive-container {
-  display: -webkit-flex;
-  display: flex; }
-  #ractive-container div {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1; }
+  .file-uploader span {
+    display: inline-block; }
 
 /*# sourceMappingURL=style.css.map */

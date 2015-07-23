@@ -1,5 +1,6 @@
 var cotas = [],
-    measures = [];
+    measures = [],
+    images = [];
 
 var ractive = new Ractive({
   el: '#ractive-container',
@@ -9,8 +10,9 @@ var ractive = new Ractive({
     measures: [],
     counter: 0,
     content: '',
-    imageInput: 'file:///Users/tatianaburgos/Desktop/app1.png',
-    imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png'
+    imageInput: '',
+    imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png',
+    images: []
   }
 });
 
@@ -43,10 +45,11 @@ ractive.on('measure', function(event) {
 
 ractive.on('remove', function(event) {
   var i = (event.keypath).split('.')[1];
-  measures.splice(i, 1);
+  var thisarray = event.keypath.split('.')[0];
+  ractive.get(thisarray).splice(i, 1);
 });
 
-ractive.on('restart', function(event) {
+ractive.on('restart', function() {
   cotas = [];
   measures = [];
   ractive.set({
@@ -56,8 +59,24 @@ ractive.on('restart', function(event) {
   });
 });
 
-ractive.on('loadImage', function(event) { 
-  ractive.set('imageURL', ractive.get('imageInput'));
+// update loaded image
+ractive.on('loadImage', function() { 
+  ractive.set({
+    'imageURL': ractive.get('imageInput'),
+    'imageInput': ''
+  });
+});
+
+ractive.on('save', function() { 
+  ractive.get('images').push(ractive.get('imageURL'));
+});
+
+ractive.on('reload', function(event) {
+  console.log(event.keypath);
+  ractive.set({
+   // 'imageInput': ractive.get(event.keypath),
+    'imageURL': ractive.get(event.keypath)
+  });
 });
 
 function addCoordY(e) {

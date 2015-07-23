@@ -23,49 +23,63 @@ body,
 
 
 // used in buttons, inputs, 
-$general_font_size: 18px
+$general_font_size: 15px
 
 
 %regular-space
   padding: 5px 0
   margin: 5px 0
+  font-size: $general_font_size
+  border: 1px solid gray
+  border-radius: 3px
+  text-align: center
+
+=button-bg($c1, $c2: false)
+  background-color: $c1
+  &:hover
+    @if $c2
+      background-color: $c2
+    @else
+      background-color: darken($c1, 20%)
 
 /* buttons */
 button
-  font-size: $general_font_size
-  border: 1px solid black
-  @extend %regular-space
-  
-  &:hover
-    cursor: pointer
-
-.green
-  background-color: honeydew
-  &:hover
-    background-color: palegreen
-
-.red
-  background-color: lightsalmon
-  &:hover
-    background-color: tomato
-
-.big-button
-  width: 75%
-.small-button
-  width: 24%
-  float: right
-
-.delete
-  color: red
   font-weight: bold
   text-transform: lowercase
   &:hover
     cursor: pointer
 
+.green
+  @extend %regular-space
+  +button-bg(honeydew)
 
+.red
+  @extend %regular-space
+  +button-bg(lightsalmon)
+
+.blue
+  @extend %regular-space
+  +button-bg(aliceblue, aquamarine)
+
+.big-button
+  width: 75%
+
+.small-button
+  width: 24%
+  float: right
+
+.delete
+  @extend button
+
+  color: red
+  
+
+.reload
+  @extend .delete
+  color: green
 
 // variables:
-$left_w: 500px
+$left_w: 50%
 $left_h: 350px
 /* containers */
 .img-container
@@ -75,6 +89,7 @@ $left_h: 350px
   height: $left_h
   /* */
   margin-right: 10px
+  margin-bottom: 50px
 
   img
     width: 100%
@@ -83,35 +98,32 @@ $left_h: 350px
 .instrus 
   float: left
   margin-right: 10px
+  width: $left_w - 5
 
 .measures
   /* initial dimension */
   width: 100%
   height: auto
   padding: 20px
-  table
-    width: 100%
-    text-align: center
-    td
-      border: 1px solid whitesmoke
+
+/* tables used in measures and in image list */
+table
+  width: 100%
+  text-align: center
+  td
+    border: 1px solid whitesmoke
+    padding: 5px
+  .file-uploader &
+    margin: 20px 0
+    td:first-child
+      text-align: left
 
 .file-uploader
   width: 100%
-input
-  @extend %regular-space
-  height: 25px
-  font-size: inherit
-  border: none
-  background-color: aliceblue
+  span
+    display: inline-block
 
-// testing flex
-#ractive-container
-  display: -webkit-flex /* Safari */
-  display: flex
-  div
-    -webkit-flex: 1  /* Safari 6.1+ */
-    -ms-flex: 1  /* IE 10 */    
-    flex: 1
+
 
 
 

@@ -17,8 +17,26 @@
     <div class="instrus">
 
       <div class="file-uploader">
-        <input class="big-button" name="file" placeholder="select file" value="{{imageInput}}">
-        <button class="red small-button" on-click="loadImage" data-imgurl={{imageInput}}>Upload</button>
+        <input class="blue big-button" name="file" placeholder="select file" value="{{imageInput}}">
+        <button class="green small-button" on-click="loadImage" data-imgurl={{imageInput}}>Upload</button>
+
+        {{#if images}}
+        <table>
+          <tr>
+            <th>Used images</th>
+          </tr>
+          {{#each images}}
+            <tr>
+              <td>{{this}}</td>
+              <td><span class="delete" on-click="remove" title="delete">X</span></td>
+              <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
+            </tr>
+          {{/each}}
+        </table>
+         {{/if}}
+        <p>Actual image url is: </p>
+        <span class="blue big-button">{{imageURL}}</span>
+        <button class="green small-button" on-click="save" data-imgurl={{imageURL}}>Save</button>
       </div>
 
       <button class="green big-button" on-click="start">Start getting measures</button>
