@@ -21,8 +21,13 @@ ractive.on('start', function(event) {
 });
 
 ractive.on('measure', function(event) { 
-  // add clicked position y
-  addCoordY(event.original);
+  var coords = {
+    x: event.original.pageX,
+    y: event.original.pageY
+  };
+  // add clicked position
+  addCoordY(coords.y);
+  //drawMeasure(coords);
 
   // update counter
   var counter = ractive.get('counter') + 1;
@@ -77,9 +82,9 @@ ractive.on('reload', function(event) {
   });
 });
 
-function addCoordY(e) {
+function addCoordY(coord) {
   // add coords of click to cotas array
-  cotas.push(e.pageY);
+  cotas.push(coord);
 }
 
 function addMeasure(i) { 

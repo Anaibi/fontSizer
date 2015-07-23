@@ -6,13 +6,16 @@
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <link href="css/style.css" rel="stylesheet">
 </head>
-<body id="drag2">
+<body id="drag2" onload="draw()">
   
   <div id="ractive-container"></div>
   
   <script id="template" type="text/ractive">
 
-    <div class="img-container resizable"><img id="item" src="{{imageURL}}" width="auto" height="80%" style="cursor: crosshair" on-click="measure"></div>
+    <div class="img-container resizable canvas-parent">
+      <img id="item" src="{{imageURL}}" width="auto" height="80%" style="cursor: crosshair" on-click="measure">
+      <div id="canvas" class="canvas" style="cursor: crosshair" on-click="measure"></div>
+    </div>
     
     <div class="instrus">
 
@@ -83,6 +86,7 @@
   <script src="js/main.js"></script>
   <script src="js/jquery.event.drag-2.2/jquery.event.drag-2.2.js"></script>
   <script src="js/draggable.js"></script>
+  <script src="js/draw.js"></script>
 </body>
 </html>
 
