@@ -15,10 +15,12 @@
     <div class="img-container resizable canvas-parent">
       <img id="item" src="{{imageURL}}" width="auto" height="80%">
       <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="measure">
-        {{#each cotas}}
-          <text class="cota" x='{{this.x -20}}' y='{{this.y - 20}}'>
-            ({{this.x}}, {{this.y}})
-          </text>
+        {{#each cotas:i}}
+          {{#if i%2 === 1}}
+            <text class="cota" x='{{this.x}}' y='{{this.y - 20}}'>
+              {{measure(i).proportion}}%, {{measure(i).measure}}px
+            </text>
+          {{/if}}
           <circle cx='{{this.x - r/2}}' cy='{{this.y - r/2}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
         {{/each}}
         Sorry, your browser does not support inline SVG.

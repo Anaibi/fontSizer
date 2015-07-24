@@ -14,7 +14,25 @@ var ractive = new Ractive({
     imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png',
     images: [],
     cotas: [],
-    r: 5
+    r: 5,
+    format: function(c) { 
+      
+      console.log(c.x);
+      console.log(c.y);
+      
+    },
+    measure: function(i) {
+      var cotas = ractive.get('cotas');
+      var cota = cotas[i].x - cotas[i-1].x;
+      var proportion = +((cota * 100 / ractive.get('total')).toFixed(2));
+
+      measures.push({measure: cota, proportion: proportion});
+      ractive.set('measures', measures);
+      return {
+        proportion: proportion, 
+        measure: cota
+      };
+    }
   }
 });
 
@@ -55,6 +73,9 @@ ractive.on('remove', function(event) {
   ractive.get(thisarray).splice(i, 1);
 });
 
+// TODO after each reset, on first click error:
+// Failed to compute "${format(cotas-1)}"
+// then continues ok (number of errors cotas-i depends on number of cotas clicked)
 ractive.on('restart', function() {
   cotas = [];
   measures = [];
@@ -63,6 +84,7 @@ ractive.on('restart', function() {
     counter: 0,
     measures: measures,
   });
+  $('#canvas circle, #canvas text').remove();
 });
 
 // update loaded image
