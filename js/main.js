@@ -12,7 +12,9 @@ var ractive = new Ractive({
     content: '',
     imageInput: '',
     imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png',
-    images: []
+    images: [],
+    cotas: [],
+    r: 5
   }
 });
 
@@ -21,13 +23,14 @@ ractive.on('start', function(event) {
 });
 
 ractive.on('measure', function(event) { 
+  console.log(event.original.pageX);
+  console.log(event.original.pageY);
   var coords = {
     x: event.original.pageX,
     y: event.original.pageY
   };
   // add clicked position
-  addCoordY(coords.y);
-  //drawMeasure(coords);
+  addCoord(coords);
 
   // update counter
   var counter = ractive.get('counter') + 1;
@@ -35,7 +38,7 @@ ractive.on('measure', function(event) {
     
   // set the firts two clicks to use as main ref
   if (counter === 2) {
-    var total = cotas[1] - cotas[0];
+    var total = cotas[1].x - cotas[0].x;
     ractive.set('total', total);
   }
 
@@ -82,13 +85,14 @@ ractive.on('reload', function(event) {
   });
 });
 
-function addCoordY(coord) {
+function addCoord(coords) {
   // add coords of click to cotas array
-  cotas.push(coord);
+  cotas.push(coords);
+  ractive.set('cotas', cotas);
 }
 
 function addMeasure(i) { 
-  var measure = cotas[i-1] - cotas[i-2];
+  var measure = cotas[i-1].x - cotas[i-2].x;
   var proportion = +((measure * 100 / ractive.get('total')).toFixed(2));
 
   measures.push({measure: measure, proportion: proportion});

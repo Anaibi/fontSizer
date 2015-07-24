@@ -7,8 +7,7 @@ body,
 
 .resizable {
   resize: both;
-  overflow: scroll;
-  padding: 5px; }
+  overflow: scroll; }
 
 /* */
 /* draggable elements */
@@ -32,7 +31,8 @@ body,
 /* buttons */
 button, .delete, .reload {
   font-weight: bold;
-  text-transform: lowercase; }
+  text-transform: lowercase;
+  overflow: scroll; }
   button:hover, .delete:hover, .reload:hover {
     cursor: pointer; }
 
@@ -70,6 +70,7 @@ button, .delete, .reload {
   /* initial dimension */
   width: 50%;
   height: 350px;
+  overflow: hidden;
   /* */
   margin-right: 10px;
   margin-bottom: 50px; }
@@ -110,9 +111,13 @@ table {
 .canvas {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; }
+  width: 100%;
+  height: 100%;
+  z-index: 2000; }
+  .canvas circle {
+    z-index: 5000; }
+  .canvas .cota {
+    font-size: 10px; }
 
 .canvas-parent {
   position: relative; }

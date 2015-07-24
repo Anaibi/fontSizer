@@ -6,15 +6,23 @@
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <link href="css/style.css" rel="stylesheet">
 </head>
-<body id="drag2" onload="draw()">
+<body id="drag2">
   
   <div id="ractive-container"></div>
   
   <script id="template" type="text/ractive">
 
     <div class="img-container resizable canvas-parent">
-      <img id="item" src="{{imageURL}}" width="auto" height="80%" style="cursor: crosshair" on-click="measure">
-      <div id="canvas" class="canvas" style="cursor: crosshair" on-click="measure"></div>
+      <img id="item" src="{{imageURL}}" width="auto" height="80%">
+      <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="measure">
+        {{#each cotas}}
+          <text class="cota" x='{{this.x -20}}' y='{{this.y - 20}}'>
+            ({{this.x}}, {{this.y}})
+          </text>
+          <circle cx='{{this.x - r/2}}' cy='{{this.y - r/2}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
+        {{/each}}
+        Sorry, your browser does not support inline SVG.
+      </svg>
     </div>
     
     <div class="instrus">
@@ -86,7 +94,6 @@
   <script src="js/main.js"></script>
   <script src="js/jquery.event.drag-2.2/jquery.event.drag-2.2.js"></script>
   <script src="js/draggable.js"></script>
-  <script src="js/draw.js"></script>
 </body>
 </html>
 
