@@ -11,8 +11,9 @@ var ractive = new Ractive({
     images: [],
     cotas: [],
     r: 5,
-    measure: function(i) { console.log('get measure ' + i);
-      var measure = ractive.get('measures')[i/2 - 1];
+    cota: function(i) { 
+      // i comes: 1, 3, 5, 7.. and we want 0, 1, 2, 3..
+      var measure = ractive.get('measures')[(i-1)/2];
       return {
         proportion: measure.proportion, 
         measure: measure.measure
@@ -25,13 +26,13 @@ ractive.on('start', function(event) {
   ractive.set({'content': 'Click two points to set main reference.'});
 });
 
-ractive.on('measure', function(event) { 
+ractive.on('do-measure', function(event) { console.log('do-measure called');
 
   // add clicked position
   addCoord(event);
 
   // update counter
-  var counter = ractive.get('counter') + 1;
+  var counter = ractive.get('counter') + 1; console.log(counter);
   ractive.set('counter', counter);
   
   // on second clicks:
@@ -48,7 +49,7 @@ ractive.on('measure', function(event) {
     if (counter === 3) {
       ('#measures').addClass('drag');
     }
-
+    console.log(ractive.get('total'));
   }
 });
 
@@ -100,14 +101,13 @@ function addMeasure(i) { console.log('addMeasure ' + i);
   var cota1 = ractive.get('cotas')[i-1]; 
       cota2 = ractive.get('cotas')[i]; 
 
-  var measure = cota2.y - cota1.y; 
-  var total = ractive.get('total');
+  var cota = cota2.y - cota1.y; 
+  var total = ractive.get('total'); console.log('total ' + total);
   if (total) { console.log(total);
     var proportion = +((measure * 100 / total).toFixed(2));
   } else {
     proportion = 100;
   }
 
-  ractive.get('measures').push({measure: measure, proportion: proportion});
-  //ractive.set('measures', measures);
+  ractive.get('measures').push({measure: cota, proportion: proportion});
 }
