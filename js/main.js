@@ -1,8 +1,3 @@
-// TODO pass these arrays into data
-var cotas = [],
-    measures = [],
-    images = [];
-
 var ractive = new Ractive({
   el: '#ractive-container',
   template: '#template',
@@ -15,53 +10,45 @@ var ractive = new Ractive({
     imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png',
     images: [],
     cotas: [],
-    r: 25,
-    format: function(c) { 
-      console.log(c.x);
-      console.log(c.y);
-    },
-    measure: function(i) {
-      var cotas = ractive.get('cotas');
-      var cota = cotas[i].x - cotas[i-1].x;
-      var proportion = +((cota * 100 / ractive.get('total')).toFixed(2));
-
-      measures.push({measure: cota, proportion: proportion});
-      ractive.set('measures', measures);
+    r: 5,
+    measure: function(i) { console.log('get measure ' + i);
+      var measure = ractive.get('measures')[i/2 - 1];
       return {
-        proportion: proportion, 
-        measure: cota
+        proportion: measure.proportion, 
+        measure: measure.measure
       };
-    },
-    offset: 0
+    }
   }
 });
 
 ractive.on('start', function(event) {
   ractive.set({'content': 'Click two points to set main reference.'});
-  ractive.set('offset', $('#canvas').offset());
 });
 
 ractive.on('measure', function(event) { 
-  var coords = {
-    x: event.original.offsetX,
-    y: event.original.offsetY
-  };
+
   // add clicked position
-  addCoord(coords);
+  addCoord(event);
 
   // update counter
   var counter = ractive.get('counter') + 1;
   ractive.set('counter', counter);
+  
+  // on second clicks:
+  if (counter % 2 === 0) { console.log(counter);
     
-  // set the firts two clicks to use as main ref
-  if (counter === 2) {
-    var total = cotas[1].x - cotas[0].x;
-    ractive.set('total', total);
-  }
+    addMeasure(counter-1);
 
-  // each next pairs of clicks calculate partial and proportion
-  if ((counter > 2) && (counter % 2 == 0 )) {
-    $('#measures').addClass('drag');
+    // set the firts 2 clicks to use as main ref
+    if (counter === 2) { console.log(ractive.get('measures')[0]);
+      ractive.set('total', ractive.get('measures')[0].y);
+    }
+
+    // make #measures table draggable
+    if (counter === 3) {
+      ('#measures').addClass('drag');
+    }
+
   }
 });
 
@@ -105,15 +92,22 @@ ractive.on('reload', function(event) {
   });
 });
 
-function addCoord(coords) {
-  cotas.push(coords);
-  ractive.set('cotas', cotas);
+function addCoord(click) {
+  ractive.push('cotas', {x: click.original.offsetX, y: click.original.offsetY});
 }
 
-function addMeasure(i) { 
-  var measure = cotas[i-1].x - cotas[i-2].x;
-  var proportion = +((measure * 100 / ractive.get('total')).toFixed(2));
+function addMeasure(i) { console.log('addMeasure ' + i);
+  var cota1 = ractive.get('cotas')[i-1]; 
+      cota2 = ractive.get('cotas')[i]; 
 
-  measures.push({measure: measure, proportion: proportion});
-  ractive.set('measures', measures);
+  var measure = cota2.y - cota1.y; 
+  var total = ractive.get('total');
+  if (total) { console.log(total);
+    var proportion = +((measure * 100 / total).toFixed(2));
+  } else {
+    proportion = 100;
+  }
+
+  ractive.get('measures').push({measure: measure, proportion: proportion});
+  //ractive.set('measures', measures);
 }

@@ -15,11 +15,11 @@
     <div class="img-container resizable canvas-parent">
       <img id="item" src="{{imageURL}}" width="auto" height="80%">
       <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="measure">
-        {{#each cotas:i}}
-          {{#if i%2 === 1}}
-            <text class="cota" x='{{this.x}}' y='{{this.y - 20}}'>
+        {{#each cotas:i}} 
+          {{#if i%2 === 1}} {{#if measure}}
+            <text class="cota" x='{{this.x}}' y='{{this.y/2}}'>
               {{measure(i).proportion}}%, {{measure(i).measure}}px {{format(this)}}
-            </text>
+            </text> {{/if}}
           {{/if}}
           <circle cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
         {{/each}}
