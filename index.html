@@ -18,10 +18,10 @@
         {{#each cotas:i}}
           {{#if i%2 === 1}}
             <text class="cota" x='{{this.x}}' y='{{this.y - 20}}'>
-              {{measure(i).proportion}}%, {{measure(i).measure}}px
+              {{measure(i).proportion}}%, {{measure(i).measure}}px {{format(this)}}
             </text>
           {{/if}}
-          <circle cx='{{this.x - r/2}}' cy='{{this.y - r/2}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
+          <circle cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
         {{/each}}
         Sorry, your browser does not support inline SVG.
       </svg>

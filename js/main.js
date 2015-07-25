@@ -1,3 +1,4 @@
+// TODO pass these arrays into data
 var cotas = [],
     measures = [],
     images = [];
@@ -14,12 +15,10 @@ var ractive = new Ractive({
     imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png',
     images: [],
     cotas: [],
-    r: 5,
+    r: 25,
     format: function(c) { 
-      
       console.log(c.x);
       console.log(c.y);
-      
     },
     measure: function(i) {
       var cotas = ractive.get('cotas');
@@ -32,20 +31,20 @@ var ractive = new Ractive({
         proportion: proportion, 
         measure: cota
       };
-    }
+    },
+    offset: 0
   }
 });
 
 ractive.on('start', function(event) {
   ractive.set({'content': 'Click two points to set main reference.'});
+  ractive.set('offset', $('#canvas').offset());
 });
 
 ractive.on('measure', function(event) { 
-  console.log(event.original.pageX);
-  console.log(event.original.pageY);
   var coords = {
-    x: event.original.pageX,
-    y: event.original.pageY
+    x: event.original.offsetX,
+    y: event.original.offsetY
   };
   // add clicked position
   addCoord(coords);
@@ -63,7 +62,6 @@ ractive.on('measure', function(event) {
   // each next pairs of clicks calculate partial and proportion
   if ((counter > 2) && (counter % 2 == 0 )) {
     $('#measures').addClass('drag');
-    addMeasure(counter);
   }
 });
 
@@ -108,7 +106,6 @@ ractive.on('reload', function(event) {
 });
 
 function addCoord(coords) {
-  // add coords of click to cotas array
   cotas.push(coords);
   ractive.set('cotas', cotas);
 }
