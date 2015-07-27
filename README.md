@@ -19,5 +19,9 @@ issues:
 *resize on drag fix css so it can get smaller as well
 
 
+draw cotas:
+* add edit option
+
+
 
 
