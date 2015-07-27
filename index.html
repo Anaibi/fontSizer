@@ -18,7 +18,7 @@
         {{#each cotas:i}} 
           {{#if i%2 === 1}}
             <text class="cota" x='{{this.x}}' y='{{this.y/2}}'>
-              {{cota(i).proportion}}%, {{cota(i).measure}}px 
+              {{i}} {{getProportion(i)}}%, {{getMeasure(i)}}px
             </text> 
           {{/if}}
           <circle cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
@@ -77,12 +77,12 @@
             </tr>
     
             {{#if measures}}
-              {{#each measures}}
+              {{#each measures:i}}{{#if i>0}}
                 <tr>
                   <td>{{this.measure}}px</td>
                   <td>{{this.proportion}}%</td>
                   <td><span class="delete" on-click="remove">X</span></td>
-                </tr>
+                </tr>{{/if}}
               {{/each}}
             {{/if}}
           </table>

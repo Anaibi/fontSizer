@@ -11,13 +11,14 @@ var ractive = new Ractive({
     images: [],
     cotas: [],
     r: 5,
-    cota: function(i) { 
-      // i comes: 1, 3, 5, 7.. and we want 0, 1, 2, 3..
+    // i comes: 1, 3, 5, 7.. and we want 0, 1, 2, 3..
+    getMeasure: function(i) { 
       var measure = ractive.get('measures')[(i-1)/2];
-      return {
-        proportion: measure.proportion, 
-        measure: measure.measure
-      };
+      return measure.measure;
+    },
+    getProportion: function(i) {
+      var measure = ractive.get('measures')[(i-1)/2];
+      return measure.proportion;
     }
   }
 });
@@ -26,23 +27,23 @@ ractive.on('start', function(event) {
   ractive.set({'content': 'Click two points to set main reference.'});
 });
 
-ractive.on('do-measure', function(event) { console.log('do-measure called');
+ractive.on('do-measure', function(event) {
 
   // add clicked position
   addCoord(event);
 
   // update counter
-  var counter = ractive.get('counter') + 1; console.log(counter);
+  var counter = ractive.get('counter') + 1;
   ractive.set('counter', counter);
   
   // on second clicks:
-  if (counter % 2 === 0) { console.log(counter);
+  if (counter % 2 === 0) {
     
     addMeasure(counter-1);
 
     // set the firts 2 clicks to use as main ref
-    if (counter === 2) { console.log(ractive.get('measures')[0]);
-      ractive.set('total', ractive.get('measures')[0].y);
+    if (counter === 2) { console.log('set total');
+     // ractive.set('total', ractive.get('measures')[0].y);
     }
 
     // make #measures table draggable
@@ -97,15 +98,16 @@ function addCoord(click) {
   ractive.push('cotas', {x: click.original.offsetX, y: click.original.offsetY});
 }
 
-function addMeasure(i) { console.log('addMeasure ' + i);
+function addMeasure(i) { 
   var cota1 = ractive.get('cotas')[i-1]; 
       cota2 = ractive.get('cotas')[i]; 
 
   var cota = cota2.y - cota1.y; 
-  var total = ractive.get('total'); console.log('total ' + total);
-  if (total) { console.log(total);
-    var proportion = +((measure * 100 / total).toFixed(2));
+  var total = ractive.get('total');
+  if (total) {
+    var proportion = +((cota * 100 / total).toFixed(2));
   } else {
+    ractive.set('total', cota);
     proportion = 100;
   }
 
