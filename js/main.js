@@ -19,8 +19,17 @@ var ractive = new Ractive({
     getProportion: function(i) {
       var measure = ractive.get('measures')[(i-1)/2];
       return measure.proportion;
+    },
+    getX: function(i) {
+      var cota = ractive.get('cotas')[i];
+      return cota.x
+    },
+    getY: function(i) {
+      var cota = ractive.get('cotas')[i];
+      return cota.y
     }
   }
+  
 });
 
 ractive.on('start', function(event) {
@@ -28,6 +37,12 @@ ractive.on('start', function(event) {
 });
 
 ractive.on('do-measure', function(event) {
+
+  // if click was for draggin cota, return
+  // (detect if cursor was crosshair or move ?)
+  if (event.original.srcElement.nodeName !== 'svg') {
+    return;
+  }
 
   // add clicked position
   addCoord(event);
