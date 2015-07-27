@@ -79,14 +79,13 @@ ractive.on('remove', function(event) {
 // Failed to compute "${format(cotas-1)}"
 // then continues ok (number of errors cotas-i depends on number of cotas clicked)
 ractive.on('restart', function() {
-  cotas = [];
-  measures = [];
   ractive.set({
     total: 0,
     counter: 0,
-    measures: measures,
+    measures: [],
+    cotas: []
   });
-  $('#canvas circle, #canvas text').remove();
+  $('#canvas circle, #canvas text, #canvas line').remove();
 });
 
 // update loaded image
