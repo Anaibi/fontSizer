@@ -1,3 +1,4 @@
+// TODO use partials
 //var circle = "<circle";
 
 var ractive = new Ractive({
@@ -36,6 +37,7 @@ var ractive = new Ractive({
 
 ractive.on('start', function(event) {
   ractive.set({'content': 'Click two points to set main reference.'});
+  setCanvas();
 });
 
 ractive.on('do-measure', function(event) {
@@ -58,24 +60,26 @@ ractive.on('do-measure', function(event) {
     
     addMeasure(counter-1);
 
-    // set the firts 2 clicks to use as main ref
-    if (counter === 2) { console.log('set total');
-     // ractive.set('total', ractive.get('measures')[0].y);
-    }
-
     // make #measures table draggable
     if (counter === 3) {
       ('#measures').addClass('drag');
     }
-    console.log(ractive.get('total'));
   }
 });
 
 ractive.on('remove', function(event) {
-  var i = (event.keypath).split('.')[1];
+  var i = (event.keypath).split('.')[1]; console.log(i);
   var thisarray = event.keypath.split('.')[0];
+  if (thisarray === 'cotas') {
+    // index points to
+    console.log(thisarray);
+  } else if (thisarray === 'measures') {
+    // index points to 
+    console.log(thisarray); console.log(ractive.get(thisarray));
+  }
   ractive.get(thisarray).splice(i, 1);
   // TODO remove related svg circles and line
+  console.log($('#canvas').find('.'+i));
 });
 
 // TODO after each reset, on first click error:
@@ -129,4 +133,8 @@ function addMeasure(i) {
   }
 
   ractive.get('measures').push({measure: cota, proportion: proportion});
+}
+
+function setCanvas() {
+  $('#canvas').height($('#item').height());
 }

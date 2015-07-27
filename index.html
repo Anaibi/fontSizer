@@ -17,15 +17,15 @@
       <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="do-measure">
         {{#each cotas:i}} 
           {{#if i%2 === 1}}
-            <rect x="{{getX(i-1) - 5}}" y="{{this.y - getMeasure(i)/2 - 15}}" width="85" height="20" />
-            <text class="cota drag" x='{{getX(i-1)}}' y='{{this.y - getMeasure(i)/2}}'>
+            <rect class=[[i]] x="{{getX(i-1) - 5}}" y="{{this.y - getMeasure(i)/2 - 15}}" width="85" height="20" />
+            <text class="cota drag {{i}}" x='{{getX(i-1)}}' y='{{this.y - getMeasure(i)/2}}'>
               {{getProportion(i)}}%, {{getMeasure(i)}}px
             </text> 
 
-            <line x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{this.y}}" />
-            <circle cx='{{getX(i-1)}}' cy='{{this.y}}' r='{{r}}' />
+            <line class=[[i]] x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{this.y}}" />
+            <circle class="[[i]]" cx='{{getX(i-1)}}' cy='{{this.y}}' r='{{r}}' />
             {{else}}
-            <circle cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' />
+            <circle class=[[i]] cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' />
           {{/if}} 
         {{/each}}
         Sorry, your browser does not support inline SVG.
@@ -77,7 +77,7 @@
 
             <tr>
               <td class="main" title="Main reference"><b>{{total}}px</b></td>
-              <td>100%</td>
+              <td title="Main reference"><b>100%</b></td>
               <td><span class="delete" on-click="restart">X</span></td>
             </tr>
     
