@@ -17,13 +17,15 @@
       <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="do-measure">
         {{#each cotas:i}} 
           {{#if i%2 === 1}}
+            <rect x="{{getX(i-1) - 5}}" y="{{this.y - getMeasure(i)/2 - 15}}" width="85" height="20" />
             <text class="cota drag" x='{{getX(i-1)}}' y='{{this.y - getMeasure(i)/2}}'>
               {{getProportion(i)}}%, {{getMeasure(i)}}px
             </text> 
-            <line x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{this.y}}" stroke="black" />
-            <circle cx='{{getX(i-1)}}' cy='{{this.y}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
+
+            <line x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{this.y}}" />
+            <circle cx='{{getX(i-1)}}' cy='{{this.y}}' r='{{r}}' />
             {{else}}
-            <circle cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' stroke="black" stroke-width="1" fill="transparent" />
+            <circle cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' />
           {{/if}} 
         {{/each}}
         Sorry, your browser does not support inline SVG.

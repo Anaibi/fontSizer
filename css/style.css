@@ -117,6 +117,14 @@ table {
     z-index: 5000; }
   .canvas .cota {
     font-size: 10px; }
+  .canvas line {
+    stroke: black; }
+  .canvas circle {
+    stroke: black;
+    stroke-width: 1px;
+    fill: transparent; }
+  .canvas rect {
+    fill: rgba(255, 255, 255, 0.7); }
 
 .canvas-parent {
   position: relative; }

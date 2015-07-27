@@ -1,3 +1,5 @@
+//var circle = "<circle";
+
 var ractive = new Ractive({
   el: '#ractive-container',
   template: '#template',
@@ -73,6 +75,7 @@ ractive.on('remove', function(event) {
   var i = (event.keypath).split('.')[1];
   var thisarray = event.keypath.split('.')[0];
   ractive.get(thisarray).splice(i, 1);
+  // TODO remove related svg circles and line
 });
 
 // TODO after each reset, on first click error:

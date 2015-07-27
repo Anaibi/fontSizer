@@ -24,6 +24,9 @@ body,
 // used in buttons, inputs, 
 $general_font_size: 15px
 
+// used in svg text and instrus measures
+$transparent_white: rgba(255,255,255,.7)
+
 
 %regular-space
   padding: 5px 0
@@ -104,7 +107,7 @@ $left_h: 350px
   width: 100%
   height: auto
   padding: 20px
-  background-color: rgba(255,255,255,.7)
+  background-color: $transparent_white
 
 /* tables used in measures and in image list */
 table
@@ -136,6 +139,14 @@ table
     z-index: 5000
   .cota
     font-size: 10px
+  line
+    stroke: black
+  circle
+    stroke: black
+    stroke-width: 1px
+    fill: transparent 
+  rect
+    fill: $transparent_white
 .canvas-parent
   position: relative
 
