@@ -17,7 +17,7 @@
       <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="do-measure">
         {{#each cotas:i}} 
           {{#if i%2 === 1}}
-            <text class="cota drag" x='{{getX(i-1)}}' y='{{this.y/2}}'>
+            <text class="cota drag" x='{{getX(i-1)}}' y='{{this.y - getMeasure(i)/2}}'>
               {{getProportion(i)}}%, {{getMeasure(i)}}px
             </text> 
             <line x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{this.y}}" stroke="black" />
