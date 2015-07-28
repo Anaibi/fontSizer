@@ -44,7 +44,6 @@ var ractive = new Ractive({
 ractive.on({
   'start': function(event) {
     ractive.set({'content': 'Click two points to set main reference.'});
-    //setCanvas();
   },
 
   'do-measure': function(event) {
@@ -133,13 +132,6 @@ function addMeasure(i) { console.log('addMeasure');
     proportion = 100;
   }
 
-  ractive.get('measures').push({measure: cota, proportion: proportion}); console.log(ractive.get('measures'));
+  ractive.push('measures', {measure: cota, proportion: proportion}); 
 }
 
-function setCanvas() {
-  $('#canvas').height($('#item').height());
-}
-
-ractive.observe('sidebar_w', function(event){
-  console.log('dd');
-});

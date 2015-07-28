@@ -20,9 +20,7 @@
 
         {{#if images}}
           <table>
-            <tr>
-              <th>Used images</th>
-            </tr>
+            <caption>Used images</caption>
             {{#each images}}
               <tr>
                 <td>{{this}}</td>
@@ -87,7 +85,7 @@
             {{#if i%2 === 1}}
               <rect class={{i}} x="{{getX(i-1) - 5}}" y="{{y - getMeasure(i)/2 - 15}}" width="85" height="20" />
               <text class="cota drag {{i}}" x='{{getX(i-1)}}' y='{{y - getMeasure(i)/2}}'>
-                {{getProportion(i)}}%, {{getMeasure(i)}}px
+                {{getMeasure(i)}}px, {{getProportion(i)}}% 
               </text> 
 
               <line class={{i}} x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />

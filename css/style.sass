@@ -25,6 +25,9 @@ body,
 $general_font_size: 15px
 $general_font_size: 12px
 
+$small_button_w: 17%
+$big_button_w: 98 - $small_button_w
+
 
 %regular-space
   padding: 5px 0
@@ -75,10 +78,6 @@ button
   +button-bg(aliceblue, aquamarine)
 
 
-$small_button_w: 17%
-$big_button_w: 98 - $small_button_w
-
-
 .big-button
   width: $big_button_w
 
@@ -89,10 +88,16 @@ $big_button_w: 98 - $small_button_w
 .delete
   @extend button
   color: red
+  font-family: sans-serif
+  font-size: 25px
+  &:hover
+    color: tomato
   
 .reload
   @extend .delete
-  color: green
+  color: honeydew
+  &:hover
+    color: aquamarine
 
 // variables:
 $sidebar_w: 25%
@@ -111,11 +116,28 @@ $general_padding: 2%
   background-color: $sidebar_c
   div
     width: 100%
-  .input
-    overflow: scroll
-
   .measures
     height: auto
+  .instrus-text
+    color: white
+  .file-uploader
+    .input
+      display: inline-block
+      overflow: scroll
+
+/* tables used in measures and in image list */
+table
+  width: 100%
+  text-align: center
+  word-break: break-all
+  td
+    border: 1px solid whitesmoke
+    padding: 1px 5px
+  .file-uploader &
+    margin: 20px 0
+    td:first-child
+      text-align: left
+
 
 /* main content = img */
 .content
@@ -152,22 +174,6 @@ $general_padding: 2%
       fill: white
   .canvas-parent
     position: relative
-
-/* tables used in measures and in image list */
-table
-  width: 100%
-  text-align: center
-  td
-    border: 1px solid whitesmoke
-    padding: 5px
-  .file-uploader &
-    margin: 20px 0
-    td:first-child
-      text-align: left
-
-.file-uploader
-  span
-    display: inline-block
 
 
 
