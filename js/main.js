@@ -1,15 +1,18 @@
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
     '{{#each cotas:i}}' +
       '{{#if i%2 === 1}}' +
-        '<rect class={{i}} x="{{getX(i-1) - 5}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2 - 15}}" width="85" height="20" />' +
-        '<text class="cota {{i}}" x="{{getX(i-1)}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2}}">' +
-          '{{getId(i)}} {{getMeasure(i)}}px, {{getProportion(i)}}%' +
-        '</text>' +
-
-        '<line class={{i}} x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />' +
-        '<circle class="{{i}}" cx="{{getX(i-1)}}" cy="{{y}}" r="{{r}}" />' +
+        '<g class="cota {{(i-1)/2}}">' +
+          '<rect x="{{getX(i-1) - 5}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2 - 15}}" width="85" height="20" />' +
+          '<text x="{{getX(i-1)}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2}}">' +
+            '{{getId(i)}} {{getMeasure(i)}}px, {{getProportion(i)}}%' +
+          '</text>' +
+          '<line x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />' +
+          '<circle cx="{{getX(i-1)}}" cy="{{y}}" r="{{r}}" />' +
+        '</g>' +
       '{{else}}' +
-        '<circle class="{{i}}" cx="{{x}}" cy="{{y}}" r="{{r}}" />' +
+        '<g class="cota {{(i)/2}}">' +
+          '<circle cx="{{x}}" cy="{{y}}" r="{{r}}" />' +
+        '</g>' +
       '{{/if}}' +
     '{{/each}}' +
     'Sorry, your browser does not support inline SVG.' +
@@ -81,14 +84,14 @@ ractive.on({
     var i = (event.keypath).split('.')[1]; 
     var thisarray = event.keypath.split('.')[0];
 
-    if (thisarray === 'cotas') {
-      // index points to
-    } else if (thisarray === 'measures') {
-      // index points to 
+    if (thisarray === 'measures') {
+      // remove svg group
+      $('.'+i).remove();
+      // update counter
+      ractive.set('counter', ractive.get('counter') - 1);
     }
 
     ractive.get(thisarray).splice(i, 1);
-    // TODO remove related svg circles and line
   },
 
   'restart': function() {
@@ -122,9 +125,13 @@ ractive.on({
     });
   },
 
-  'saveId': function(event) {
-    //console.log($(event.original.target).closest('td').attr('class'));
-    ractive.set(ractive.get(event.keypath).id, $(event.original.target).closest('td').attr('class'));
+  'saveId': function(event) { 
+    var id = $(event.original.target).attr('data-id'); 
+    if (id) { 
+      ractive.set(ractive.get(event.keypath).id, id);
+      var i = (event.keypath).split('.')[1]; 
+      setBg(i);
+    }
   }
 });
 
@@ -148,4 +155,8 @@ function addMeasure(i) {
   var id = $('.' + i).find('td input').attr('value'); 
 
   ractive.push('measures', {measure: cota, proportion: proportion, id: ''}); 
+}
+
+function setBg(id) { console.log(id); 
+  $('svg .' + id + ' rect').css('width', $('svg .' + id + ' text').width() + 10 + 'px');
 }
