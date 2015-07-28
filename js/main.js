@@ -30,96 +30,91 @@ var ractive = new Ractive({
     getY: function(i) {
       var cota = ractive.get('cotas')[i];
       return cota.y
+    },
+    img: { width: '500px', 'height': '500px'}
+  }
+});
+
+ractive.on({
+  'start': function(event) {
+    ractive.set({'content': 'Click two points to set main reference.'});
+    //setCanvas();
+  },
+
+  'do-measure': function(event) {
+    // if click was on cota (TODO: edit, drag?), return
+    if (event.original.srcElement.nodeName !== 'svg') {
+      return;
     }
-  }
-  
-});
+    // add clicked position
+    addCoord(event);
 
-ractive.on('start', function(event) {
-  ractive.set({'content': 'Click two points to set main reference.'});
-  setCanvas();
-});
-
-ractive.on('do-measure', function(event) {
-
-  // if click was for draggin cota, return
-  // (detect if cursor was crosshair or move ?)
-  if (event.original.srcElement.nodeName !== 'svg') {
-    return;
-  }
-
-  // add clicked position
-  addCoord(event);
-
-  // update counter
-  var counter = ractive.get('counter') + 1;
-  ractive.set('counter', counter);
-  
-  // on second clicks:
-  if (counter % 2 === 0) {
+    // update counter
+    var counter = ractive.get('counter') + 1; console.log(counter);
+    ractive.set('counter', counter); console.log(counter);
     
-    addMeasure(counter-1);
-
-    // make #measures table draggable
-    if (counter === 3) {
-      ('#measures').addClass('drag');
+    // on second clicks:
+    if (counter % 2 === 0) {
+      addMeasure(counter-1);
     }
-  }
-});
+  },
 
-ractive.on('remove', function(event) {
-  var i = (event.keypath).split('.')[1]; console.log(i);
-  var thisarray = event.keypath.split('.')[0];
-  if (thisarray === 'cotas') {
-    // index points to
+  'remove': function(event) {
+    var i = (event.keypath).split('.')[1]; 
+    var thisarray = event.keypath.split('.')[0];
+
     console.log(thisarray);
-  } else if (thisarray === 'measures') {
-    // index points to 
-    console.log(thisarray); console.log(ractive.get(thisarray));
+    if (thisarray === 'cotas') {
+      // index points to
+    } else if (thisarray === 'measures') {
+      // index points to 
+      console.log(ractive.get(thisarray));
+    }
+
+    ractive.get(thisarray).splice(i, 1);
+    // TODO remove related svg circles and line
+    console.log($('#canvas').find('.'+i));
+  },
+
+  // TODO after each reset, on first click error:
+  // Failed to compute "${format(cotas-1)}"
+  // then continues ok (number of errors cotas-i depends on number of cotas clicked)
+  'restart': function() {
+    ractive.set({
+      total: false,
+      counter: 0,
+      measures: [],
+      cotas: []
+    });
+    $('#canvas circle, #canvas text, #canvas line').remove();
+  },
+
+  // update loaded image
+  'loadImage': function() { 
+    ractive.set({
+      'imageURL': ractive.get('imageInput'),
+      'imageInput': ''
+    });
+  },
+
+  // save actual img path
+  'save': function() { 
+    ractive.get('images').push(ractive.get('imageURL'));
+  },
+
+  // reload image as actual
+  'reload': function(event) {
+    ractive.set({
+      'imageURL': ractive.get(event.keypath)
+    });
   }
-  ractive.get(thisarray).splice(i, 1);
-  // TODO remove related svg circles and line
-  console.log($('#canvas').find('.'+i));
-});
-
-// TODO after each reset, on first click error:
-// Failed to compute "${format(cotas-1)}"
-// then continues ok (number of errors cotas-i depends on number of cotas clicked)
-ractive.on('restart', function() {
-  ractive.set({
-    total: 0,
-    counter: 0,
-    measures: [],
-    cotas: []
-  });
-  $('#canvas circle, #canvas text, #canvas line').remove();
-});
-
-// update loaded image
-ractive.on('loadImage', function() { 
-  ractive.set({
-    'imageURL': ractive.get('imageInput'),
-    'imageInput': ''
-  });
-});
-
-// save actual img path
-ractive.on('save', function() { 
-  ractive.get('images').push(ractive.get('imageURL'));
-});
-
-// reload image as actual
-ractive.on('reload', function(event) {
-  ractive.set({
-    'imageURL': ractive.get(event.keypath)
-  });
 });
 
 function addCoord(click) {
   ractive.push('cotas', {x: click.original.offsetX, y: click.original.offsetY});
 }
 
-function addMeasure(i) { 
+function addMeasure(i) { console.log('addMeasure');
   var cota1 = ractive.get('cotas')[i-1]; 
       cota2 = ractive.get('cotas')[i]; 
 
@@ -132,7 +127,7 @@ function addMeasure(i) {
     proportion = 100;
   }
 
-  ractive.get('measures').push({measure: cota, proportion: proportion});
+  ractive.get('measures').push({measure: cota, proportion: proportion}); console.log(ractive.get('measures'));
 }
 
 function setCanvas() {

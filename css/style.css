@@ -3,7 +3,9 @@
 html,
 body,
 #ractive-container {
-  height: 100%; }
+  height: 100%;
+  margin: 0;
+  padding: 0; }
 
 .resizable {
   resize: both;
@@ -20,10 +22,11 @@ body,
   .drag {
     position: relative; }
 
+/* */
 .green, .red, .blue {
   padding: 5px 0;
   margin: 5px 0;
-  font-size: 15px;
+  font-size: 12px;
   border: 1px solid gray;
   border-radius: 3px;
   text-align: center; }
@@ -52,10 +55,10 @@ button, .delete, .reload {
     background-color: aquamarine; }
 
 .big-button {
-  width: 75%; }
+  width: 81%; }
 
 .small-button {
-  width: 24%;
+  width: 17%;
   float: right; }
 
 .delete, .reload {
@@ -66,27 +69,34 @@ button, .delete, .reload {
 
 /* containers */
 .img-container {
-  float: left;
+  float: right;
   /* initial dimension */
-  width: 50%;
-  height: 350px;
   /* */
   margin-right: 10px;
   margin-bottom: 50px; }
-  .img-container img {
+  .img-container .img-active {
     width: 100%;
     height: auto; }
 
-.instrus {
-  float: left;
+/* sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
   margin-right: 10px;
-  width: 45%; }
+  padding: 10px;
+  width: 25%;
+  font-size: 12px;
+  font-family: monospace;
+  background-color: darkcyan; }
+  .sidebar div {
+    width: 100%; }
+  .sidebar .input {
+    overflow: scroll; }
 
 .measures {
-  /* initial dimension */
-  width: 100%;
   height: auto;
-  padding: 20px;
   background-color: rgba(255, 255, 255, 0.7); }
 
 /* tables used in measures and in image list */
@@ -101,10 +111,8 @@ table {
     .file-uploader table td:first-child {
       text-align: left; }
 
-.file-uploader {
-  width: 100%; }
-  .file-uploader span {
-    display: inline-block; }
+.file-uploader span {
+  display: inline-block; }
 
 /* canvas for image measure draw */
 .canvas {
@@ -124,7 +132,9 @@ table {
     stroke-width: 1px;
     fill: transparent; }
   .canvas rect {
-    fill: rgba(255, 255, 255, 0.7); }
+    fill: rgba(0, 0, 0, 0.6); }
+  .canvas text {
+    fill: white; }
 
 .canvas-parent {
   position: relative; }

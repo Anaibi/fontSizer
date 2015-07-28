@@ -12,53 +12,36 @@
   
   <script id="template" type="text/ractive">
 
-    <div class="img-container resizable canvas-parent">
-      <img id="item" src="{{imageURL}}" width="auto" height="80%">
-      <svg id="canvas" class="canvas"  style="cursor: crosshair" on-click="do-measure">
-        {{#each cotas:i}} 
-          {{#if i%2 === 1}}
-            <rect class=[[i]] x="{{getX(i-1) - 5}}" y="{{this.y - getMeasure(i)/2 - 15}}" width="85" height="20" />
-            <text class="cota drag {{i}}" x='{{getX(i-1)}}' y='{{this.y - getMeasure(i)/2}}'>
-              {{getProportion(i)}}%, {{getMeasure(i)}}px
-            </text> 
-
-            <line class=[[i]] x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{this.y}}" />
-            <circle class="[[i]]" cx='{{getX(i-1)}}' cy='{{this.y}}' r='{{r}}' />
-            {{else}}
-            <circle class=[[i]] cx='{{this.x}}' cy='{{this.y}}' r='{{r}}' />
-          {{/if}} 
-        {{/each}}
-        Sorry, your browser does not support inline SVG.
-      </svg>
-    </div>
-    
-    <div class="instrus">
+    <div class="sidebar resizable">
 
       <div class="file-uploader">
         <input class="blue big-button" name="file" placeholder="select file" value="{{imageInput}}">
-        <button class="green small-button" on-click="loadImage" data-imgurl={{imageInput}}>Upload</button>
+        <button class="green small-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
 
         {{#if images}}
-        <table>
-          <tr>
-            <th>Used images</th>
-          </tr>
-          {{#each images}}
+          <table>
             <tr>
-              <td>{{this}}</td>
-              <td><span class="delete" on-click="remove" title="delete">X</span></td>
-              <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
+              <th>Used images</th>
             </tr>
-          {{/each}}
-        </table>
+            {{#each images}}
+              <tr>
+                <td>{{this}}</td>
+                <td><span class="delete" on-click="remove" title="delete">X</span></td>
+                <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
+              </tr>
+            {{/each}}
+          </table>
          {{/if}}
+
         <p>Actual image url is: </p>
-        <span class="blue big-button">{{imageURL}}</span>
+        <span class="blue big-button input">{{imageURL}}</span>
         <button class="green small-button" on-click="save" data-imgurl={{imageURL}}>Save</button>
       </div>
 
-      <button class="green big-button" on-click="start">Start getting measures</button>
-      <button class="red small-button" on-click="restart">Reset</button>
+      <div>
+        <button class="green big-button" on-click="start">Start getting measures</button>
+        <button class="red small-button" on-click="restart">Reset</button>
+      </div>
 
       <div class="instrus-text">
         <p>{{content}}</p>
@@ -67,7 +50,7 @@
         {{/if}}
       </div>
 
-      <div id="measures" class="measures resizable drag"> 
+      <div class="measures"> 
         {{#if total}}
           <table>
             <tr>
@@ -84,8 +67,8 @@
             {{#if measures}}
               {{#each measures:i}}{{#if i>0}}
                 <tr>
-                  <td>{{this.measure}}px</td>
-                  <td>{{this.proportion}}%</td>
+                  <td>{{measure}}px</td>
+                  <td>{{proportion}}%</td>
                   <td><span class="delete" on-click="remove">X</span></td>
                 </tr>{{/if}}
               {{/each}}
@@ -95,12 +78,34 @@
       </div>
     </div>
 
+    <div class="content">
+      <div class="img-container resizable canvas-parent" style="width: {{img.width}}; height: {{img.height}};">
+
+        <img class="img-active" src="{{imageURL}}">
+        <svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">
+          {{#each cotas:i}} 
+            {{#if i%2 === 1}}
+              <rect class={{i}} x="{{getX(i-1) - 5}}" y="{{y - getMeasure(i)/2 - 15}}" width="85" height="20" />
+              <text class="cota drag {{i}}" x='{{getX(i-1)}}' y='{{y - getMeasure(i)/2}}'>
+                {{getProportion(i)}}%, {{getMeasure(i)}}px
+              </text> 
+
+              <line class={{i}} x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />
+              <circle class="{{i}}" cx='{{getX(i-1)}}' cy='{{y}}' r='{{r}}' />
+              {{else}}
+              <circle class={{i}} cx='{{x}}' cy='{{y}}' r='{{r}}' />
+            {{/if}} 
+          {{/each}}
+          Sorry, your browser does not support inline SVG.
+        </svg>
+      </div>
+    </div>
+    
+
   </script>
   
   <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/jquery.event.drag-2.2/jquery.event.drag-2.2.js"></script>
-  <script src="js/draggable.js"></script>
 </body>
 </html>
 

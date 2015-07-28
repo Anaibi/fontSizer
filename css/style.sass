@@ -1,14 +1,16 @@
+$sidebar_c: darkcyan
 /* resizable element */
 /* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
 html, 
 body, 
 #ractive-container
   height: 100%
+  margin: 0
+  padding: 0
 
 .resizable
   resize: both
   overflow: scroll
-  //padding: 5px
 /* */
 
 /* draggable elements */
@@ -20,9 +22,15 @@ body,
   cursor: move
   &
     position: relative  
+/* */
+
+// general, settings, mixins, etc
+// TODO pass to separate file
 
 // used in buttons, inputs, 
 $general_font_size: 15px
+$general_font_size: 12px
+
 
 // used in svg text and instrus measures
 $transparent_white: rgba(255,255,255,.7)
@@ -44,6 +52,7 @@ $transparent_white: rgba(255,255,255,.7)
     @else
       background-color: darken($c1, 20%)
 
+
 /* buttons */
 button
   font-weight: bold
@@ -64,49 +73,65 @@ button
   @extend %regular-space
   +button-bg(aliceblue, aquamarine)
 
+
+$small_button_w: 17%
+$big_button_w: 98 - $small_button_w
+
+
 .big-button
-  width: 75%
+  width: $big_button_w
 
 .small-button
-  width: 24%
+  width: $small_button_w
   float: right
 
 .delete
   @extend button
   color: red
   
-
 .reload
   @extend .delete
   color: green
 
 // variables:
-$left_w: 50%
-$left_h: 350px
+$sidebar_w: 25%
+$img_w: 95% - $sidebar_w
+$img_h: 350px
+
+
 /* containers */
 .img-container
-  float: left
+  float: right
   /* initial dimension */
-  width: $left_w
-  height: $left_h
+  //width: $img_w
+  //height: $img_h
   /* */
   margin-right: 10px
   margin-bottom: 50px
 
-  img
+  .img-active
     width: 100%
     height: auto
 
-.instrus 
-  float: left
+/* sidebar */
+.sidebar 
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
   margin-right: 10px
-  width: $left_w - 5
+  padding: 10px
+  width: $sidebar_w
+  font-size: 12px
+  font-family: monospace
+  background-color: $sidebar_c
+  div
+    width: 100%
+  .input
+    overflow: scroll
 
 .measures
-  /* initial dimension */
-  width: 100%
   height: auto
-  padding: 20px
   background-color: $transparent_white
 
 /* tables used in measures and in image list */
@@ -122,7 +147,6 @@ table
       text-align: left
 
 .file-uploader
-  width: 100%
   span
     display: inline-block
 
@@ -146,7 +170,9 @@ table
     stroke-width: 1px
     fill: transparent 
   rect
-    fill: $transparent_white
+    fill: rgba(0,0,0,.6)
+  text
+    fill: white
 .canvas-parent
   position: relative
 
