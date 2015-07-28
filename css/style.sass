@@ -1,30 +1,32 @@
+$main_color1: darkcyan
+$main_color2: coral
+
+$sidebar_c: $main_color1
+$content_c: $main_color2
 /* resizable element */
 /* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
 html, 
 body, 
 #ractive-container
   height: 100%
+  margin: 0
+  padding: 0
 
 .resizable
   resize: both
   overflow: scroll
-  padding: 5px
 /* */
 
-/* draggable elements */
-/* http://threedubmedia.com/code/event/drag/demo/zindex */
-.drag
-  position: absolute
-  top: 5px
-  right: 20px
-  cursor: move
-  &
-    position: relative
 
-
+// general, settings, mixins, etc
+// TODO pass to separate file
 
 // used in buttons, inputs, 
 $general_font_size: 15px
+$general_font_size: 12px
+
+$small_button_w: 17%
+$big_button_w: 98 - $small_button_w
 
 
 %regular-space
@@ -43,12 +45,25 @@ $general_font_size: 15px
     @else
       background-color: darken($c1, 20%)
 
+%clearfix
+  // For modern browsers
+  &:before,
+  &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+  // For IE 6/7 (trigger hasLayout)
+  &
+    zoom: 1
+
 /* buttons */
 button
   font-weight: bold
   text-transform: lowercase
   &:hover
     cursor: pointer
+  overflow: scroll
 
 .green
   @extend %regular-space
@@ -62,70 +77,124 @@ button
   @extend %regular-space
   +button-bg(aliceblue, aquamarine)
 
+
 .big-button
-  width: 75%
+  width: $big_button_w
 
 .small-button
-  width: 24%
+  width: $small_button_w
   float: right
 
 .delete
   @extend button
-
   color: red
+  font-family: sans-serif
+  font-size: 25px
+  &:hover
+    color: tomato
   
-
 .reload
   @extend .delete
-  color: green
+  color: honeydew
+  &:hover
+    color: aquamarine
 
 // variables:
-$left_w: 50%
-$left_h: 350px
-/* containers */
-.img-container
-  float: left
-  /* initial dimension */
-  width: $left_w
-  height: $left_h
-  /* */
-  margin-right: 10px
-  margin-bottom: 50px
+$sidebar_w: 25%
+$img_w: 95% - $sidebar_w
+$img_h: 350px
+$general_padding: 2%
 
-  img
+
+/* MAIN containers */
+/* sidebar */
+.sidebar
+  height: 100%
+  padding: $general_padding
+  font-size: 12px
+  font-family: monospace
+  background-color: $sidebar_c
+  div
     width: 100%
+  .measures
     height: auto
-
-.instrus 
-  float: left
-  margin-right: 10px
-  width: $left_w - 5
-
-.measures
-  /* initial dimension */
-  width: 100%
-  height: auto
-  padding: 20px
-  background-color: rgba(255,255,255,.7)
+  .instrus-text
+    color: white
+  .file-uploader
+    .input
+      display: inline-block
+      overflow: scroll
 
 /* tables used in measures and in image list */
 table
   width: 100%
   text-align: center
+  word-break: break-all
   td
     border: 1px solid whitesmoke
-    padding: 5px
+    padding: 1px 5px
   .file-uploader &
     margin: 20px 0
     td:first-child
       text-align: left
 
-.file-uploader
+
+/* main content = img */
+.content
+  height: 100%
+  padding: $general_padding
+  background-color: $main_color2
+  .img-container
+    width: 100%
+    height: 85%
+    padding-bottom: $general_padding
+  .img-active
+    width: 100%
+    height: auto
+  /* canvas for image measure draw */
+  .canvas
+    position: absolute
+    top: 0
+    width: 100%
+    height: 99 - $general_padding
+    z-index: 2000
+    circle
+      z-index: 5000
+    .cota
+      font-size: 10px
+    line
+      stroke: black
+    circle
+      stroke: black
+      stroke-width: 1px
+      fill: transparent 
+    rect
+      fill: rgba(0,0,0,.6)
+    text
+      fill: white
+  .canvas-parent
+    position: relative
+
+
+
+
+=flexDisplay
+  display: -webkit-flex
+  display: flex
+
+=flex($n)
+  -webkit-flex: $n 
+  -ms-flex: $n 
+  flex: $n
+
+// testing flex 
+.screen
   width: 100%
-  span
-    display: inline-block
+  +flexDisplay
+  .sidebar
+    +flex(1)
+  .content
+    +flex(2)
 
-
-
-
-
+footer
+  @extend %clearfix
