@@ -1,8 +1,8 @@
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
     '{{#each cotas:i}}' +
       '{{#if i%2 === 1}}' +
-        '<rect class={{i}} x="{{getX(i-1) - 5}}" y="{{y - getMeasure(i)/2 - 15}}" width="85" height="20" />' +
-        '<text class="cota drag {{i}}" x="{{getX(i-1)}}" y="{{y - getMeasure(i)/2}}">' +
+        '<rect class={{i}} x="{{getX(i-1) - 5}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2 - 15}}" width="85" height="20" />' +
+        '<text class="cota {{i}}" x="{{getX(i-1)}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2}}">' +
           '{{getId(i)}} {{getMeasure(i)}}px, {{getProportion(i)}}%' +
         '</text>' +
 
@@ -44,6 +44,8 @@ var ractive = new Ractive({
     },
     getY: function(i) {
       return ractive.get('cotas')[i].y
+    },
+    max: function(a, b) {
     },
     toggle: true
   }
@@ -134,7 +136,7 @@ function addMeasure(i) {
   var cota1 = ractive.get('cotas')[i-1]; 
       cota2 = ractive.get('cotas')[i]; 
 
-  var cota = cota2.y - cota1.y; 
+  var cota = Math.abs(cota2.y - cota1.y); 
   var total = ractive.get('total');
   if (total) {
     var proportion = +((cota * 100 / total).toFixed(2));
@@ -143,12 +145,7 @@ function addMeasure(i) {
     proportion = 100;
   }
 
-  var id = $('.' + i).find('td input').attr('value'); console.log(id);
+  var id = $('.' + i).find('td input').attr('value'); 
 
   ractive.push('measures', {measure: cota, proportion: proportion, id: ''}); 
 }
-
-ractive.observe('id', function ( newValue, oldValue ) {
-  console.log(newValue);
-  console.log(oldValue)
-});
