@@ -31,7 +31,13 @@ var ractive = new Ractive({
       var cota = ractive.get('cotas')[i];
       return cota.y
     },
-    img: { width: '500px', 'height': '500px'}
+    img: { width: '100%', 'height': 'auto'},
+    sidebar_w: '25%',
+    complementW: function(t, p) { console.log(t);
+      var units = t.split(parseInt(t))[1]; 
+      console.log(parseInt(t) - parseInt(p) + units);
+      return parseInt(t) - parseInt(p) + units;
+    }
   }
 });
 
@@ -133,3 +139,7 @@ function addMeasure(i) { console.log('addMeasure');
 function setCanvas() {
   $('#canvas').height($('#item').height());
 }
+
+ractive.observe('sidebar_w', function(event){
+  console.log('dd');
+});

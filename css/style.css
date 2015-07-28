@@ -12,17 +12,6 @@ body,
   overflow: scroll; }
 
 /* */
-/* draggable elements */
-/* http://threedubmedia.com/code/event/drag/demo/zindex */
-.drag {
-  position: absolute;
-  top: 5px;
-  right: 20px;
-  cursor: move; }
-  .drag {
-    position: relative; }
-
-/* */
 .green, .red, .blue {
   padding: 5px 0;
   margin: 5px 0;
@@ -67,26 +56,10 @@ button, .delete, .reload {
 .reload {
   color: green; }
 
-/* containers */
-.img-container {
-  float: right;
-  /* initial dimension */
-  /* */
-  margin-right: 10px;
-  margin-bottom: 50px; }
-  .img-container .img-active {
-    width: 100%;
-    height: auto; }
-
+/* MAIN containers */
 /* sidebar */
 .sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin-right: 10px;
-  padding: 10px;
-  width: 25%;
+  padding: 2%;
   font-size: 12px;
   font-family: monospace;
   background-color: darkcyan; }
@@ -94,10 +67,44 @@ button, .delete, .reload {
     width: 100%; }
   .sidebar .input {
     overflow: scroll; }
+  .sidebar .measures {
+    height: auto; }
 
-.measures {
+/* main content = img */
+.content {
+  padding: 2%;
   height: auto;
-  background-color: rgba(255, 255, 255, 0.7); }
+  background-color: coral;
+  /* canvas for image measure draw */ }
+  .content .img-container {
+    width: 100%;
+    height: auto;
+    padding-bottom: 2%; }
+  .content .img-active {
+    width: 100%;
+    height: auto; }
+  .content .canvas {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 97%;
+    z-index: 2000; }
+    .content .canvas circle {
+      z-index: 5000; }
+    .content .canvas .cota {
+      font-size: 10px; }
+    .content .canvas line {
+      stroke: black; }
+    .content .canvas circle {
+      stroke: black;
+      stroke-width: 1px;
+      fill: transparent; }
+    .content .canvas rect {
+      fill: rgba(0, 0, 0, 0.6); }
+    .content .canvas text {
+      fill: white; }
+  .content .canvas-parent {
+    position: relative; }
 
 /* tables used in measures and in image list */
 table {
@@ -114,29 +121,17 @@ table {
 .file-uploader span {
   display: inline-block; }
 
-/* canvas for image measure draw */
-.canvas {
-  position: absolute;
-  top: 0;
+.screen {
   width: 100%;
-  height: 100%;
-  z-index: 2000; }
-  .canvas circle {
-    z-index: 5000; }
-  .canvas .cota {
-    font-size: 10px; }
-  .canvas line {
-    stroke: black; }
-  .canvas circle {
-    stroke: black;
-    stroke-width: 1px;
-    fill: transparent; }
-  .canvas rect {
-    fill: rgba(0, 0, 0, 0.6); }
-  .canvas text {
-    fill: white; }
-
-.canvas-parent {
-  position: relative; }
+  display: -webkit-flex;
+  display: flex; }
+  .screen .sidebar {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1; }
+  .screen .content {
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2; }
 
 /*# sourceMappingURL=style.css.map */

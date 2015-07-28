@@ -13,16 +13,6 @@ body,
   overflow: scroll
 /* */
 
-/* draggable elements */
-/* http://threedubmedia.com/code/event/drag/demo/zindex */
-.drag
-  position: absolute
-  top: 5px
-  right: 20px
-  cursor: move
-  &
-    position: relative  
-/* */
 
 // general, settings, mixins, etc
 // TODO pass to separate file
@@ -30,10 +20,6 @@ body,
 // used in buttons, inputs, 
 $general_font_size: 15px
 $general_font_size: 12px
-
-
-// used in svg text and instrus measures
-$transparent_white: rgba(255,255,255,.7)
 
 
 %regular-space
@@ -97,31 +83,13 @@ $big_button_w: 98 - $small_button_w
 $sidebar_w: 25%
 $img_w: 95% - $sidebar_w
 $img_h: 350px
+$general_padding: 2%
 
 
-/* containers */
-.img-container
-  float: right
-  /* initial dimension */
-  //width: $img_w
-  //height: $img_h
-  /* */
-  margin-right: 10px
-  margin-bottom: 50px
-
-  .img-active
-    width: 100%
-    height: auto
-
+/* MAIN containers */
 /* sidebar */
-.sidebar 
-  position: fixed
-  top: 0
-  bottom: 0
-  left: 0
-  margin-right: 10px
-  padding: 10px
-  width: $sidebar_w
+.sidebar
+  padding: $general_padding
   font-size: 12px
   font-family: monospace
   background-color: $sidebar_c
@@ -130,9 +98,45 @@ $img_h: 350px
   .input
     overflow: scroll
 
-.measures
+  .measures
+    height: auto
+
+/* main content = img */
+.content
+  padding: $general_padding
   height: auto
-  background-color: $transparent_white
+  background-color: coral
+
+  .img-container
+    width: 100%
+    height: auto
+    padding-bottom: $general_padding
+  .img-active
+    width: 100%
+    height: auto
+  /* canvas for image measure draw */
+  .canvas
+    position: absolute
+    top: 0
+    width: 100%
+    height: 99 - $general_padding
+    z-index: 2000
+    circle
+      z-index: 5000
+    .cota
+      font-size: 10px
+    line
+      stroke: black
+    circle
+      stroke: black
+      stroke-width: 1px
+      fill: transparent 
+    rect
+      fill: rgba(0,0,0,.6)
+    text
+      fill: white
+  .canvas-parent
+    position: relative
 
 /* tables used in measures and in image list */
 table
@@ -151,29 +155,22 @@ table
     display: inline-block
 
 
-/* canvas for image measure draw */
-.canvas
-  position: absolute
-  // top has to be set depending on img height, which varies on resize
-  top: 0
+
+
+=flexDisplay
+  display: -webkit-flex
+  display: flex
+
+=flex($n)
+  -webkit-flex: $n 
+  -ms-flex: $n 
+  flex: $n
+
+// testing flex 
+.screen
   width: 100%
-  height: 100%
-  z-index: 2000
-  circle
-    z-index: 5000
-  .cota
-    font-size: 10px
-  line
-    stroke: black
-  circle
-    stroke: black
-    stroke-width: 1px
-    fill: transparent 
-  rect
-    fill: rgba(0,0,0,.6)
-  text
-    fill: white
-.canvas-parent
-  position: relative
-
-
+  +flexDisplay
+  .sidebar
+    +flex(1)
+  .content
+    +flex(2)
