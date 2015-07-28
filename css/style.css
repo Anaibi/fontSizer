@@ -20,6 +20,14 @@ body,
   border-radius: 3px;
   text-align: center; }
 
+footer:before, footer:after {
+  content: "";
+  display: table; }
+footer:after {
+  clear: both; }
+footer {
+  zoom: 1; }
+
 /* buttons */
 button, .delete, .reload {
   font-weight: bold;
@@ -59,6 +67,7 @@ button, .delete, .reload {
 /* MAIN containers */
 /* sidebar */
 .sidebar {
+  height: 100%;
   padding: 2%;
   font-size: 12px;
   font-family: monospace;
@@ -72,13 +81,13 @@ button, .delete, .reload {
 
 /* main content = img */
 .content {
+  height: 100%;
   padding: 2%;
-  height: auto;
   background-color: coral;
   /* canvas for image measure draw */ }
   .content .img-container {
     width: 100%;
-    height: auto;
+    height: 85%;
     padding-bottom: 2%; }
   .content .img-active {
     width: 100%;

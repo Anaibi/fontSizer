@@ -1,4 +1,8 @@
-$sidebar_c: darkcyan
+$main_color1: darkcyan
+$main_color2: coral
+
+$sidebar_c: $main_color1
+$content_c: $main_color2
 /* resizable element */
 /* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
 html, 
@@ -38,6 +42,17 @@ $general_font_size: 12px
     @else
       background-color: darken($c1, 20%)
 
+%clearfix
+  // For modern browsers
+  &:before,
+  &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+  // For IE 6/7 (trigger hasLayout)
+  &
+    zoom: 1
 
 /* buttons */
 button
@@ -89,6 +104,7 @@ $general_padding: 2%
 /* MAIN containers */
 /* sidebar */
 .sidebar
+  height: 100%
   padding: $general_padding
   font-size: 12px
   font-family: monospace
@@ -103,13 +119,12 @@ $general_padding: 2%
 
 /* main content = img */
 .content
+  height: 100%
   padding: $general_padding
-  height: auto
-  background-color: coral
-
+  background-color: $main_color2
   .img-container
     width: 100%
-    height: auto
+    height: 85%
     padding-bottom: $general_padding
   .img-active
     width: 100%
@@ -174,3 +189,6 @@ table
     +flex(1)
   .content
     +flex(2)
+
+footer
+  @extend %clearfix

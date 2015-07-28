@@ -12,7 +12,7 @@
   
   <script id="template" type="text/ractive">
 
-    <div class="sidebar resizable">
+    <div class="sidebar">
 
       <div class="file-uploader">
         <input class="blue big-button" name="file" placeholder="select file" value="{{imageInput}}">
@@ -79,7 +79,7 @@
     </div>
 
     <div class="content">
-      <div class="img-container resizable canvas-parent" style="width: {{img.width}}; height: {{img.height}};">
+      <div class="img-container resizable canvas-parent">
 
         <img class="img-active" src="{{imageURL}}">
         <svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">
@@ -100,8 +100,6 @@
         </svg>
       </div>
     </div>
-    
-
   </script>
   
   <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>
