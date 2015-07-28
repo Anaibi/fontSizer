@@ -10,7 +10,7 @@ var ractive = new Ractive({
     counter: 0,
     content: '',
     imageInput: '',
-    imageURL: 'file:///Users/tatianaburgos/Desktop/app1.png',
+    imageURL: 'enjoyMondays.jpg',
     images: [],
     cotas: [],
     r: 5,
