@@ -1,49 +1,57 @@
-// TODO use partials
-//var circle = "<circle";
+var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
+    '{{#each cotas:i}}' +
+      '{{#if i%2 === 1}}' +
+        '<rect class={{i}} x="{{getX(i-1) - 5}}" y="{{y - getMeasure(i)/2 - 15}}" width="85" height="20" />' +
+        '<text class="cota drag {{i}}" x="{{getX(i-1)}}" y="{{y - getMeasure(i)/2}}">' +
+          '{{getMeasure(i)}}px, {{getProportion(i)}}%' +
+        '</text>' +
+
+        '<line class={{i}} x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />' +
+        '<circle class="{{i}}" cx="{{getX(i-1)}}" cy="{{y}}" r="{{r}}" />' +
+      '{{else}}' +
+        '<circle class="{{i}}" cx="{{x}}" cy="{{y}}" r="{{r}}" />' +
+      '{{/if}}' +
+    '{{/each}}' +
+    'Sorry, your browser does not support inline SVG.' +
+  '</svg>';
 
 var ractive = new Ractive({
   el: '#ractive-container',
   template: '#template',
+  partials: {svg: svg_template},
   data: {
-    total: false,
+    cotas: [],
     measures: [],
+    total: false,
     counter: 0,
     content: '',
     imageInput: '',
     imageURL: 'enjoyMondays.jpg',
     images: [],
-    cotas: [],
     r: 5,
-    // i comes: 1, 3, 5, 7.. and we want 0, 1, 2, 3..
     getMeasure: function(i) { 
-      var measure = ractive.get('measures')[(i-1)/2];
-      return measure.measure;
+      // i comes: 1, 3, 5, 7.. and we want 0, 1, 2, 3..
+      return ractive.get('measures')[(i-1)/2].measure;
     },
     getProportion: function(i) {
-      var measure = ractive.get('measures')[(i-1)/2];
-      return measure.proportion;
+      return ractive.get('measures')[(i-1)/2].proportion;
     },
     getX: function(i) {
-      var cota = ractive.get('cotas')[i];
-      return cota.x
+      return ractive.get('cotas')[i].x
     },
     getY: function(i) {
-      var cota = ractive.get('cotas')[i];
-      return cota.y
+      return ractive.get('cotas')[i].y
     },
-    img: { width: '100%', 'height': 'auto'},
-    sidebar_w: '25%',
-    complementW: function(t, p) { console.log(t);
-      var units = t.split(parseInt(t))[1]; 
-      console.log(parseInt(t) - parseInt(p) + units);
-      return parseInt(t) - parseInt(p) + units;
-    }
+    toggle: true
   }
 });
 
 ractive.on({
   'start': function(event) {
-    ractive.set({'content': 'Click two points to set main reference.'});
+    ractive.set({
+      'content': 'Click two points to set main reference.',
+      'toggle': false
+    });
   },
 
   'do-measure': function(event) {
@@ -55,8 +63,8 @@ ractive.on({
     addCoord(event);
 
     // update counter
-    var counter = ractive.get('counter') + 1; console.log(counter);
-    ractive.set('counter', counter); console.log(counter);
+    var counter = ractive.get('counter') + 1; 
+    ractive.set('counter', counter); 
     
     // on second clicks:
     if (counter % 2 === 0) {
@@ -68,30 +76,25 @@ ractive.on({
     var i = (event.keypath).split('.')[1]; 
     var thisarray = event.keypath.split('.')[0];
 
-    console.log(thisarray);
     if (thisarray === 'cotas') {
       // index points to
     } else if (thisarray === 'measures') {
       // index points to 
-      console.log(ractive.get(thisarray));
     }
 
     ractive.get(thisarray).splice(i, 1);
     // TODO remove related svg circles and line
-    console.log($('#canvas').find('.'+i));
   },
 
-  // TODO after each reset, on first click error:
-  // Failed to compute "${format(cotas-1)}"
-  // then continues ok (number of errors cotas-i depends on number of cotas clicked)
   'restart': function() {
     ractive.set({
+      content: '',
       total: false,
       counter: 0,
       measures: [],
-      cotas: []
+      cotas: [],
+      toggle: true
     });
-    $('#canvas circle, #canvas text, #canvas line').remove();
   },
 
   // update loaded image
@@ -119,7 +122,7 @@ function addCoord(click) {
   ractive.push('cotas', {x: click.original.offsetX, y: click.original.offsetY});
 }
 
-function addMeasure(i) { console.log('addMeasure');
+function addMeasure(i) { 
   var cota1 = ractive.get('cotas')[i-1]; 
       cota2 = ractive.get('cotas')[i]; 
 

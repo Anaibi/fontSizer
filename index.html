@@ -78,24 +78,8 @@
 
     <div class="content">
       <div class="img-container resizable canvas-parent">
-
         <img class="img-active" src="{{imageURL}}">
-        <svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">
-          {{#each cotas:i}} 
-            {{#if i%2 === 1}}
-              <rect class={{i}} x="{{getX(i-1) - 5}}" y="{{y - getMeasure(i)/2 - 15}}" width="85" height="20" />
-              <text class="cota drag {{i}}" x='{{getX(i-1)}}' y='{{y - getMeasure(i)/2}}'>
-                {{getMeasure(i)}}px, {{getProportion(i)}}% 
-              </text> 
-
-              <line class={{i}} x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />
-              <circle class="{{i}}" cx='{{getX(i-1)}}' cy='{{y}}' r='{{r}}' />
-              {{else}}
-              <circle class={{i}} cx='{{x}}' cy='{{y}}' r='{{r}}' />
-            {{/if}} 
-          {{/each}}
-          Sorry, your browser does not support inline SVG.
-        </svg>
+          {{^toggle}}{{>svg}}{{/}}
       </div>
     </div>
   </script>
