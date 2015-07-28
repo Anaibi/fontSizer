@@ -3,23 +3,10 @@ $main_color2: coral
 
 $sidebar_c: $main_color1
 $content_c: $main_color2
-/* resizable element */
-/* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
-html, 
-body, 
-#ractive-container
-  height: 100%
-  margin: 0
-  padding: 0
-
-.resizable
-  resize: both
-  overflow: scroll
-/* */
 
 
-// general, settings, mixins, etc
-// TODO pass to separate file
+// variables:
+$general_padding: 2%
 
 // used in buttons, inputs, 
 $general_font_size: 15px
@@ -29,6 +16,8 @@ $small_button_w: 17%
 $big_button_w: 98 - $small_button_w
 
 
+// general, settings, mixins, etc
+// TODO pass to separate file
 %regular-space
   padding: 5px 0
   margin: 5px 0
@@ -56,6 +45,30 @@ $big_button_w: 98 - $small_button_w
   // For IE 6/7 (trigger hasLayout)
   &
     zoom: 1
+
+=flexDisplay
+  display: -webkit-flex
+  display: flex
+
+=flex($n)
+  -webkit-flex: $n 
+  -ms-flex: $n 
+  flex: $n
+
+/* resizable element */
+/* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
+html, 
+body, 
+#ractive-container
+  height: 100%
+  margin: 0
+  padding: 0
+
+.resizable
+  resize: both
+  overflow: scroll
+/* */
+
 
 /* buttons */
 button
@@ -99,12 +112,6 @@ button
   &:hover
     color: aquamarine
 
-// variables:
-$sidebar_w: 25%
-$img_w: 95% - $sidebar_w
-$img_h: 350px
-$general_padding: 2%
-
 
 /* MAIN containers */
 /* sidebar */
@@ -137,7 +144,12 @@ table
     margin: 20px 0
     td:first-child
       text-align: left
-
+  .id
+    width: 15%
+    input
+      width: 100% 
+      background-color: transparent
+      border: none
 
 /* main content = img */
 .content
@@ -176,17 +188,6 @@ table
     position: relative
 
 
-
-
-=flexDisplay
-  display: -webkit-flex
-  display: flex
-
-=flex($n)
-  -webkit-flex: $n 
-  -ms-flex: $n 
-  flex: $n
-
 // testing flex 
 .screen
   width: 100%
@@ -195,6 +196,3 @@ table
     +flex(1)
   .content
     +flex(2)
-
-footer
-  @extend %clearfix

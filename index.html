@@ -29,7 +29,7 @@
               </tr>
             {{/each}}
           </table>
-         {{/if}}
+        {{/if}}
 
         <p>Actual image url is: </p>
         <span class="blue big-button input">{{imageURL}}</span>
@@ -52,11 +52,13 @@
         {{#if total}}
           <table>
             <tr>
+              <th>Id</th>
               <th>Measure</th>
               <th>Proportion</th>
             </tr>
 
             <tr>
+              <td class="{{id}} id"><input class="blue input" value="{{id}}" on-mouseleave="saveId"></td>
               <td class="main" title="Main reference"><b>{{total}}px</b></td>
               <td title="Main reference"><b>100%</b></td>
               <td><span class="delete" on-click="restart">X</span></td>
@@ -65,6 +67,7 @@
             {{#if measures}}
               {{#each measures:i}}{{#if i>0}}
                 <tr>
+                  <td class="{{id}} id"><input class="blue input" value="{{id}}" on-mouseleave="saveId"></td>
                   <td>{{measure}}px</td>
                   <td>{{proportion}}%</td>
                   <td><span class="delete" on-click="remove">X</span></td>
