@@ -1,21 +1,20 @@
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
     '{{#cotas}}' + '<text>{{cota2.y}}</text>' +
-      '{{#if cota2}}' +
-        '<g class="cota {{i}}">' +
+      '<g class="cota {{i}}">' +
+        '{{^doSecondCota}}' +
           '<rect x="{{cota1.x - 5}}" y="{{middlePoint(this) - 15}}" width="85" height="20" />' +
           '<text x="{{cota1.x}}" y="{{middlePoint(this)}}">' +
             '{{id}} {{d}}px, {{proportion}}%' +
           '</text>' +
           '<line x1="{{cota1.x}}" y1="{{cota1.y}}" x2="{{cota1.x}}" y2="{{cota2.y}}" />' +
           '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />' +
+          '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />' +     
+        '{{/}}' +
+        '{{^doFirstCota}}' +
           '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />' +
-        '</g>' +
-      '{{else}}' +
-        '<g class="cota {{i}}">' +
-          '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />' +
-        '</g>' +
-      '{{/if}}' + 
-    '{{/}}' +
+        '{{/}}' + 
+      '</g>' +
+    '{{/cotas}}' +
     'Sorry, your browser does not support inline SVG.' +
   '</svg>';
 
@@ -27,16 +26,15 @@ var ractive = new Ractive({
     cotas: [],
     total: false,
     counter: 0,
-    isSecondClick: function(i) { console.log(i);
-      return ractive.get('counter') % 2 === 0;
-    },
     content: '',
     imageInput: '',
     imageURL: 'enjoyMondays.jpg',
     images: [],
     r: 5,
-    toggle: true,
-    middlePoint: function(cota) {
+    doSvg: true,
+    doSecondCota: true,
+    doFirstCota: true,
+    middlePoint: function(cota) { console.log(cota);
       return (Math.max(cota.cota1.y, cota.cota2.y) - cota.d/2);
     }
   }
@@ -46,7 +44,7 @@ ractive.on({
   'start': function(event) {
     ractive.set({
       'content': 'Click two points to set main reference.',
-      'toggle': false
+      'doSvg': false
     });
   },
 
@@ -92,7 +90,9 @@ ractive.on({
       total: false,
       counter: 0,
       cotas: [],
-      toggle: true
+      doSvg: true,
+      doSecondCota: true,
+      doFirstCota: true
     });
   },
 
@@ -121,19 +121,27 @@ function setBg(id) {
   $('svg .' + id + ' rect').css('width', $('svg .' + id + ' text').width() + 10 + 'px');
 }
 
-function updateMeasures(counter, click) {  console.log('counter ' + counter);
+function updateMeasures(counter, click) {  
   var coords = {x: click.original.offsetX, y: click.original.offsetY};
-  var i = Math.floor((counter-1)/2); console.log('i ' + i);
+  var i = Math.floor((counter-1)/2); 
   // on second clicks
-  if (counter%2 === 0) {  console.log('calcular');
+  if (counter%2 === 0) {  
     // object cota exists already in array cotas
     var cota = ractive.get('cotas')[i]; 
     cota.cota2 = coords;
     cota = calculate(cota); 
-    ractive.set(ractive.get('cotas')[i], cota); console.log(ractive.get('cotas'));
-  } else { console.log('create');
+    ractive.set(ractive.get('cotas')[i], cota);
+    ractive.set({
+      'doSecondCota': false,
+      'doFirstCota': true
+    }); lo('134' + ractive.get('doSecondCota')); lo(ractive.get('doFirstCota'));
+  } else { 
     var cota = {i: i, cota1: coords, id: ''};
-    ractive.push('cotas', cota); console.log(ractive.get('cotas'));
+    ractive.push('cotas', cota);
+    ractive.set({
+      'doSecondCota': true,
+      'doFirstCota': false
+    }); lo('138' + ractive.get('doSecondCota')); lo(ractive.get('doFirstCota'));
   }
 }
 
@@ -146,4 +154,8 @@ function calculate(cota) {
     ractive.set('total', cota.d);
   }
   return cota;
+}
+
+function lo(something) {
+  console.log(something);
 }
