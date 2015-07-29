@@ -49,33 +49,32 @@
       </div>
 
       <div class="measures"> 
-        {{#if total}}
-          <table>
-            <tr>
-              <th>Id</th>
-              <th>Measure</th>
-              <th>Proportion</th>
-            </tr>
-
-            <tr>
-              <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="saveId"></td>
-              <td class="main" title="Main reference"><b>{{total}}px</b></td>
-              <td title="Main reference"><b>100%</b></td>
-              <td><span class="delete" on-click="restart">X</span></td>
-            </tr>
-    
-            {{#if measures}}
-              {{#each measures:i}}{{#if i>0}}
+        <table>
+          {{#cotas}}
+            {{#if cota2}}
+              {{#if i === 0}}
                 <tr>
-                  <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="saveId"></td>
-                  <td>{{measure}}px</td>
+                  <th>Id</th>
+                  <th>Measure</th>
+                  <th>Proportion</th>
+                </tr>
+                <tr class="{{i}}">
+                  <td class="id {{i}}"><input class="blue input" data-id="{{id}}" on-mouseleave="saveId"></td>
+                  <td class="main" title="Main reference"><b>{{d}}px</b></td>
+                  <td title="Main reference"><b>{{proportion}}%</b></td>
+                  <td><button class="delete" on-click="remove">X</button></td>
+                </tr>
+              {{else}}
+                <tr class="{{i}}">
+                  <td class="id"><input class="blue input" value={{id}} data-id="{{id}}" on-mouseleave="saveId"></td>
+                  <td>{{d}}px</td>
                   <td>{{proportion}}%</td>
-                  <td><span class="delete" on-click="remove">X</span></td>
-                </tr>{{/if}}
-              {{/each}}
+                  <td><button class="delete" on-click="remove">X</button></td>
+                </tr>
+              {{/if}}
             {{/if}}
-          </table>
-        {{/if}}
+          {{/}}
+        </table>
       </div>
     </div>
 

@@ -1,7 +1,7 @@
 .green, .red, .blue {
   padding: 5px 0;
   margin: 5px 0;
-  font-size: 12px;
+  font-size: 15px;
   border: 1px solid gray;
   border-radius: 3px;
   text-align: center; }
@@ -86,7 +86,6 @@ table {
   text-align: center;
   word-break: break-all; }
   table td {
-    border: 1px solid whitesmoke;
     padding: 1px 5px; }
   .file-uploader table {
     margin: 20px 0; }
