@@ -34,7 +34,7 @@ var ractive = new Ractive({
     doSvg: true,
     doSecondCota: true,
     doFirstCota: true,
-    middlePoint: function(cota) { console.log(cota);
+    middlePoint: function(cota) { 
       return (Math.max(cota.cota1.y, cota.cota2.y) - cota.d/2);
     }
   }
@@ -64,21 +64,23 @@ ractive.on({
     var id = $(event.node).attr('data-id'); 
     console.log(ractive.get(event.keypath));
     if (id) { 
-      ractive.set(ractive.get(event.keypath).id, id); console.log(ractive.get('cotas'));
+      ractive.set(ractive.get(event.keypath).id, id); 
       var i = event.index.i; 
       setBg(i);
     }
   },
 
   'remove': function(event) {
-    var i = event.index.i; 
     var thisarray = event.keypath.split('.')[0];
 
-    if (thisarray === 'measures') {
+    if (thisarray === 'cotas') {
+      var i = event.index.cota; console.log(i);
       // remove svg group
       $('.'+i).remove();
       // update counter
       ractive.set('counter', ractive.get('counter') - 1);
+    } else {
+      var i = event.index.i; console.log(event);
     }
 
     ractive.get(thisarray).splice(i, 1);
@@ -134,14 +136,14 @@ function updateMeasures(counter, click) {
     ractive.set({
       'doSecondCota': false,
       'doFirstCota': true
-    }); lo('134' + ractive.get('doSecondCota')); lo(ractive.get('doFirstCota'));
+    }); 
   } else { 
     var cota = {i: i, cota1: coords, id: ''};
     ractive.push('cotas', cota);
     ractive.set({
       'doSecondCota': true,
       'doFirstCota': false
-    }); lo('138' + ractive.get('doSecondCota')); lo(ractive.get('doFirstCota'));
+    });  
   }
 }
 
@@ -154,8 +156,4 @@ function calculate(cota) {
     ractive.set('total', cota.d);
   }
   return cota;
-}
-
-function lo(something) {
-  console.log(something);
 }
