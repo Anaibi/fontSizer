@@ -1,3 +1,21 @@
+// on each click on the canvas:
+// save the position for measure taking
+// mark the position 
+// and then draw measure line
+// so, other option for svg:
+
+var svg_template2 = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measureB">' +
+    'Sorry, your browser does not support inline SVG' +
+  '</svg>';
+
+// svg elements:
+var svg_circle = '<circle cx="" cy="" r="" />';
+var svg_text = '<text x="" y="">' +
+    '{{}} {{}}px, {{}}%' +
+  '</text>';
+var svg_line = '<line x1="{{}}" y1="{{}}" x2="{{}}" y2="{{}}" />';
+var svg_rect = '<rect x="{{}}" y="{{}}" width="85" height="20" />';
+
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
     '{{#each cotas:i}}' +
       '{{#if i%2 === 1}}' +
@@ -21,7 +39,14 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
 var ractive = new Ractive({
   el: '#ractive-container',
   template: '#template',
-  partials: {svg: svg_template},
+  partials: {
+    svg: svg_template,
+    svg2: svg_template2,
+    circle: svg_circle,
+    line: svg_line,
+    rect: svg_rect,
+    text: svg_text
+  },
   data: {
     cotas: [],
     measures: [],
@@ -78,6 +103,33 @@ ractive.on({
     if (counter % 2 === 0) {
       addMeasure(counter-1);
     }
+  },
+
+  'do-measureB': function(event) {
+    console.log('=====================================');
+    console.log('name of the event '); console.log(event.name);
+    console.log('DOM node '); console.log(event.node);
+    console.log('keypath of the current context '); console.log(event.keypath);
+    console.log('value of this.get(event.keypath) '); console.log(event.context);
+    console.log('map of index references '); console.log(event.index);
+    console.log('component that raised the event '); console.log(event.component);
+    console.log('original DOM event, if available '); console.log(event.original);
+    console.log('=====================================');
+
+    //first do-measure (saves coords, updates counter and if pertinent, calculates and adds measure)
+    doMeasure(event);
+
+    var counter = ractive.get('counter');
+
+    if (isFirstCota(counter)) {
+      drawCircle(counter);
+    } else {
+      drawMeasure(counter);
+    }
+  }, 
+
+  'mark-position': function(event) {
+    console.log('marik position');
   },
 
   'remove': function(event) {
@@ -166,4 +218,26 @@ function removeCota(i) {
   // measures: 0, 1, 2, 3...  corresponds to cotas: (0, 1), (2, 3), (4, 5), ...
   i = i*2;
   ractive.get('cotas').splice(i, 2);
+}
+
+function doMeasure(event) {
+  // if click was on cota (TODO: edit, drag?), return
+  if (event.original.srcElement.nodeName !== 'svg') {
+    return;
+  }
+  // add clicked position
+  addCoord(event);
+
+  // update counter
+  var counter = ractive.get('counter') + 1; 
+  ractive.set('counter', counter); 
+    
+  // on second clicks:
+  if (counter % 2 === 0) {
+    addMeasure(counter-1);
+  }
+}
+
+function isFirstCota(i) {
+  return i%2 === 0;
 }
