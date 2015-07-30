@@ -122,9 +122,7 @@ ractive.on({
 
   // reload image as actual
   'reload': function(event) {
-    ractive.set({
-      'imageURL': ractive.get(event.keypath)
-    });
+    ractive.set('imageURL', ractive.get(event.keypath));
   },
 
   'saveId': function(event) { 
@@ -155,7 +153,7 @@ function addMeasure(i) {
   }
 
   var id = $('.' + i).find('td input').attr('value'); 
-  
+
   ractive.push('measures', {measure: cota, proportion: proportion, id: ''}); 
 }
 

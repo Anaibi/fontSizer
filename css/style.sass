@@ -158,8 +158,8 @@ table
   background-color: $main_color2
   .img-container
     width: 100%
-    height: 85%
-    padding-bottom: $general_padding
+    height: auto
+    //padding-bottom: $general_padding
   .img-active
     width: 100%
     height: auto
@@ -168,7 +168,8 @@ table
     position: absolute
     top: 0
     width: 100%
-    height: 99 - $general_padding
+    //height: 99 - $general_padding
+    height: 100%
     z-index: 2000
     circle
       z-index: 5000
@@ -195,4 +196,4 @@ table
   .sidebar
     +flex(1)
   .content
-    +flex(2)
+    +flex(3)

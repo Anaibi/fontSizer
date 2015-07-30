@@ -107,8 +107,7 @@ table {
   /* canvas for image measure draw */ }
   .content .img-container {
     width: 100%;
-    height: 85%;
-    padding-bottom: 2%; }
+    height: auto; }
   .content .img-active {
     width: 100%;
     height: auto; }
@@ -116,7 +115,7 @@ table {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 97%;
+    height: 100%;
     z-index: 2000; }
     .content .canvas circle {
       z-index: 5000; }
@@ -144,8 +143,8 @@ table {
     -ms-flex: 1;
     flex: 1; }
   .screen .content {
-    -webkit-flex: 2;
-    -ms-flex: 2;
-    flex: 2; }
+    -webkit-flex: 3;
+    -ms-flex: 3;
+    flex: 3; }
 
 /*# sourceMappingURL=style.css.map */
