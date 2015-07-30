@@ -85,13 +85,15 @@ ractive.on({
     var thisarray = event.keypath.split('.')[0];
 
     if (thisarray === 'measures') {
-      // remove svg group
-      $('.'+i).remove();
+      // remove associated cotas (which updates svg)
+      removeCota(i);
+      
       // update counter
-      ractive.set('counter', ractive.get('counter') - 1);
+      ractive.set('counter', ractive.get('counter') - 2);
     }
-
+    // remove measure or image url
     ractive.get(thisarray).splice(i, 1);
+    
   },
 
   'restart': function() {
@@ -153,10 +155,17 @@ function addMeasure(i) {
   }
 
   var id = $('.' + i).find('td input').attr('value'); 
-
+  
   ractive.push('measures', {measure: cota, proportion: proportion, id: ''}); 
 }
 
-function setBg(id) { console.log(id); 
+function setBg(id) {
   $('svg .' + id + ' rect').css('width', $('svg .' + id + ' text').width() + 10 + 'px');
+}
+
+function removeCota(i) { 
+  // i is relative to measures array, translated to cotas array is
+  // measures: 0, 1, 2, 3...  corresponds to cotas: (0, 1), (2, 3), (4, 5), ...
+  i = i*2;
+  ractive.get('cotas').splice(i, 2);
 }
