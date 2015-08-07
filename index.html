@@ -24,7 +24,7 @@
             {{#each images}}
               <tr>
                 <td>{{this}}</td>
-                <td><span class="delete" on-click="remove" title="delete">X</span></td>
+                <td>{{>button_delete}}</td>
                 <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
               </tr>
             {{/each}}
@@ -61,17 +61,17 @@
               {{#hasCota2}}
                 {{#if i==0}}
                   <tr>
-                    <td class="id"><input class="blue input" value="{{id}}" data-id="{{this.id}}" on-mouseleave="setBg"></td>
+                    <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
                     <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
                     <td title="Main reference"><b>100%</b></td>
                     <td><span class="delete" on-click="restart">X</span></td>
                   </tr>
                 {{else}}
                   <tr>  
-                    <td class="id"><input class="blue input" value="{{this.id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                    <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
                     <td>{{this.value()}}px</td>
                     <td>{{this.proportion()}}%</td>
-                    <td><span class="delete" on-click="remove">X</span></td>
+                    <td>{{>button_delete}}</td>
                   </tr>
                 {{/if}}
               {{/hasCota2}}

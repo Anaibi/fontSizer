@@ -1,38 +1,42 @@
+// SVG TEMPLATES
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
-    '{{#each measures:i}}' + '{{i}}' + 
-      '<g class="cota {{.id}}">' +
-        '{{#this.hasCota2}}' +
+    '{{#each measures:i}}' + 
+      '<g class="cota {{id}}">' +
+        '{{#hasCota2}}' +
           '{{>measure}}' +
         '{{/hasCota2}}' +
         '{{>circle}}' +
       '</g>' +
     '{{/each}}' +
     'Sorry, your browser does not support inline SVG.' +
-  '</svg>';
+  '</svg>',
 
-var svg_measure = '{{>circle2}}' +
-  '{{>rect}}' +
-  '{{>text}}' +
-  '{{>line}}';
+    svg_measure = '{{>circle2}}' +
+      '{{>rect}}' +
+      '{{>text}}' +
+      '{{>line}}',
 
-// svg elements:
-var svg_circle = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />';
-var svg_circle2 = '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />';
+    svg_circle = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />',
+    svg_circle2 = '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />',
 
-var svg_text = '<text x="{{this.cota1.x}}" y="{{this.middlePoint()}}">' +
-    '{{this.id}} {{this.value()}}px, {{this.proportion()}}%' +
-  '</text>';
-var svg_line = '<line x1="{{this.cota1.x}}" y1="{{this.cota1.y}}" x2="{{this.cota1.x}}" y2="{{this.cota2.y}}" />';
-var svg_rect = '<rect x="{{this.cota1.x -5}}" y="{{this.middlePoint() -15}}" width="85" height="20" />';
+    svg_text = '<text x="{{cota1.x}}" y="{{this.middlePoint()}}">' +
+        '{{id}} {{this.value()}}px, {{this.proportion()}}%' +
+      '</text>',
+    svg_line = '<line x1="{{cota1.x}}" y1="{{cota1.y}}" x2="{{cota1.x}}" y2="{{cota2.y}}" />',
+    svg_rect = '<rect x="{{cota1.x - 5}}" y="{{this.middlePoint() - 15}}" width="85" height="20" />';
+
+// LAYOUT TEMPLATES
+var button_delete = '<span class="delete" on-click="remove" title="delete">X</span>';
 
 
+// 
 Pos = function(x, y) { 
   this.x = x ? x : false;
   this.y = y ? y : false;
 }
 
 Measure = function(cota, id) { 
-  this.id = id;
+  this.id = id ? id : false;
   this.cota1 = cota ? cota : new Pos();
   this.cota2 = false;
   hasCota2 = false;
@@ -56,9 +60,11 @@ Measure.prototype.middlePoint = function() {
   return Math.max(this.cota1.y, this.cota2.y) - this.value()/2;
 }
 
+// GLOBAL VARS
 var counter = 0;
 var total = 0;
 
+// RACTIVE
 var ractive = new Ractive({
   el: '#ractive-container',
   template: '#template',
@@ -69,7 +75,8 @@ var ractive = new Ractive({
     line: svg_line,
     rect: svg_rect,
     text: svg_text,
-    measure: svg_measure
+    measure: svg_measure,
+    button_delete: button_delete
   },
   data: {
     measures: [],
@@ -94,6 +101,8 @@ var ractive = new Ractive({
 
 ractive.on({
 
+  // MEASURE FUNCTIONS:
+
   'start': function() {
     ractive.set({
       'content': 'Click two points to set main reference.',
@@ -101,12 +110,14 @@ ractive.on({
     });
   },
 
-  'do-measure': function(event) { 
-    
+  'do-measure': function(event) {  
     // if click was on cota (TODO: edit, drag?), return
     if (event.original.srcElement.nodeName !== 'svg') {
       return;
     }
+
+    // get current default id
+    var id = +(counter/2).toFixed();
 
     // update counter
     counter++;
@@ -114,18 +125,13 @@ ractive.on({
     // get clicked position
     var cota = getPos(event);
 
-    var l = ractive.get('measures').length;
-
-    if (counter%2 == 1) {
-
-      var id = l;
+    if (counter%2 == 1) { 
       // is first of two clicks = measure
-      var measure = new Measure(cota, id);
-      ractive.push('measures', measure);
+      ractive.push('measures', new Measure(cota, id + 1));
 
     } else {
-      var i = l - 1; 
       // is second of two clicks
+      var i = ractive.get('measures').length - 1;
       var measures = ractive.get('measures');
       measures[i].update(cota);
       ractive.set('measures', measures);
@@ -136,32 +142,33 @@ ractive.on({
     if (counter == 2) {
       total = ractive.get('measures')[0].value();
     }
-
   },
 
 
   'remove': function(event) {
-    var i = (event.keypath).split('.')[1]; 
-    var thisarray = event.keypath.split('.')[0];
+    var thisarray = event.keypath.split('.')[0],
+        i = event.keypath.split('.')[1];
 
-    if (thisarray == 'measures') {
-      // update counter
-      counter = counter - 2;
-    }
     // remove measure or image url
     ractive.get(thisarray).splice(i, 1);
-    
   },
 
   'restart': function() {
+    counter = 0;
     ractive.set({
       content: '',
       total: false,
       measures: [],
       toggle: true
     });
-    counter = 0;
   },
+
+  'setBg': function(event) {
+    var id = event.original.target.value;
+    setBg(id);
+  },
+
+  // IMAGE FUNCTIONS:
 
   // update loaded image
   'loadImage': function() { 
@@ -179,14 +186,8 @@ ractive.on({
   // reload image as actual
   'reload': function(event) {
     ractive.set('imageURL', ractive.get(event.keypath));
-  },
-
-  'setBg': function(event) {
-    var id = event.original.target.value;
-    setBg(id);
   }
 });
-
 
 function setBg(id) {
   $('svg .' + id + ' rect').css('width', $('svg .' + id + ' text').width() + 10 + 'px');
