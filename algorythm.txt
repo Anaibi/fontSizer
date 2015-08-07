@@ -1,0 +1,107 @@
+objects:
+
+measure = {
+  id: id,
+  cota1: {x1,y1}
+  cota2: {x2,y2},
+  value: function(cota1, cota2)
+    return |y2 - y1|
+  proportion: function(value)
+    return |value*100/total|
+}
+
+
+
+algorythm:
+
+load page
+load image(defualt url)
+
+if (start)
+  // check image size and set canvas on top
+  set(canvas)
+
+  // init measure settings
+  counter = 0
+  measures = []
+  oddclick = counter%2 == 1
+
+  // measuring
+  on (click inside canvas)
+    counter++
+
+    var pos = getPos(click)
+
+    if (oddClick)
+      // is first of two clicks = measure
+      measure = createMeasure(pos)
+      add(measures, measure)
+      // draw measure circle on canvas
+      drawCircle(pos)
+    else 
+      // is second of two clicks = measure
+      i = measures.lenght - 1
+      measure = updateMeasure(measures[i], pos)
+      // draw measure circle, line and value on canvas
+      drawMeasure(measure)
+
+    
+    updateMeasureTable(measures)
+
+  // 
+  on (delete measure)
+    delete(measures, measure)
+    update(counter)
+    updateMeasureTable(measures)
+
+  // 
+  on (restart)
+    reset(canvas)
+    measures = []
+    counter = 0
+
+
+
+functions:
+  
+  // check image size and set canvas on top
+  set(canvas)
+    size = getSize(image)
+    setSize(canvas, size)
+    render(canvas)
+
+  
+  getPos(click)
+    return {x: click.x, y: click.y}
+
+
+  createMeasure(pos)
+    var measure = {
+      // default id
+      id = measures.length - 1
+      cota1: pos,
+      cota2: ''
+    }
+    return measure
+
+
+  updateMeasure(measure, pos)
+    measure.cota2 = pos
+    return measure
+
+
+  drawCircle(pos)
+    addSvg(circle, pos)
+
+  drawMeasure(measure)
+    var pos1 = measure.cota1
+    var pos2 = {x: measure.cota1.x, y: measure.cota2.y}
+    var pos3 = middle(pos1, post2)
+
+    addSvg(circle, pos2)
+    addSvg(line, {pos1, pos2})
+    addSvg(text, {pos3, measure.value, measure.proportion})
+
+
+// check svg update on measures update first..
+

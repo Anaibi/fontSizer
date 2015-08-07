@@ -1,147 +1,152 @@
-// on each click on the canvas:
-// save the position for measure taking
-// mark the position 
-// and then draw measure line
-// so, other option for svg:
-
-var svg_template2 = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measureB">' +
-    'Sorry, your browser does not support inline SVG' +
-  '</svg>';
-
-// svg elements:
-var svg_circle = '<circle cx="" cy="" r="" />';
-var svg_text = '<text x="" y="">' +
-    '{{}} {{}}px, {{}}%' +
-  '</text>';
-var svg_line = '<line x1="{{}}" y1="{{}}" x2="{{}}" y2="{{}}" />';
-var svg_rect = '<rect x="{{}}" y="{{}}" width="85" height="20" />';
-
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
-    '{{#each cotas:i}}' +
-      '{{#if i%2 === 1}}' +
-        '<g class="cota {{(i-1)/2}}">' +
-          '<rect x="{{getX(i-1) - 5}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2 - 15}}" width="85" height="20" />' +
-          '<text x="{{getX(i-1)}}" y="{{Math.max(y, getY(i-1)) - getMeasure(i)/2}}">' +
-            '{{getId(i)}} {{getMeasure(i)}}px, {{getProportion(i)}}%' +
-          '</text>' +
-          '<line x1="{{getX(i-1)}}" y1="{{getY(i-1)}}" x2="{{getX(i-1)}}" y2="{{y}}" />' +
-          '<circle cx="{{getX(i-1)}}" cy="{{y}}" r="{{r}}" />' +
-        '</g>' +
-      '{{else}}' +
-        '<g class="cota {{(i)/2}}">' +
-          '<circle cx="{{x}}" cy="{{y}}" r="{{r}}" />' +
-        '</g>' +
-      '{{/if}}' +
+    '{{#each measures:i}}' + '{{i}}' + 
+      '<g class="cota {{.id}}">' +
+        '{{#this.hasCota2}}' +
+          '{{>measure}}' +
+        '{{/hasCota2}}' +
+        '{{>circle}}' +
+      '</g>' +
     '{{/each}}' +
     'Sorry, your browser does not support inline SVG.' +
   '</svg>';
+
+var svg_measure = '{{>circle2}}' +
+  '{{>rect}}' +
+  '{{>text}}' +
+  '{{>line}}';
+
+// svg elements:
+var svg_circle = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />';
+var svg_circle2 = '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />';
+
+var svg_text = '<text x="{{this.cota1.x}}" y="{{this.middlePoint()}}">' +
+    '{{this.id}} {{this.value()}}px, {{this.proportion()}}%' +
+  '</text>';
+var svg_line = '<line x1="{{this.cota1.x}}" y1="{{this.cota1.y}}" x2="{{this.cota1.x}}" y2="{{this.cota2.y}}" />';
+var svg_rect = '<rect x="{{this.cota1.x -5}}" y="{{this.middlePoint() -15}}" width="85" height="20" />';
+
+
+Pos = function(x, y) { 
+  this.x = x ? x : false;
+  this.y = y ? y : false;
+}
+
+Measure = function(cota, id) { 
+  this.id = id;
+  this.cota1 = cota ? cota : new Pos();
+  this.cota2 = false;
+  hasCota2 = false;
+}
+
+Measure.prototype.value = function() {
+  return Math.abs(this.cota1.y - this.cota2.y);
+}
+
+Measure.prototype.proportion = function() {
+  if (!total) { return 100; }
+  return (this.value() * 100 / total).toFixed();
+}
+
+Measure.prototype.update = function(cota) { 
+  this.cota2 = cota;
+  this.hasCota2 = true;
+}
+
+Measure.prototype.middlePoint = function() {
+  return Math.max(this.cota1.y, this.cota2.y) - this.value()/2;
+}
+
+var counter = 0;
+var total = 0;
 
 var ractive = new Ractive({
   el: '#ractive-container',
   template: '#template',
   partials: {
     svg: svg_template,
-    svg2: svg_template2,
     circle: svg_circle,
+    circle2: svg_circle2,
     line: svg_line,
     rect: svg_rect,
-    text: svg_text
+    text: svg_text,
+    measure: svg_measure
   },
   data: {
-    cotas: [],
     measures: [],
-    total: false,
-    counter: 0,
     content: '',
     imageInput: '',
     imageURL: 'enjoyMondays.jpg',
     images: [],
     r: 5,
-    getMeasure: function(i) { 
-      // i comes: 1, 3, 5, 7.. and we want 0, 1, 2, 3..
-      return ractive.get('measures')[(i-1)/2].measure;
+    toggle: true,
+    value: function() { 
+      return this.value();
     },
-    getProportion: function(i) {
-      return ractive.get('measures')[(i-1)/2].proportion;
+    proportion: function() {
+      return this.proportion();
     },
-    getId: function(i) {
-      return ractive.get('measures')[(i-1)/2].id;
-    },
-    getX: function(i) {
-      return ractive.get('cotas')[i].x
-    },
-    getY: function(i) {
-      return ractive.get('cotas')[i].y
-    },
-    max: function(a, b) {
-    },
-    toggle: true
+    middlePoint: function() {
+      return this.middlePoint(); 
+    }
   }
+
 });
 
 ractive.on({
-  'start': function(event) {
+
+  'start': function() {
     ractive.set({
       'content': 'Click two points to set main reference.',
       'toggle': false
     });
   },
 
-  'do-measure': function(event) {
+  'do-measure': function(event) { 
+    
     // if click was on cota (TODO: edit, drag?), return
     if (event.original.srcElement.nodeName !== 'svg') {
       return;
     }
-    // add clicked position
-    addCoord(event);
 
     // update counter
-    var counter = ractive.get('counter') + 1; 
-    ractive.set('counter', counter); 
-    
-    // on second clicks:
-    if (counter % 2 === 0) {
-      addMeasure(counter-1);
-    }
-  },
+    counter++;
 
-  'do-measureB': function(event) {
-    console.log('=====================================');
-    console.log('name of the event '); console.log(event.name);
-    console.log('DOM node '); console.log(event.node);
-    console.log('keypath of the current context '); console.log(event.keypath);
-    console.log('value of this.get(event.keypath) '); console.log(event.context);
-    console.log('map of index references '); console.log(event.index);
-    console.log('component that raised the event '); console.log(event.component);
-    console.log('original DOM event, if available '); console.log(event.original);
-    console.log('=====================================');
+    // get clicked position
+    var cota = getPos(event);
 
-    //first do-measure (saves coords, updates counter and if pertinent, calculates and adds measure)
-    doMeasure(event);
+    var l = ractive.get('measures').length;
 
-    var counter = ractive.get('counter');
+    if (counter%2 == 1) {
 
-    if (isFirstCota(counter)) {
-      drawCircle(counter);
+      var id = l;
+      // is first of two clicks = measure
+      var measure = new Measure(cota, id);
+      ractive.push('measures', measure);
+
     } else {
-      drawMeasure(counter);
-    }
-  }, 
+      var i = l - 1; 
+      // is second of two clicks
+      var measures = ractive.get('measures');
+      measures[i].update(cota);
+      ractive.set('measures', measures);
 
-  'mark-position': function(event) {
-    console.log('marik position');
+    }
+
+    // set total
+    if (counter == 2) {
+      total = ractive.get('measures')[0].value();
+    }
+
   },
+
 
   'remove': function(event) {
     var i = (event.keypath).split('.')[1]; 
     var thisarray = event.keypath.split('.')[0];
 
-    if (thisarray === 'measures') {
-      // remove associated cotas (which updates svg)
-      removeCota(i);
-      
+    if (thisarray == 'measures') {
       // update counter
-      ractive.set('counter', ractive.get('counter') - 2);
+      counter = counter - 2;
     }
     // remove measure or image url
     ractive.get(thisarray).splice(i, 1);
@@ -152,11 +157,10 @@ ractive.on({
     ractive.set({
       content: '',
       total: false,
-      counter: 0,
       measures: [],
-      cotas: [],
       toggle: true
     });
+    counter = 0;
   },
 
   // update loaded image
@@ -177,67 +181,19 @@ ractive.on({
     ractive.set('imageURL', ractive.get(event.keypath));
   },
 
-  'saveId': function(event) { 
-    var id = $(event.original.target).attr('data-id'); 
-    if (id) { 
-      ractive.set(ractive.get(event.keypath).id, id);
-      var i = (event.keypath).split('.')[1]; 
-      setBg(i);
-    }
+  'setBg': function(event) {
+    var id = event.original.target.value;
+    setBg(id);
   }
 });
 
-function addCoord(click) {
-  ractive.push('cotas', {x: click.original.offsetX, y: click.original.offsetY});
-}
-
-function addMeasure(i) { 
-  var cota1 = ractive.get('cotas')[i-1]; 
-      cota2 = ractive.get('cotas')[i]; 
-
-  var cota = Math.abs(cota2.y - cota1.y); 
-  var total = ractive.get('total');
-  if (total) {
-    var proportion = +((cota * 100 / total).toFixed(2));
-  } else {
-    ractive.set('total', cota);
-    proportion = 100;
-  }
-
-  var id = $('.' + i).find('td input').attr('value'); 
-
-  ractive.push('measures', {measure: cota, proportion: proportion, id: ''}); 
-}
 
 function setBg(id) {
   $('svg .' + id + ' rect').css('width', $('svg .' + id + ' text').width() + 10 + 'px');
 }
 
-function removeCota(i) { 
-  // i is relative to measures array, translated to cotas array is
-  // measures: 0, 1, 2, 3...  corresponds to cotas: (0, 1), (2, 3), (4, 5), ...
-  i = i*2;
-  ractive.get('cotas').splice(i, 2);
-}
+/////////
 
-function doMeasure(event) {
-  // if click was on cota (TODO: edit, drag?), return
-  if (event.original.srcElement.nodeName !== 'svg') {
-    return;
-  }
-  // add clicked position
-  addCoord(event);
-
-  // update counter
-  var counter = ractive.get('counter') + 1; 
-  ractive.set('counter', counter); 
-    
-  // on second clicks:
-  if (counter % 2 === 0) {
-    addMeasure(counter-1);
-  }
-}
-
-function isFirstCota(i) {
-  return i%2 === 0;
+function getPos(event) {
+  return pos = new Pos(event.original.offsetX, event.original.offsetY);
 }

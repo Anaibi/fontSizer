@@ -49,7 +49,7 @@
       </div>
 
       <div class="measures"> 
-        {{#if total}}
+        {{#if measures}}
           <table>
             <tr>
               <th>Id</th>
@@ -57,23 +57,25 @@
               <th>Proportion</th>
             </tr>
 
-            <tr>
-              <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="saveId"></td>
-              <td class="main" title="Main reference"><b>{{total}}px</b></td>
-              <td title="Main reference"><b>100%</b></td>
-              <td><span class="delete" on-click="restart">X</span></td>
-            </tr>
-    
-            {{#if measures}}
-              {{#each measures:i}}{{#if i>0}}
-                <tr>
-                  <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="saveId"></td>
-                  <td>{{measure}}px</td>
-                  <td>{{proportion}}%</td>
-                  <td><span class="delete" on-click="remove">X</span></td>
-                </tr>{{/if}}
-              {{/each}}
-            {{/if}}
+            {{#each measures:i}}
+              {{#hasCota2}}
+                {{#if i==0}}
+                  <tr>
+                    <td class="id"><input class="blue input" value="{{id}}" data-id="{{this.id}}" on-mouseleave="setBg"></td>
+                    <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
+                    <td title="Main reference"><b>100%</b></td>
+                    <td><span class="delete" on-click="restart">X</span></td>
+                  </tr>
+                {{else}}
+                  <tr>  
+                    <td class="id"><input class="blue input" value="{{this.id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                    <td>{{this.value()}}px</td>
+                    <td>{{this.proportion()}}%</td>
+                    <td><span class="delete" on-click="remove">X</span></td>
+                  </tr>
+                {{/if}}
+              {{/hasCota2}}
+            {{/each}}
           </table>
         {{/if}}
       </div>
@@ -82,7 +84,7 @@
     <div class="content">
       <div class="img-container canvas-parent">
         <img class="img-active" src="{{imageURL}}">
-          {{^toggle}}{{>svg2}}{{/}}
+          {{^toggle}}{{>svg}}{{/}}
       </div>
     </div>
   </script>
