@@ -1,6 +1,6 @@
 // SVG TEMPLATES
 var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
-    '{{#each measures:i}}' + 
+    '{{#each measures}}' + 
       '<g class="cota {{id}}">' +
         '{{#hasCota2}}' +
           '{{>measure}}' +
@@ -192,8 +192,6 @@ ractive.on({
 function setBg(id) {
   $('svg .' + id + ' rect').css('width', $('svg .' + id + ' text').width() + 10 + 'px');
 }
-
-/////////
 
 function getPos(event) {
   return pos = new Pos(event.original.offsetX, event.original.offsetY);
