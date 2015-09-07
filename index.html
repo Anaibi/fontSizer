@@ -28,16 +28,10 @@
         
         <div class="toggleMenu" on-click="toggleMenu"></div>
 
-        <!-- measure menu -->
-        <div class="start-measures">
-          <div class="green button big-button" on-click="start">Start getting measures</div>
-          <div class="red button small-button" on-click="restart">Reset</div>
-        </div><!-- end measure menu -->
-
         <!-- load file -->
         <div class="file-uploader">
-          <input class="select-file black button big-button" name="file" placeholder="enter image url" value="{{imageInput}}">
-          <button class="load-file whitesmoke button big-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
+          <input class="select-file black button small-button" name="file" placeholder="enter new image url" value="{{imageInput}}">
+          <button class="load-file whitesmoke button small-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
         </div><!-- end load file -->
 
         <!-- loaded images -->
@@ -55,6 +49,12 @@
             </table>
           </div>
         {{/if}}<!-- end loaded images -->
+
+        <!-- measure menu -->
+        <div class="start-measures">
+          <div class="white button small-button" on-click="setMainReference">Change main reference</div>
+          <div class="red button small-button" on-click="restart">Reset</div>
+        </div><!-- end measure menu -->
 
         <!-- text -->
         <div class="instrus-text">
@@ -104,6 +104,11 @@
         {{^toggle}}{{>svg}}{{/}}
       </div><!-- end image -->
     </div><!-- end image page -->
+
+    <!-- help -->
+    <div class="help hidden">
+      <p>Write some instrus.</p>
+    </div><!-- end help -->
 
   </script>
   

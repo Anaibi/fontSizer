@@ -11,9 +11,10 @@ $content_c: $main_color2
 $general_padding: 5vh
 
 // used in buttons, inputs, 
-$general_font_size: 2.5em
+$general_font_size: 1em
+$big_font_size: 2.5em
 
-$small_button_w: 17%
+$small_button_w: 80%
 
 $big_button_w: 80%
 $big_button_h: 15vh
@@ -154,16 +155,21 @@ $button_radius: 36px
 .black
   +button-bg(black, white)
 
+.white
+  +button-bg(white, black)
+
 .whitesmoke
   +button-bg(whitesmoke)
 
 .big-button
   width: $big_button_w
+  font-size: $big_font_size
 
 .small-button
-  @extend %regular_space
   width: $small_button_w
-  float: right
+  display: block
+  margin-left: auto
+  margin-right: auto
 
 .delete
   @extend .button
@@ -175,7 +181,7 @@ $button_radius: 36px
   
 .reload
   @extend .delete
-  color: honeydew
+  color: mediumaquamarine
   &:hover
     color: aquamarine
 
@@ -246,7 +252,7 @@ table
   top: 0
   bottom: 0
   left: 0
-  z-index: 1000
+  z-index: 5000
   background-color: $main_color1
   > *
     display: none
@@ -255,13 +261,14 @@ table
   &.expanded
     > *
       display: block
-    width: 50%
+      margin: 25px auto 50px auto
+    width: 30%
     border-right: 1px solid $main_color3
 
 .toggleMenu
   display: block
   color: $main_color3
-  font-size: $general_font_size / 1.2
+  font-size: $general_font_size * 2
   text-align: right
   &:hover
     cursor: pointer
@@ -322,5 +329,6 @@ table
   top: 0
 
 
-
+.hidden
+  display: none
 

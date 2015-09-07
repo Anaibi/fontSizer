@@ -1,7 +1,7 @@
-.button, .delete, .reload, .small-button {
+.button, .delete, .reload {
   padding: 5px 0;
   margin: 5px 0;
-  font-size: 2.5em;
+  font-size: 1em;
   border: 1px solid;
   border-radius: 36px;
   text-align: center; }
@@ -60,6 +60,14 @@
     background-color: white;
     color: black; }
 
+.white {
+  background-color: white;
+  color: black;
+  border-color: black; }
+  .white:hover {
+    background-color: black;
+    color: white; }
+
 .whitesmoke {
   background-color: whitesmoke;
   color: #c2c2c2;
@@ -69,11 +77,14 @@
     color: whitesmoke; }
 
 .big-button {
-  width: 80%; }
+  width: 80%;
+  font-size: 2.5em; }
 
 .small-button {
-  width: 17%;
-  float: right; }
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
 
 .delete, .reload {
   color: red;
@@ -83,7 +94,7 @@
     color: tomato; }
 
 .reload {
-  color: honeydew; }
+  color: mediumaquamarine; }
   .reload:hover {
     color: aquamarine; }
 
@@ -153,22 +164,23 @@ table {
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 5000;
   background-color: white; }
   .side-menu > * {
     display: none; }
   .side-menu.collapsed {
     width: 30px; }
   .side-menu.expanded {
-    width: 50%;
+    width: 30%;
     border-right: 1px solid black; }
     .side-menu.expanded > * {
-      display: block; }
+      display: block;
+      margin: 25px auto 50px auto; }
 
 .toggleMenu {
   display: block;
   color: black;
-  font-size: 2.08333em;
+  font-size: 2em;
   text-align: right; }
   .toggleMenu:hover {
     cursor: pointer; }
@@ -222,5 +234,8 @@ table {
 .active {
   opacity: 1;
   top: 0; }
+
+.hidden {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */

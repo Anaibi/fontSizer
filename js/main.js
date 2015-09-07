@@ -1,5 +1,5 @@
 // SVG TEMPLATES
-var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do-measure">' +
+var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" on-click="do_measure">' +
     '{{#each measures}}' + 
       '<g class="cota {{id}}">' +
         '{{#hasCota2}}' +
@@ -109,6 +109,23 @@ var ractive = new Ractive({
         $('.side-menu').toggleClass('collapsed expanded');
         break;
     }
+  },
+  setMainRefMeasure: function() {
+    var $image = $('.img-active');
+    var h = $image.height(); console.log(h);
+    var cota1 = { x: $image.width()/2, y: 0 }; console.log(cota1);
+    var cota2 = { x: cota1.x, y: h }; console.log(cota2);
+    
+    // add to measures 
+    var measure = new Measure(cota1 ,1);
+    measure.update(cota2);
+    ractive.push('measures', measure);
+
+    // set total
+    total = ractive.get('measures')[0].value();
+
+    // update counter
+    counter = 2;
   }
 
 });
@@ -117,14 +134,14 @@ ractive.on({
 
   // MEASURE FUNCTIONS:
 
-  'start': function() {
+  'setMainReference': function() {
     ractive.set({
-      'content': 'Click two points to set main reference.',
-      'toggle': false
+      'content': 'Click two points to set main reference.'
     });
+    // todo 
   },
 
-  'do-measure': function(event) {  
+  'do_measure': function(event, args) {  
     // if click was on cota (TODO: edit, drag?), return
     if (event.original.srcElement.nodeName !== 'svg') {
       return;
@@ -173,7 +190,8 @@ ractive.on({
       content: '',
       total: false,
       measures: [],
-      toggle: true
+      toggle: true,
+      toggle: false
     });
   },
 
@@ -188,12 +206,18 @@ ractive.on({
   'loadImage': function() { 
     ractive.set({
       'imageURL': ractive.get('imageInput'),
-      'imageInput': ''
+      'imageInput': '',
+      'toggle': false
     });
     // save actual img path
     ractive.get('images').push(ractive.get('imageURL'));
     // update display
     this.updateDisplay('image');
+    // set default main reference
+    var t = getTransitionTime();
+    setTimeout(function() {
+      ractive.setMainRefMeasure()
+    }, t + 100);
   },
 
   // reload image as actual
@@ -223,4 +247,9 @@ function hide(elem) {
 
 function show(elem) {
   $('.'+elem).show().removeClass('inactive').addClass('active');
+}
+
+function getTransitionTime() {
+  console.log($('.screen').css('transition-duration').split('s')[0]*1000);
+  return $('.screen').css('transition-duration').split('s')[0]*1000;
 }
