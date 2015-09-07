@@ -15,7 +15,7 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
       '{{>rect}}' +
       '{{>text}}' +
       '{{>line}}',
-
+ 
     svg_circle = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />',
     svg_circle2 = '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />',
 
@@ -64,6 +64,8 @@ Measure.prototype.middlePoint = function() {
 var counter = 0;
 var total = 0;
 
+var url_enjoymondays = 'enjoyMondays.jpg';
+
 // RACTIVE
 var ractive = new Ractive({
   el: '#ractive-container',
@@ -82,7 +84,7 @@ var ractive = new Ractive({
     measures: [],
     content: '',
     imageInput: '',
-    imageURL: 'enjoyMondays.jpg',
+    imageURL: url_enjoymondays,
     images: [],
     r: 5,
     toggle: true,
@@ -94,6 +96,18 @@ var ractive = new Ractive({
     },
     middlePoint: function() {
       return this.middlePoint(); 
+    }
+  },
+  // DISPLAY FUNCTIONS:
+  updateDisplay: function(display) { 
+    switch (display) {
+      case 'image':
+        hide('menu');
+        show('image');
+        break;
+      case 'menu':
+        show('menu');
+        hide('image');
     }
   }
 
@@ -176,16 +190,20 @@ ractive.on({
       'imageURL': ractive.get('imageInput'),
       'imageInput': ''
     });
-  },
-
-  // save actual img path
-  'save': function() { 
+    // save actual img path
     ractive.get('images').push(ractive.get('imageURL'));
+    // update display
+    this.updateDisplay('image');
   },
 
   // reload image as actual
   'reload': function(event) {
     ractive.set('imageURL', ractive.get(event.keypath));
+  },
+
+  // switch to menu
+  'showMenu': function() {
+    this.updateDisplay('menu');
   }
 });
 
@@ -195,4 +213,13 @@ function setBg(id) {
 
 function getPos(event) {
   return pos = new Pos(event.original.offsetX, event.original.offsetY);
+}
+
+function hide(elem) {
+  $('.'+elem).removeClass('active').addClass('inactive').hide();
+}
+
+function show(elem) {
+  $('.'+elem).show().removeClass('inactive').addClass('active');
+  //$('.' + elem + ' .hide').removeClass('hide').addClass('show');
 }

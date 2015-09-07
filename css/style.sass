@@ -1,39 +1,59 @@
-$main_color1: darkcyan
-$main_color2: coral
+$main_color1: lightcyan
+$main_color1: white
 
-$sidebar_c: $main_color1
+//$main_color1_1: darkcyan
+
+
+//$main_color2: coral
+$main_color2: white
+
+
+$menu_c: $main_color1
 $content_c: $main_color2
+
+$main_color3: black
 
 
 // variables:
-$general_padding: 2%
+$general_padding: 5vh
 
 // used in buttons, inputs, 
 $general_font_size: 15px
-$general_font_size: 12px
+$general_font_size: 2.5em
 
 $small_button_w: 17%
-$big_button_w: 98 - $small_button_w
 
+$big_button_w: 80%
+$big_button_h: 15vh
+$button_radius: 36px
 
 // general, settings, mixins, etc
 // TODO pass to separate file
-%regular-space
+
+
+// -------------------------------------- regular_space
+%regular_space
   padding: 5px 0
   margin: 5px 0
   font-size: $general_font_size
-  border: 1px solid gray
-  border-radius: 3px
+  border: 1px solid
+  border-radius: $button_radius
   text-align: center
 
-=button-bg($c1, $c2: false)
-  background-color: $c1
-  &:hover
-    @if $c2
-      background-color: $c2
-    @else
-      background-color: darken($c1, 20%)
 
+// ------------------------------------------ button_bg
+=button_bg($c1, $c2: false)
+  @if not $c2
+    $c2: darken($c1, 20%)
+  background-color: $c1
+  color: $c2
+  border-color: $c2
+  &:hover
+    background-color: $c2
+    color: $c1
+
+
+// ------------------------------------------- clearfix
 %clearfix
   // For modern browsers
   &:before,
@@ -46,32 +66,84 @@ $big_button_w: 98 - $small_button_w
   &
     zoom: 1
 
-=flexDisplay
+
+// --------------------------------------- flex_display
+=flex_display
   display: -webkit-flex
   display: flex
 
+
+// ----------------------------------------------- flex
 =flex($n)
   -webkit-flex: $n 
   -ms-flex: $n 
   flex: $n
 
+// --------------------------------------------- shadow
+=shadow($args...)
+  -moz-box-shadow: $args
+  -webkit-box-shadow: $args
+  box-shadow: $args
+
+// ------------------------------------------ vCentered 
+=vCentered($y: 50%)
+  position: relative
+  top: $y
+  -webkit-transform: translateY(-$y)
+  -ms-transform: translateY(-$y)
+  transform: translateY(-$y)
+
+%vCentered
+  +vCentered
+
+// ---------------------------------------- input_style 
+=input_style($c)
+  color: $c
+  font-weight: bold
+  font-family: verdana
+
+// ---------------------------------------- placeholder 
+=placeholder($c)
+  ::-webkit-input-placeholder
+    +input_style($main_color1_1)
+  :-moz-placeholder
+    +input_style($main_color1_1)
+  ::-moz-placeholder
+    +input_style($main_color1_1)
+  :-ms-input-placeholder 
+    +input_style($main_color1_1)
+
+// -------------------------------------------------------- TRANSITIONS 
+// ----------------------------------------- transition 
+=transition($args, $t)
+  -webkit-transition: $args $t
+  -ms-transition: $args $t
+  transition: $args $t
+
+// ------------------------------------------ transform 
+=transform($args, $t)
+  -webkit-transform: $args $t
+  -ms-transform: $args $t
+  transform: $args $t
+
+// -------------------------------------- transformNone 
+=transformNone
+  -webkit-transform: none
+  -ms-transform: none
+  transform: none
+
+
 /* resizable element */
 /* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
-html, 
-body, 
-#ractive-container
-  height: 100%
-  margin: 0
-  padding: 0
-
 .resizable
   resize: both
   overflow: scroll
 /* */
 
-
+// --------------------------------------------------------------------- BUTTONS
 /* buttons */
-button
+.button
+  @extend %regular_space
   font-weight: bold
   text-transform: lowercase
   &:hover
@@ -79,27 +151,32 @@ button
   overflow: scroll
 
 .green
-  @extend %regular-space
   +button-bg(honeydew)
 
 .red
-  @extend %regular-space
   +button-bg(lightsalmon)
 
 .blue
-  @extend %regular-space
   +button-bg(aliceblue, aquamarine)
 
+.black
+  +button-bg(black, white)
+
+.whitesmoke
+  +button-bg(whitesmoke)
 
 .big-button
   width: $big_button_w
+  //height: $big_button_h
+  //border-radius: $button_radius
 
 .small-button
+  @extend %regular_space
   width: $small_button_w
   float: right
 
 .delete
-  @extend button
+  @extend .button
   color: red
   font-family: sans-serif
   font-size: 25px
@@ -113,14 +190,25 @@ button
     color: aquamarine
 
 
+
 /* MAIN containers */
-/* sidebar */
-.sidebar
+html, 
+body, 
+#ractive-container
   height: 100%
+  margin: 0
+  padding: 0
+
+.screen
+  height: 100vh - 2*$general_padding
   padding: $general_padding
-  font-size: 12px
-  font-family: monospace
-  background-color: $sidebar_c
+  +transition(all ease-in, .5s) 
+
+// ------------------------------------------------------------------------ MENU
+/* menu */
+.menu
+  background-color: $menu_c
+  text-align: center
   div
     width: 100%
   .measures
@@ -128,8 +216,8 @@ button
   .instrus-text
     color: white
   .file-uploader
+    @extend %vCentered
     .input
-      display: inline-block
       overflow: scroll
 
 /* tables used in measures and in image list */
@@ -150,11 +238,19 @@ table
       width: 100% 
       background-color: transparent
       border: none
+      
+.select-file
+  border: none
+  +shadow(inset 0 0 10px #000000)
+  &:hover
+    cursor: text
+  
+*:focus
+  outline: none
 
-/* main content = img */
-.content
-  height: 100%
-  padding: $general_padding
+// ---------------------------------------------------------------------- CANVAS
+/* img to measure */
+.image
   background-color: $main_color2
   .img-container
     width: 100%
@@ -189,11 +285,30 @@ table
     position: relative
 
 
-// testing flex 
-.screen
+// ------------------------------------------------------------------------ INIT
+
+/* init */
+.inactive
+  height: 0
+  padding: 0
+  opacity: 0
+  display: none
+
+.active
+  opacity: 1
+  top: 0
+  display: block
+
+.collapsed-menu
+  height: 10%
   width: 100%
-  +flexDisplay
-  .sidebar
-    +flex(1)
-  .content
-    +flex(3)
+  background-color: $main_color3
+  color: $main_color1
+  text-align: center
+  position: relative
+  top: -20px
+  @extend %regular_space
+  &:hover
+    cursor: pointer
+
+

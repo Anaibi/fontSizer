@@ -1,50 +1,75 @@
-.green, .red, .blue {
+.button, .delete, .reload, .small-button, .collapsed-menu {
   padding: 5px 0;
   margin: 5px 0;
-  font-size: 12px;
-  border: 1px solid gray;
-  border-radius: 3px;
+  font-size: 2.5em;
+  border: 1px solid;
+  border-radius: 36px;
   text-align: center; }
+
+.menu .file-uploader {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%); }
 
 /* resizable element */
 /* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
-html,
-body,
-#ractive-container {
-  height: 100%;
-  margin: 0;
-  padding: 0; }
-
 .resizable {
   resize: both;
   overflow: scroll; }
 
 /* */
 /* buttons */
-button, .delete, .reload {
+.button, .delete, .reload {
   font-weight: bold;
   text-transform: lowercase;
   overflow: scroll; }
-  button:hover, .delete:hover, .reload:hover {
+  .button:hover, .delete:hover, .reload:hover {
     cursor: pointer; }
 
 .green {
-  background-color: honeydew; }
+  background-color: honeydew;
+  color: #8aff8a;
+  border-color: #8aff8a; }
   .green:hover {
-    background-color: #8aff8a; }
+    background-color: #8aff8a;
+    color: honeydew; }
 
 .red {
-  background-color: lightsalmon; }
+  background-color: lightsalmon;
+  color: #ff5714;
+  border-color: #ff5714; }
   .red:hover {
-    background-color: #ff5714; }
+    background-color: #ff5714;
+    color: lightsalmon; }
 
 .blue {
-  background-color: aliceblue; }
+  background-color: aliceblue;
+  color: aquamarine;
+  border-color: aquamarine; }
   .blue:hover {
-    background-color: aquamarine; }
+    background-color: aquamarine;
+    color: aliceblue; }
+
+.black {
+  background-color: black;
+  color: white;
+  border-color: white; }
+  .black:hover {
+    background-color: white;
+    color: black; }
+
+.whitesmoke {
+  background-color: whitesmoke;
+  color: #c2c2c2;
+  border-color: #c2c2c2; }
+  .whitesmoke:hover {
+    background-color: #c2c2c2;
+    color: whitesmoke; }
 
 .big-button {
-  width: 81%; }
+  width: 80%; }
 
 .small-button {
   width: 17%;
@@ -63,21 +88,31 @@ button, .delete, .reload {
     color: aquamarine; }
 
 /* MAIN containers */
-/* sidebar */
-.sidebar {
+html,
+body,
+#ractive-container {
   height: 100%;
-  padding: 2%;
-  font-size: 12px;
-  font-family: monospace;
-  background-color: darkcyan; }
-  .sidebar div {
+  margin: 0;
+  padding: 0; }
+
+.screen {
+  height: 90vh;
+  padding: 5vh;
+  -webkit-transition: all ease-in 0.5s;
+  -ms-transition: all ease-in 0.5s;
+  transition: all ease-in 0.5s; }
+
+/* menu */
+.menu {
+  background-color: white;
+  text-align: center; }
+  .menu div {
     width: 100%; }
-  .sidebar .measures {
+  .menu .measures {
     height: auto; }
-  .sidebar .instrus-text {
+  .menu .instrus-text {
     color: white; }
-  .sidebar .file-uploader .input {
-    display: inline-block;
+  .menu .file-uploader .input {
     overflow: scroll; }
 
 /* tables used in measures and in image list */
@@ -99,52 +134,71 @@ table {
       background-color: transparent;
       border: none; }
 
-/* main content = img */
-.content {
-  height: 100%;
-  padding: 2%;
-  background-color: coral;
+.select-file {
+  border: none;
+  -moz-box-shadow: inset 0 0 10px #000000;
+  -webkit-box-shadow: inset 0 0 10px #000000;
+  box-shadow: inset 0 0 10px #000000; }
+  .select-file:hover {
+    cursor: text; }
+
+*:focus {
+  outline: none; }
+
+/* img to measure */
+.image {
+  background-color: white;
   /* canvas for image measure draw */ }
-  .content .img-container {
+  .image .img-container {
     width: 100%;
     height: auto; }
-  .content .img-active {
+  .image .img-active {
     width: 100%;
     height: auto; }
-  .content .canvas {
+  .image .canvas {
     position: absolute;
     top: 0;
     width: 100%;
     height: 100%;
     z-index: 2000; }
-    .content .canvas circle {
+    .image .canvas circle {
       z-index: 5000; }
-    .content .canvas .cota {
+    .image .canvas .cota {
       font-size: 10px; }
-    .content .canvas line {
+    .image .canvas line {
       stroke: black; }
-    .content .canvas circle {
+    .image .canvas circle {
       stroke: black;
       stroke-width: 1px;
       fill: transparent; }
-    .content .canvas rect {
+    .image .canvas rect {
       fill: rgba(0, 0, 0, 0.6); }
-    .content .canvas text {
+    .image .canvas text {
       fill: white; }
-  .content .canvas-parent {
+  .image .canvas-parent {
     position: relative; }
 
-.screen {
+/* init */
+.inactive {
+  height: 0;
+  padding: 0;
+  opacity: 0;
+  display: none; }
+
+.active {
+  opacity: 1;
+  top: 0;
+  display: block; }
+
+.collapsed-menu {
+  height: 10%;
   width: 100%;
-  display: -webkit-flex;
-  display: flex; }
-  .screen .sidebar {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1; }
-  .screen .content {
-    -webkit-flex: 3;
-    -ms-flex: 3;
-    flex: 3; }
+  background-color: black;
+  color: white;
+  text-align: center;
+  position: relative;
+  top: -20px; }
+  .collapsed-menu:hover {
+    cursor: pointer; }
 
 /*# sourceMappingURL=style.css.map */
