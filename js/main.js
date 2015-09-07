@@ -112,9 +112,9 @@ var ractive = new Ractive({
   },
   setMainRefMeasure: function() {
     var $image = $('.img-active');
-    var h = $image.height(); console.log(h);
-    var cota1 = { x: $image.width()/2, y: 0 }; console.log(cota1);
-    var cota2 = { x: cota1.x, y: h }; console.log(cota2);
+    var h = $image.height();
+    var cota1 = { x: $image.width()/2, y: 0 };
+    var cota2 = { x: cota1.x, y: h };
     
     // add to measures 
     var measure = new Measure(cota1 ,1);
@@ -204,6 +204,7 @@ ractive.on({
 
   // update loaded image
   'loadImage': function() { 
+    if (ractive.get('imageInput') == '') return;
     ractive.set({
       'imageURL': ractive.get('imageInput'),
       'imageInput': '',
@@ -250,6 +251,5 @@ function show(elem) {
 }
 
 function getTransitionTime() {
-  console.log($('.screen').css('transition-duration').split('s')[0]*1000);
   return $('.screen').css('transition-duration').split('s')[0]*1000;
 }
