@@ -12,85 +12,99 @@
   
   <script id="template" type="text/ractive">
 
-    <div class="menu screen active">
-
-      <!-- load file menu -->
+    <!-- home page -->
+    <div class="home screen active">
+      <!-- load file -->
       <div class="file-uploader">
         <input class="select-file black button big-button" name="file" placeholder="enter image url" value="{{imageInput}}">
         <button class="load-file whitesmoke button big-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
-      </div>
+      </div><!-- end load file -->
+    </div><!-- end home page -->
 
-      <!-- loaded images -->
-      {{#if images}}
-        <div class="image-list">          
-          <table>
-            <caption>Used images</caption>
-            {{#each images}}
-              <tr>
-                <td>{{this}}</td>
-                <td>{{>button_delete}}</td>
-                <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
-              </tr>
-            {{/each}}
-          </table>
-        </div>
-      {{/if}}
-
-      <div class="instrus-text">
-        <p>{{content}}</p>
-        {{#if total}}
-          <p>Click two points to get height.</p>
-        {{/if}}
-      </div>
-
-      <div class="measures"> 
-        {{#if measures}}
-          <table>
-            <tr>
-              <th>Id</th>
-              <th>Measure</th>
-              <th>Proportion</th>
-            </tr>
-
-            {{#each measures:i}}
-              {{#hasCota2}}
-                {{#if i==0}}
-                  <tr>
-                    <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
-                    <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
-                    <td title="Main reference"><b>100%</b></td>
-                    <td><span class="delete" on-click="restart">X</span></td>
-                  </tr>
-                {{else}}
-                  <tr>  
-                    <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
-                    <td>{{this.value()}}px</td>
-                    <td>{{this.proportion()}}%</td>
-                    <td>{{>button_delete}}</td>
-                  </tr>
-                {{/if}}
-              {{/hasCota2}}
-            {{/each}}
-          </table>
-        {{/if}}
-      </div>
-
-    </div>
-
+    <!-- image page -->
     <div class="image screen inactive">
-      <div class="collapsed-menu" on-click="showMenu">show menu</div>
+      <!-- side menu -->
+      <div class="side-menu collapsed">
+        
+        <div class="toggleMenu" on-click="toggleMenu"></div>
 
-      <!-- measure menu -->
-      <div class="start-measures">
-        <div class="green button big-button" on-click="start">Start getting measures</div>
-        <div class="red button small-button" on-click="restart">Reset</div>
-      </div>
+        <!-- measure menu -->
+        <div class="start-measures">
+          <div class="green button big-button" on-click="start">Start getting measures</div>
+          <div class="red button small-button" on-click="restart">Reset</div>
+        </div><!-- end measure menu -->
 
+        <!-- load file -->
+        <div class="file-uploader">
+          <input class="select-file black button big-button" name="file" placeholder="enter image url" value="{{imageInput}}">
+          <button class="load-file whitesmoke button big-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
+        </div><!-- end load file -->
+
+        <!-- loaded images -->
+        {{#if images}}
+          <div class="image-list">          
+            <table>
+              <caption>Used images</caption>
+              {{#each images}}
+                <tr>
+                  <td>{{this}}</td>
+                  <td>{{>button_delete}}</td>
+                  <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
+                </tr>
+              {{/each}}
+            </table>
+          </div>
+        {{/if}}<!-- end loaded images -->
+
+        <!-- text -->
+        <div class="instrus-text">
+          <p>{{content}}</p>
+          {{#if total}}
+            <p>Click two points to get height.</p>
+          {{/if}}
+        </div><!-- end text -->
+
+        <!-- measures -->
+        <div class="measures"> 
+          {{#if measures}}
+            <table>
+              <tr>
+                <th>Id</th>
+                <th>Measure</th>
+                <th>Proportion</th>
+              </tr>
+
+              {{#each measures:i}}
+                {{#hasCota2}}
+                  {{#if i==0}}
+                    <tr>
+                      <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                      <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
+                      <td title="Main reference"><b>100%</b></td>
+                      <td><span class="delete" on-click="restart">X</span></td>
+                    </tr>
+                  {{else}}
+                    <tr>  
+                      <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                      <td>{{this.value()}}px</td>
+                      <td>{{this.proportion()}}%</td>
+                      <td>{{>button_delete}}</td>
+                    </tr>
+                  {{/if}}
+                {{/hasCota2}}
+              {{/each}}
+            </table>
+          {{/if}}
+        </div><!-- end measures -->
+      </div><!-- end side menu -->
+
+      <!-- image -->
       <div class="img-container canvas-parent">
         <img class="img-active" src="{{imageURL}}">
-          {{^toggle}}{{>svg}}{{/}}
-      </div>
-    </div>
+        {{^toggle}}{{>svg}}{{/}}
+      </div><!-- end image -->
+    </div><!-- end image page -->
+
   </script>
   
   <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>

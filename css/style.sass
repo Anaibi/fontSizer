@@ -1,24 +1,16 @@
-$main_color1: lightcyan
 $main_color1: white
-
-//$main_color1_1: darkcyan
-
-
-//$main_color2: coral
 $main_color2: white
+$main_color3: black
 
 
 $menu_c: $main_color1
 $content_c: $main_color2
-
-$main_color3: black
 
 
 // variables:
 $general_padding: 5vh
 
 // used in buttons, inputs, 
-$general_font_size: 15px
 $general_font_size: 2.5em
 
 $small_button_w: 17%
@@ -167,8 +159,6 @@ $button_radius: 36px
 
 .big-button
   width: $big_button_w
-  //height: $big_button_h
-  //border-radius: $button_radius
 
 .small-button
   @extend %regular_space
@@ -204,9 +194,9 @@ body,
   padding: $general_padding
   +transition(all ease-in, .5s) 
 
-// ------------------------------------------------------------------------ MENU
-/* menu */
-.menu
+// ------------------------------------------------------------------ START PAGE
+/* home */
+.home
   background-color: $menu_c
   text-align: center
   div
@@ -248,6 +238,39 @@ table
 *:focus
   outline: none
 
+// ------------------------------------------------------------------- SIDE MENU
+
+.side-menu
+  +transition(all ease-in, .5s)
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  z-index: 1000
+  background-color: $main_color1
+  > *
+    display: none
+  &.collapsed
+    width: 30px
+  &.expanded
+    > *
+      display: block
+    width: 50%
+    border-right: 1px solid $main_color3
+
+.toggleMenu
+  display: block
+  color: $main_color3
+  font-size: $general_font_size / 1.2
+  text-align: right
+  &:hover
+    cursor: pointer
+  .collapsed &:after
+    content: ">"
+  .expanded &:after
+    content: "<"
+
+
 // ---------------------------------------------------------------------- CANVAS
 /* img to measure */
 .image
@@ -255,7 +278,6 @@ table
   .img-container
     width: 100%
     height: auto
-    //padding-bottom: $general_padding
   .img-active
     width: 100%
     height: auto
@@ -264,7 +286,6 @@ table
     position: absolute
     top: 0
     width: 100%
-    //height: 99 - $general_padding
     height: 100%
     z-index: 2000
     circle
@@ -290,25 +311,16 @@ table
 /* init */
 .inactive
   height: 0
+  width: 0
   padding: 0
   opacity: 0
-  display: none
+  position: absolute
+  top: 0
 
 .active
   opacity: 1
   top: 0
-  display: block
 
-.collapsed-menu
-  height: 10%
-  width: 100%
-  background-color: $main_color3
-  color: $main_color1
-  text-align: center
-  position: relative
-  top: -20px
-  @extend %regular_space
-  &:hover
-    cursor: pointer
+
 
 

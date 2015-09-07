@@ -102,12 +102,12 @@ var ractive = new Ractive({
   updateDisplay: function(display) { 
     switch (display) {
       case 'image':
-        hide('menu');
+        hide('home');
         show('image');
         break;
       case 'menu':
-        show('menu');
-        hide('image');
+        $('.side-menu').toggleClass('collapsed expanded');
+        break;
     }
   }
 
@@ -201,8 +201,10 @@ ractive.on({
     ractive.set('imageURL', ractive.get(event.keypath));
   },
 
-  // switch to menu
-  'showMenu': function() {
+  // MENU FUNCTIONS:
+
+  // collapse/extend menu
+  'toggleMenu': function() {
     this.updateDisplay('menu');
   }
 });
@@ -221,5 +223,4 @@ function hide(elem) {
 
 function show(elem) {
   $('.'+elem).show().removeClass('inactive').addClass('active');
-  //$('.' + elem + ' .hide').removeClass('hide').addClass('show');
 }

@@ -1,4 +1,4 @@
-.button, .delete, .reload, .small-button, .collapsed-menu {
+.button, .delete, .reload, .small-button {
   padding: 5px 0;
   margin: 5px 0;
   font-size: 2.5em;
@@ -6,7 +6,7 @@
   border-radius: 36px;
   text-align: center; }
 
-.menu .file-uploader {
+.home .file-uploader {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -102,17 +102,17 @@ body,
   -ms-transition: all ease-in 0.5s;
   transition: all ease-in 0.5s; }
 
-/* menu */
-.menu {
+/* home */
+.home {
   background-color: white;
   text-align: center; }
-  .menu div {
+  .home div {
     width: 100%; }
-  .menu .measures {
+  .home .measures {
     height: auto; }
-  .menu .instrus-text {
+  .home .instrus-text {
     color: white; }
-  .menu .file-uploader .input {
+  .home .file-uploader .input {
     overflow: scroll; }
 
 /* tables used in measures and in image list */
@@ -144,6 +144,38 @@ table {
 
 *:focus {
   outline: none; }
+
+.side-menu {
+  -webkit-transition: all ease-in 0.5s;
+  -ms-transition: all ease-in 0.5s;
+  transition: all ease-in 0.5s;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: white; }
+  .side-menu > * {
+    display: none; }
+  .side-menu.collapsed {
+    width: 30px; }
+  .side-menu.expanded {
+    width: 50%;
+    border-right: 1px solid black; }
+    .side-menu.expanded > * {
+      display: block; }
+
+.toggleMenu {
+  display: block;
+  color: black;
+  font-size: 2.08333em;
+  text-align: right; }
+  .toggleMenu:hover {
+    cursor: pointer; }
+  .collapsed .toggleMenu:after {
+    content: ">"; }
+  .expanded .toggleMenu:after {
+    content: "<"; }
 
 /* img to measure */
 .image {
@@ -181,24 +213,14 @@ table {
 /* init */
 .inactive {
   height: 0;
+  width: 0;
   padding: 0;
   opacity: 0;
-  display: none; }
+  position: absolute;
+  top: 0; }
 
 .active {
   opacity: 1;
-  top: 0;
-  display: block; }
-
-.collapsed-menu {
-  height: 10%;
-  width: 100%;
-  background-color: black;
-  color: white;
-  text-align: center;
-  position: relative;
-  top: -20px; }
-  .collapsed-menu:hover {
-    cursor: pointer; }
+  top: 0; }
 
 /*# sourceMappingURL=style.css.map */
