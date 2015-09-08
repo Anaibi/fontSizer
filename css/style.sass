@@ -238,6 +238,8 @@ table
       @extend .button
       @extend .white
       border: none
+      padding: 0
+      margin: 0
       &:hover
         color: white
         cursor: text
@@ -273,6 +275,7 @@ table
     border-right: 1px solid $main_color3
 
 .toggleMenu
+  @extend .white
   display: block
   color: $main_color3
   font-size: $general_font_size * 2

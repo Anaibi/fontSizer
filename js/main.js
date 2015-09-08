@@ -28,7 +28,7 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
 // LAYOUT TEMPLATES
 var button_delete = '<div class="relative">' +
     '<span class="delete" on-click="remove" on-hover="showPopup">X</span>' +
-    '<div class="popup"><p>Delete {{this}}</p></div>';
+    '<div class="popup"><p>Delete</p></div>';
 
 
 // 
