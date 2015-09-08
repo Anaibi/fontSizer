@@ -96,6 +96,9 @@ var ractive = new Ractive({
     },
     middlePoint: function() {
       return this.middlePoint(); 
+    },
+    isFirstLoad: function() {
+      return counter === 0;
     }
   },
   // DISPLAY FUNCTIONS:
@@ -133,22 +136,11 @@ var ractive = new Ractive({
 ractive.on({
 
   // MEASURE FUNCTIONS:
-
-  'editMainReference': function() {
-    ractive.set({
-      'content': 'Click two points to set main reference.'
-    });
-    // todo 
-    ractive.set('editMainRef', true);
-  },
-
   'do_measure': function(event, args) {  
     // if click was on cota (TODO: edit, drag?), return
     if (event.original.srcElement.nodeName !== 'svg') {
       return;
     }
-
-    var isMainRef = ractive.get('editMainRef');
 
     // get current default id
     var id = +(counter/2).toFixed();
@@ -160,35 +152,26 @@ ractive.on({
     counter++;
 
     if (counter%2 == 1) { 
-      var measure = new Measure(cota, isMainRef ? 1 : id + 1);
-      if (isMainRef) {
-        var measures = ractive.get('measures');
-        measure[0] = measure;
-        ractive.set('measures', measures);
-      } else {
-        // is first of two clicks = measure
-        ractive.push('measures', measure);
-      }
+      // is first of two clicks = measure
+      var measure = new Measure(cota, id + 1);
+      ractive.push('measures', measure);
     } else {
       // is second of two clicks
-      var i = isMainRef ? 0 : ractive.get('measures').length - 1;
+      var i = ractive.get('measures').length - 1;
       var measures = ractive.get('measures');
       measures[i].update(cota);
       ractive.set('measures', measures);
-      if (isMainRef) ractive.set('editMainRef', false);
     }
 
     // set total
-    if (counter == 2 || ractive.get('editMainRef')) {
+    if (counter == 2) {
       total = ractive.get('measures')[0].value();
     }
   },
 
-
   'remove': function(event) {
     var thisarray = event.keypath.split('.')[0],
         i = event.keypath.split('.')[1];
-console.log(i);
     // remove measure or image url
     ractive.get(thisarray).splice(i, 1);
   },
@@ -228,6 +211,9 @@ console.log(i);
     setTimeout(function() {
       ractive.setMainRefMeasure()
     }, t + 100);
+    if (ractive.get('isFirstLoad')) {
+      showHelp();
+    }
   },
 
   // reload image as actual
@@ -237,9 +223,14 @@ console.log(i);
 
   // MENU FUNCTIONS:
 
-  // collapse/extend menu
+  // collapse/extend side-menu
   'toggleMenu': function() {
     this.updateDisplay('menu');
+  },
+
+  // help functions
+  'hideHelp': function() {
+    hideHelp();
   }
 });
 
@@ -261,4 +252,12 @@ function show(elem) {
 
 function getTransitionTime() {
   return $('.screen').css('transition-duration').split('s')[0]*1000;
+}
+
+function showHelp() {
+  $('.help').removeClass('hidden');
+}
+
+function hideHelp() {
+  $('.help').fadeOut();
 }

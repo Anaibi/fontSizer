@@ -6,20 +6,13 @@
   border-radius: 36px;
   text-align: center; }
 
-.home .file-uploader {
+.home .file-uploader, .help {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%); }
 
-/* resizable element */
-/* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
-.resizable {
-  resize: both;
-  overflow: scroll; }
-
-/* */
 /* buttons */
 .button, .delete, .reload {
   font-weight: bold;
@@ -27,30 +20,6 @@
   overflow: scroll; }
   .button:hover, .delete:hover, .reload:hover {
     cursor: pointer; }
-
-.green {
-  background-color: honeydew;
-  color: #8aff8a;
-  border-color: #8aff8a; }
-  .green:hover {
-    background-color: #8aff8a;
-    color: honeydew; }
-
-.red {
-  background-color: lightsalmon;
-  color: #ff5714;
-  border-color: #ff5714; }
-  .red:hover {
-    background-color: #ff5714;
-    color: lightsalmon; }
-
-.blue {
-  background-color: aliceblue;
-  color: aquamarine;
-  border-color: aquamarine; }
-  .blue:hover {
-    background-color: aquamarine;
-    color: aliceblue; }
 
 .black {
   background-color: black;
@@ -87,6 +56,7 @@
   margin-right: auto; }
 
 .delete, .reload {
+  border: none;
   color: red;
   font-family: sans-serif;
   font-size: 25px; }
@@ -190,6 +160,27 @@ table {
     margin: 0; }
   .expanded .toggleMenu:after {
     content: "<"; }
+
+.help {
+  position: absolute;
+  width: 100%;
+  z-index: 6000; }
+  .help .instrus {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5vh;
+    width: 50%;
+    position: relative; }
+    .help .instrus:hover {
+      background-color: white;
+      color: initial; }
+    .help .instrus .close {
+      position: absolute;
+      right: 5vh;
+      top: 2vh;
+      text-transform: uppercase; }
+    .help .instrus p {
+      margin: 0; }
 
 /* img to measure */
 .image {
