@@ -279,6 +279,28 @@ table
   .expanded &:after
     content: "<"
 
+// ------------------------------------------------------------------------ HELP
+.help
+  position: absolute
+  @extend %vCentered
+  width: 100%
+  z-index: 6000
+  .instrus
+    margin-left: auto
+    margin-right: auto
+    padding: $general_padding
+    width: 50%
+    position: relative
+    &:hover
+      background-color: white
+      color: initial
+    .close
+      position: absolute
+      right: $general_padding
+      top: $general_padding / 2.5 
+      text-transform: uppercase
+    p 
+      margin: 0
 
 // ---------------------------------------------------------------------- CANVAS
 /* img to measure */

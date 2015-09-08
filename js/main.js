@@ -96,6 +96,9 @@ var ractive = new Ractive({
     },
     middlePoint: function() {
       return this.middlePoint(); 
+    },
+    isFirstLoad: function() {
+      return counter === 0;
     }
   },
   // DISPLAY FUNCTIONS:
@@ -188,7 +191,7 @@ ractive.on({
   'remove': function(event) {
     var thisarray = event.keypath.split('.')[0],
         i = event.keypath.split('.')[1];
-console.log(i);
+
     // remove measure or image url
     ractive.get(thisarray).splice(i, 1);
   },
@@ -228,6 +231,9 @@ console.log(i);
     setTimeout(function() {
       ractive.setMainRefMeasure()
     }, t + 100);
+    if (ractive.get('isFirstLoad')) {
+      showHelp();
+    }
   },
 
   // reload image as actual
@@ -240,6 +246,12 @@ console.log(i);
   // collapse/extend menu
   'toggleMenu': function() {
     this.updateDisplay('menu');
+  },
+
+  // HELP functions:
+
+  'hideHelp': function() {
+    hideHelp();
   }
 });
 
@@ -261,4 +273,12 @@ function show(elem) {
 
 function getTransitionTime() {
   return $('.screen').css('transition-duration').split('s')[0]*1000;
+}
+
+function showHelp() {
+  $('.help').removeClass('hidden');
+}
+
+function hideHelp() {
+  $('.help').fadeOut();
 }

@@ -6,7 +6,7 @@
   border-radius: 36px;
   text-align: center; }
 
-.home .file-uploader {
+.home .file-uploader, .help {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -190,6 +190,27 @@ table {
     margin: 0; }
   .expanded .toggleMenu:after {
     content: "<"; }
+
+.help {
+  position: absolute;
+  width: 100%;
+  z-index: 6000; }
+  .help .instrus {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5vh;
+    width: 50%;
+    position: relative; }
+    .help .instrus:hover {
+      background-color: white;
+      color: initial; }
+    .help .instrus .close {
+      position: absolute;
+      right: 5vh;
+      top: 2vh;
+      text-transform: uppercase; }
+    .help .instrus p {
+      margin: 0; }
 
 /* img to measure */
 .image {
