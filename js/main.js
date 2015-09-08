@@ -134,11 +134,12 @@ ractive.on({
 
   // MEASURE FUNCTIONS:
 
-  'setMainReference': function() {
+  'editMainReference': function() {
     ractive.set({
       'content': 'Click two points to set main reference.'
     });
     // todo 
+    ractive.set('editMainRef', true);
   },
 
   'do_measure': function(event, args) {  
@@ -147,30 +148,38 @@ ractive.on({
       return;
     }
 
+    var isMainRef = ractive.get('editMainRef');
+
     // get current default id
     var id = +(counter/2).toFixed();
-
-    // update counter
-    counter++;
 
     // get clicked position
     var cota = getPos(event);
 
-    if (counter%2 == 1) { 
-      // is first of two clicks = measure
-      ractive.push('measures', new Measure(cota, id + 1));
+    // update counter
+    counter++;
 
+    if (counter%2 == 1) { 
+      var measure = new Measure(cota, isMainRef ? 1 : id + 1);
+      if (isMainRef) {
+        var measures = ractive.get('measures');
+        measure[0] = measure;
+        ractive.set('measures', measures);
+      } else {
+        // is first of two clicks = measure
+        ractive.push('measures', measure);
+      }
     } else {
       // is second of two clicks
-      var i = ractive.get('measures').length - 1;
+      var i = isMainRef ? 0 : ractive.get('measures').length - 1;
       var measures = ractive.get('measures');
       measures[i].update(cota);
       ractive.set('measures', measures);
-
+      if (isMainRef) ractive.set('editMainRef', false);
     }
 
     // set total
-    if (counter == 2) {
+    if (counter == 2 || ractive.get('editMainRef')) {
       total = ractive.get('measures')[0].value();
     }
   },
@@ -179,7 +188,7 @@ ractive.on({
   'remove': function(event) {
     var thisarray = event.keypath.split('.')[0],
         i = event.keypath.split('.')[1];
-
+console.log(i);
     // remove measure or image url
     ractive.get(thisarray).splice(i, 1);
   },

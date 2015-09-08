@@ -186,6 +186,8 @@ table {
     cursor: pointer; }
   .collapsed .toggleMenu:after {
     content: ">"; }
+  .expanded .toggleMenu {
+    margin: 0; }
   .expanded .toggleMenu:after {
     content: "<"; }
 

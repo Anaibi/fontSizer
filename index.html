@@ -52,7 +52,7 @@
 
         <!-- measure menu -->
         <div class="start-measures">
-          <div class="white button small-button" on-click="setMainReference">Change main reference</div>
+          <div class="white button small-button" on-click="editMainReference">Change main reference</div>
           <div class="red button small-button" on-click="restart">Reset</div>
         </div><!-- end measure menu -->
 
@@ -81,7 +81,7 @@
                       <td class="id"><input class="blue input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
                       <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
                       <td title="Main reference"><b>100%</b></td>
-                      <td><span class="delete" on-click="restart">X</span></td>
+                      <td></td>
                     </tr>
                   {{else}}
                     <tr>  
@@ -107,7 +107,7 @@
 
     <!-- help -->
     <div class="help hidden">
-      <p>Write some instrus.</p>
+      <p>Click on any two points in the image to get the vertical measure.</p>
     </div><!-- end help -->
 
   </script>
