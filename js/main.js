@@ -26,7 +26,9 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
     svg_rect = '<rect x="{{cota1.x - 5}}" y="{{this.middlePoint() - 15}}" width="85" height="20" />';
 
 // LAYOUT TEMPLATES
-var button_delete = '<span class="delete" on-click="remove" title="delete">X</span>';
+var button_delete = '<div class="relative">' +
+    '<span class="delete" on-click="remove" on-hover="showPopup">X</span>' +
+    '<div class="popup"><p>Delete {{this}}</p></div>';
 
 
 // 
@@ -187,7 +189,6 @@ ractive.on({
     }
   },
 
-
   'remove': function(event) {
     var thisarray = event.keypath.split('.')[0],
         i = event.keypath.split('.')[1];
@@ -252,6 +253,10 @@ ractive.on({
 
   'hideHelp': function() {
     hideHelp();
+  },
+
+  'showPopup': function(event) {
+    $(event.original.target).next().toggle();
   }
 });
 
