@@ -43,15 +43,11 @@
         {{#if images}}
           <div class="image-list">          
             <table>
-              <caption>Used images</caption>
               {{#each images}}
                 <tr>
                   <td>{{this}}</td>
                   <td>{{>button_delete}}</td>
-                  <td><div class="relative">
-                    <span class="reload" on-click="reload" title="reload" on-hover="showPopup"data-imgurl={{this}}>+</span>
-                    <div class="popup"><p>Reload {{this}}</p></div>
-                  </div></td>
+                  <td>{{>button_reload}}</td>
                 </tr>
               {{/each}}
             </table>
@@ -99,21 +95,17 @@
 
               {{#each measures:i}}
                 {{#hasCota2}}
-                  {{#if i==0}}
-                    <tr>
-                      <td class="id"><input class="input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                  <tr>
+                    <td class="id"><input class="input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                    {{#if i==0}}
                       <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
                       <td title="Main reference"><b>100%</b></td>
-                      <td></td>
-                    </tr>
-                  {{else}}
-                    <tr>  
-                      <td class="id"><input class="input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                    {{else}}
                       <td>{{this.value()}}px</td>
                       <td>{{this.proportion()}}%</td>
                       <td>{{>button_delete}}</td>
-                    </tr>
-                  {{/if}}
+                    {{/if}}
+                  </tr>
                 {{/hasCota2}}
               {{/each}}
             </table>

@@ -5,7 +5,7 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
         '{{#hasCota2}}' +
           '{{>measure}}' +
         '{{/hasCota2}}' +
-        '{{>circle}}' +
+        '{{>circle1}}' +
       '</g>' +
     '{{/each}}' +
     'Sorry, your browser does not support inline SVG.' +
@@ -16,7 +16,7 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
       '{{>text}}' +
       '{{>line}}',
  
-    svg_circle = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />',
+    svg_circle1 = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />',
     svg_circle2 = '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />',
 
     svg_text = '<text x="{{cota1.x}}" y="{{this.middlePoint()}}">' +
@@ -27,8 +27,11 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
 
 // LAYOUT TEMPLATES
 var button_delete = '<div class="relative">' +
-    '<span class="delete" on-click="remove" on-hover="showPopup">X</span>' +
-    '<div class="popup"><p>Delete</p></div>';
+      '<span class="delete" on-click="remove" on-hover="showPopup">X</span>' +
+      '<div class="popup"><p>Delete</p></div></div>',
+    button_reload = '<div class="relative">' +
+      '<span class="reload" on-click="reload" title="reload" on-hover="showPopup"data-imgurl={{this}}>+</span>' +
+      '<div class="popup"><p>Reload {{this}}</p></div></div>';
 
 
 // 
@@ -74,13 +77,14 @@ var ractive = new Ractive({
   template: '#template',
   partials: {
     svg: svg_template,
-    circle: svg_circle,
+    circle1: svg_circle1,
     circle2: svg_circle2,
     line: svg_line,
     rect: svg_rect,
     text: svg_text,
     measure: svg_measure,
-    button_delete: button_delete
+    button_delete: button_delete,
+    button_reload: button_reload
   },
   data: {
     measures: [],
@@ -101,7 +105,8 @@ var ractive = new Ractive({
     },
     isFirstLoad: function() {
       return counter === 0;
-    }
+    },
+    isMainRef: false
   },
   // DISPLAY FUNCTIONS:
   updateDisplay: function(display) { 
@@ -115,6 +120,7 @@ var ractive = new Ractive({
         break;
     }
   },
+
   setMainRefMeasure: function() {
     var $image = $('.img-active');
     var h = $image.height();
@@ -127,7 +133,7 @@ var ractive = new Ractive({
     ractive.push('measures', measure);
 
     // set total
-    total = ractive.get('measures')[0].value();
+    total = measure.value();
 
     // update counter
     counter = 2;
@@ -135,16 +141,16 @@ var ractive = new Ractive({
 
 });
 
+
 ractive.on({
 
   // MEASURE FUNCTIONS:
 
   'editMainReference': function() {
     ractive.set({
-      'content': 'Click two points to set main reference.'
+      'content': 'Click two points to set a new main reference.'
     });
-    // todo 
-    ractive.set('editMainRef', true);
+    ractive.set('isMainRef', true);
   },
 
   'do_measure': function(event, args) {  
@@ -152,8 +158,6 @@ ractive.on({
     if (event.original.srcElement.nodeName !== 'svg') {
       return;
     }
-
-    var isMainRef = ractive.get('editMainRef');
 
     // get current default id
     var id = +(counter/2).toFixed();
@@ -164,28 +168,29 @@ ractive.on({
     // update counter
     counter++;
 
-    if (counter%2 == 1) { 
-      var measure = new Measure(cota, isMainRef ? 1 : id + 1);
-      if (isMainRef) {
-        var measures = ractive.get('measures');
-        measure[0] = measure;
-        ractive.set('measures', measures);
-      } else {
-        // is first of two clicks = measure
-        ractive.push('measures', measure);
-      }
+    // if is first of two clicks
+    if (counter%2 == 1) { console.log('first click');
+      // create new measure and add it to measures
+      ractive.push('measures', new Measure(cota, id + 1));
+    
+    // is second of two clicks
     } else {
-      // is second of two clicks
-      var i = isMainRef ? 0 : ractive.get('measures').length - 1;
       var measures = ractive.get('measures');
+      var i = measures.length - 1;
       measures[i].update(cota);
-      ractive.set('measures', measures);
-      if (isMainRef) ractive.set('editMainRef', false);
-    }
 
-    // set total
-    if (counter == 2 || ractive.get('editMainRef')) {
-      total = ractive.get('measures')[0].value();
+      if (ractive.get('isMainRef')) {
+        // change main reference
+        measures[0] = measures[i];
+        // remove from pushed position
+        measures.pop();
+        // update total
+        total = measures[0].value();
+        // update controller
+        ractive.set('isMainRef', false);
+      } 
+      // update ractive measures array for rerendering
+       ractive.set('measures', measures);
     }
   },
 
