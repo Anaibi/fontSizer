@@ -5,7 +5,7 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
         '{{#hasCota2}}' +
           '{{>measure}}' +
         '{{/hasCota2}}' +
-        '{{>circle}}' +
+        '{{>circle1}}' +
       '</g>' +
     '{{/each}}' +
     'Sorry, your browser does not support inline SVG.' +
@@ -16,7 +16,7 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
       '{{>text}}' +
       '{{>line}}',
  
-    svg_circle = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />',
+    svg_circle1 = '<circle cx="{{cota1.x}}" cy="{{cota1.y}}" r="{{r}}" />',
     svg_circle2 = '<circle cx="{{cota1.x}}" cy="{{cota2.y}}" r="{{r}}" />',
 
     svg_text = '<text x="{{cota1.x}}" y="{{this.middlePoint()}}">' +
@@ -26,7 +26,12 @@ var svg_template = '<svg id="canvas" class="canvas" style="cursor: crosshair;" o
     svg_rect = '<rect x="{{cota1.x - 5}}" y="{{this.middlePoint() - 15}}" width="85" height="20" />';
 
 // LAYOUT TEMPLATES
-var button_delete = '<span class="delete" on-click="remove" title="delete">X</span>';
+var button_delete = '<div class="relative">' +
+      '<span class="delete" on-click="remove" on-hover="showPopup">X</span>' +
+      '<div class="popup"><p>Delete</p></div></div>',
+    button_reload = '<div class="relative">' +
+      '<span class="reload" on-click="reload" title="reload" on-hover="showPopup"data-imgurl={{this}}>+</span>' +
+      '<div class="popup"><p>Reload {{this}}</p></div></div>';
 
 
 // 
@@ -72,13 +77,14 @@ var ractive = new Ractive({
   template: '#template',
   partials: {
     svg: svg_template,
-    circle: svg_circle,
+    circle1: svg_circle1,
     circle2: svg_circle2,
     line: svg_line,
     rect: svg_rect,
     text: svg_text,
     measure: svg_measure,
-    button_delete: button_delete
+    button_delete: button_delete,
+    button_reload: button_reload
   },
   data: {
     measures: [],
@@ -99,7 +105,8 @@ var ractive = new Ractive({
     },
     isFirstLoad: function() {
       return counter === 0;
-    }
+    },
+    isMainRef: false
   },
   // DISPLAY FUNCTIONS:
   updateDisplay: function(display) { 
@@ -113,6 +120,7 @@ var ractive = new Ractive({
         break;
     }
   },
+
   setMainRefMeasure: function() {
     var $image = $('.img-active');
     var h = $image.height();
@@ -125,7 +133,7 @@ var ractive = new Ractive({
     ractive.push('measures', measure);
 
     // set total
-    total = ractive.get('measures')[0].value();
+    total = measure.value();
 
     // update counter
     counter = 2;
@@ -133,9 +141,18 @@ var ractive = new Ractive({
 
 });
 
+
 ractive.on({
 
   // MEASURE FUNCTIONS:
+
+  'editMainReference': function() {
+    ractive.set({
+      'help_content': 'Click two points to set a new main reference.'
+    });
+    ractive.set('isMainRef', true);
+  },
+
   'do_measure': function(event, args) {  
     // if click was on cota (TODO: edit, drag?), return
     if (event.original.srcElement.nodeName !== 'svg') {
@@ -151,21 +168,29 @@ ractive.on({
     // update counter
     counter++;
 
-    if (counter%2 == 1) { 
-      // is first of two clicks = measure
-      var measure = new Measure(cota, id + 1);
-      ractive.push('measures', measure);
+    // if is first of two clicks
+    if (counter%2 == 1) {
+      // create new measure and add it to measures
+      ractive.push('measures', new Measure(cota, id + 1));
+    
+    // is second of two clicks
     } else {
-      // is second of two clicks
-      var i = ractive.get('measures').length - 1;
       var measures = ractive.get('measures');
+      var i = measures.length - 1;
       measures[i].update(cota);
-      ractive.set('measures', measures);
-    }
 
-    // set total
-    if (counter == 2) {
-      total = ractive.get('measures')[0].value();
+      if (ractive.get('isMainRef')) {
+        // change main reference
+        measures[0] = measures[i];
+        // remove from pushed position
+        measures.pop();
+        // update total
+        total = measures[0].value();
+        // update controller
+        ractive.set('isMainRef', false);
+      } 
+      // update ractive measures array for rerendering
+       ractive.set('measures', measures);
     }
   },
 
@@ -228,9 +253,14 @@ ractive.on({
     this.updateDisplay('menu');
   },
 
-  // help functions
+  // HELP functions:
+
   'hideHelp': function() {
     hideHelp();
+  },
+
+  'showPopup': function(event) {
+    $(event.original.target).next().toggle();
   }
 });
 

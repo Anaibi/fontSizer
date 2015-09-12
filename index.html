@@ -30,7 +30,12 @@
 
         <!-- load file -->
         <div class="file-uploader">
-          <input class="select-file white button small-button" name="file" placeholder="enter new image url" value="{{imageInput}}">
+          <div class="relative">
+            <input class="select-file white button small-button" name="file" placeholder="enter new image url" value="{{imageInput}}" on-hover="showPopup">
+            <div class="popup">
+              <p>To load a different image enter url and click on upload.</p>
+            </div>
+          </div>
           <button class="load-file whitesmoke button small-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
         </div><!-- end load file -->
 
@@ -38,45 +43,61 @@
         {{#if images}}
           <div class="image-list">          
             <table>
-              <caption>Used images</caption>
               {{#each images}}
                 <tr>
                   <td>{{this}}</td>
                   <td>{{>button_delete}}</td>
-                  <td><span class="reload" on-click="reload" title="reload" data-imgurl={{this}}>+</span></td>
+                  <td>{{>button_reload}}</td>
                 </tr>
               {{/each}}
             </table>
           </div>
         {{/if}}<!-- end loaded images -->
 
+        <!-- measure menu -->
+        <div class="start-measures">
+          <div class="relative">
+            <div class="white button small-button" on-click="editMainReference" on-hover="showPopup">Change main reference</div>
+            <div class="popup">
+              <p>Click to set a new main reference.</p>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="red button small-button" on-click="restart" on-hover="showPopup">Reset</div>
+            <div class="popup">
+              <p>Click to delete all measures.</p>
+            </div>
+          </div>
+        </div><!-- end measure menu -->
+
         <!-- measures -->
         <div class="measures"> 
           {{#if measures}}
             <table>
               <tr>
-                <th>Id</th>
+                <th><div class="relative">
+                  <div on-hover="showPopup">Id</div>
+                  <div class="popup">
+                    <p>Click on the id to edit.</p>
+                  </div>
+                </div></th>
                 <th>Measure</th>
                 <th>Proportion</th>
               </tr>
 
               {{#each measures:i}}
                 {{#hasCota2}}
-                  {{#if i==0}}
-                    <tr>
-                      <td class="id"><input class="input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                  <tr>
+                    <td class="id"><input class="input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                    {{#if i==0}}
                       <td class="main" title="Main reference"><b>{{this.value()}}px</b></td>
                       <td title="Main reference"><b>100%</b></td>
-                      <td></td>
-                    </tr>
-                  {{else}}
-                    <tr>  
-                      <td class="id"><input class="input" value="{{id}}" data-id="{{id}}" on-mouseleave="setBg"></td>
+                    {{else}}
                       <td>{{this.value()}}px</td>
                       <td>{{this.proportion()}}%</td>
                       <td>{{>button_delete}}</td>
-                    </tr>
-                  {{/if}}
+                    {{/if}}
+                  </tr>
                 {{/hasCota2}}
               {{/each}}
             </table>
@@ -92,7 +113,7 @@
     </div><!-- end image page -->
 
     <!-- help -->
-    <div class="help hidden">
+    <div class="help hidden" on-click="hideHelp">
       <div class="instrus white button big-button">
         <p class="delete close" on-click="hideHelp">X</p>
         <p>Click on any two points in the image to get the vertical measure.</p>
@@ -102,7 +123,9 @@
   </script>
   
   <script src="http://cdn.ractivejs.org/latest/ractive.min.js"></script>
+  <script src="js/ractive-events-hover.js"></script>
   <script src="js/main.js"></script>
+
 </body>
 </html>
 
