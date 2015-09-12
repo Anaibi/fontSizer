@@ -148,7 +148,7 @@ ractive.on({
 
   'editMainReference': function() {
     ractive.set({
-      'content': 'Click two points to set a new main reference.'
+      'help_content': 'Click two points to set a new main reference.'
     });
     ractive.set('isMainRef', true);
   },
@@ -169,7 +169,7 @@ ractive.on({
     counter++;
 
     // if is first of two clicks
-    if (counter%2 == 1) { console.log('first click');
+    if (counter%2 == 1) {
       // create new measure and add it to measures
       ractive.push('measures', new Measure(cota, id + 1));
     
