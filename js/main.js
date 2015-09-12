@@ -56,6 +56,10 @@ Measure.prototype.proportion = function() {
   return (this.value() * 100 / total).toFixed();
 }
 
+Measure.prototype.css = function() {
+  return (this.value() / 10).toFixed(1);
+}
+
 Measure.prototype.update = function(cota) { 
   this.cota2 = cota;
   this.hasCota2 = true;
@@ -222,6 +226,8 @@ ractive.on({
 
   // update loaded image
   'loadImage': function() { 
+    // TODO add key functionality
+    // TODO add error check (load url)
     if (ractive.get('imageInput') == '') return;
     ractive.set({
       'imageURL': ractive.get('imageInput'),
@@ -239,18 +245,21 @@ ractive.on({
     }, t + 100);
     if (ractive.get('isFirstLoad')) {
       showHelp();
+      ractive.fire('restart');
     }
   },
 
   // reload image as actual
   'reload': function(event) {
     ractive.set('imageURL', ractive.get(event.keypath));
+    ractive.fire('restart');
+    ractive.fire('setMainRefMeasure');
   },
 
   // MENU FUNCTIONS:
 
   // collapse/extend menu
-  'toggleMenu': function() {
+  'toggleMenu': function(event) {
     this.updateDisplay('menu');
   },
 
@@ -292,3 +301,7 @@ function showHelp() {
 function hideHelp() {
   $('.help').fadeOut();
 }
+
+$(window).resize(function() {
+  console.log('window resize');
+});

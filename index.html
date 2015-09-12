@@ -16,8 +16,8 @@
     <div class="home screen active">
       <!-- load file -->
       <div class="file-uploader">
-        <input class="select-file black button big-button" name="file" placeholder="enter image url" value="{{imageInput}}">
-        <button class="load-file whitesmoke button big-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
+        <input class="select-file black button big-button" name="file" placeholder="enter image url" value="{{imageInput}}" on-mouseleave="loadImage">
+       
       </div><!-- end load file -->
     </div><!-- end home page -->
 
@@ -25,7 +25,7 @@
     <div class="image screen inactive">
       <!-- side menu -->
       <div class="side-menu collapsed">
-        
+
         <div class="toggleMenu" on-click="toggleMenu"></div>
 
         <!-- load file -->
@@ -33,7 +33,7 @@
           <div class="relative">
             <input class="select-file white button small-button" name="file" placeholder="enter new image url" value="{{imageInput}}" on-hover="showPopup">
             <div class="popup">
-              <p>To load a different image enter url and click on upload.</p>
+              <p>To load a new image enter url and click on upload.</p>
             </div>
           </div>
           <button class="load-file whitesmoke button small-button" on-click="loadImage" data-imgurl="{{imageInput}}">Upload</button>
@@ -89,8 +89,14 @@
                     <p>Click on the id to edit.</p>
                   </div>
                 </div></th>
-                <th>Measure</th>
-                <th>Proportion</th>
+                <th>px</th>
+                <th>%</th>
+                <th><div class="relative">
+                  <div on-hover="showPopup">em</div>
+                  <div class="popup">
+                    <p>CSS measure if body { font-size: 62.5%; }.</p>
+                  </div>
+                </div></th>
               </tr>
 
               {{#each measures:i}}
@@ -103,6 +109,7 @@
                     {{else}}
                       <td>{{this.value()}}px</td>
                       <td>{{this.proportion()}}%</td>
+                      <td>{{this.css()}}em</td>
                       <td>{{>button_delete}}</td>
                     {{/if}}
                   </tr>
