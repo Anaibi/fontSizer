@@ -1,3 +1,16 @@
+Skip to content
+Sign up Sign in
+This repository  
+Search
+Explore
+Features
+Enterprise
+Pricing
+ Watch 1  Star 0  Fork 0 Anaibi/fontSizer
+Branch: layout1Dev  fontSizer/css/style.sass
+@AnaibiAnaibi 4 days ago edit delete popup
+1 contributor
+RawBlameHistory     396 lines (334 sloc)  7.05 KB
 $main_color1: white
 $main_color2: white
 $main_color3: black
@@ -17,6 +30,7 @@ $big_font_size: 2.5em
 $small_button_w: 80%
 
 $big_button_w: 80%
+$big_button_h: 15vh
 $button_radius: 36px
 
 // general, settings, mixins, etc
@@ -112,6 +126,25 @@ $button_radius: 36px
   -ms-transition: $args $t
   transition: $args $t
 
+// ------------------------------------------ transform 
+=transform($args, $t)
+  -webkit-transform: $args $t
+  -ms-transform: $args $t
+  transform: $args $t
+
+// -------------------------------------- transformNone 
+=transformNone
+  -webkit-transform: none
+  -ms-transform: none
+  transform: none
+
+
+/* resizable element */
+/* http://www.developerdrive.com/2012/06/allowing-users-to-resize-web-page-elements-with-css3/ */
+.resizable
+  resize: both
+  overflow: scroll
+/* */
 
 // --------------------------------------------------------------------- BUTTONS
 /* buttons */
@@ -122,6 +155,15 @@ $button_radius: 36px
   &:hover
     cursor: pointer
   overflow: scroll
+
+.green
+  +button-bg(honeydew)
+
+.red
+  +button-bg(lightsalmon)
+
+.blue
+  +button-bg(aliceblue, aquamarine)
 
 .black
   +button-bg(black, white)
@@ -144,7 +186,6 @@ $button_radius: 36px
 
 .delete
   @extend .button
-  border: none
   color: red
   font-family: sans-serif
   font-size: $general_font_size
@@ -234,7 +275,7 @@ table
   bottom: 0
   left: 0
   z-index: 5000
-  background-color: $menu_c
+  background-color: $main_color1
   > *
     display: none
   &.collapsed
@@ -361,6 +402,9 @@ table
   opacity: 1
   top: 0
 
+
 .hidden
   display: none
 
+Status API Training Shop Blog About Pricing
+© 2015 GitHub, Inc. Terms Privacy Security Contact Help
