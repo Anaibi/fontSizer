@@ -1,21 +1,21 @@
 /*
 Error: The line was indented 2 levels deeper than the previous line.
-        on line 42 of css/style.sass
+        on line 41 of css/style.sass
 
+36: // general, settings, mixins, etc
 37: // TODO pass to separate file
 38: 
-39: 
-40: // -------------------------------------- regular_space
-41: %regular_space
-42:   padding: 5px 0
-43:   margin: 5px 0
-44:   font-size: $general_font_size
-45:   border: 1px solid
-46:   border-radius: $button_radius
-47:   text-align: center
+39: // -------------------------------------- regular_space
+40: %regular_space
+41:   padding: 5px 0
+42:   margin: 5px 0
+43:   font-size: $general_font_size
+44:   border: 1px solid
+45:   border-radius: $button_radius
+46:   text-align: center
 
 Backtrace:
-css/style.sass:42
+css/style.sass:41
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/engine.rb:509:in `tree'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/engine.rb:396:in `_to_tree'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/engine.rb:368:in `_render_with_sourcemap'
@@ -37,4 +37,4 @@ css/style.sass:42
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: The line was indented 2 levels deeper than the previous line.\A         on line 42 of css/style.sass\A \A 37: // TODO pass to separate file\A 38: \A 39: \A 40: // -------------------------------------- regular_space\A 41: %regular_space\A 42:   padding: 5px 0\A 43:   margin: 5px 0\A 44:   font-size: $general_font_size\A 45:   border: 1px solid\A 46:   border-radius: $button_radius\A 47:   text-align: center"; }
+  content: "Error: The line was indented 2 levels deeper than the previous line.\A         on line 41 of css/style.sass\A \A 36: // general, settings, mixins, etc\A 37: // TODO pass to separate file\A 38: \A 39: // -------------------------------------- regular_space\A 40: %regular_space\A 41:   padding: 5px 0\A 42:   margin: 5px 0\A 43:   font-size: $general_font_size\A 44:   border: 1px solid\A 45:   border-radius: $button_radius\A 46:   text-align: center"; }
