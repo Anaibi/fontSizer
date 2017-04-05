@@ -1,7 +1,8 @@
 # fontSizer
-Get font (or element) sizes in proportion to main reference. 
+Get design font (or element) sizes in proportion to main reference. 
 
 TODO
+* add error control + messages
 * study output format (px, em, %) and reference to measured font/element
 * option many main references
 * possibility of all related css output
